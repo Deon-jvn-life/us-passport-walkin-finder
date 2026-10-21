@@ -1,0 +1,828 @@
+[
+ {
+  "id": "429",
+  "raw": [
+   "CITY OF HOMESTEAD",
+   "100 CIVIC COURT,HOMESTEAD,FL,33030",
+   "3052244514",
+   "HTTPS://WWW.HOMESTEADFL.GOV",
+   3,
+   "01234,09:00-16:00---0",
+   "By appointment only 305-224-4434"
+  ],
+  "county": "Miami-Dade County",
+  "zip": "33030"
+ },
+ {
+  "id": "s9",
+  "raw": [
+   "USPS HOLLYWOOD MAIN POST OFFICE",
+   "1801 POLK ST,HOLLYWOOD,FL,33022",
+   "9549268669",
+   "https://www.usps.com/scheduler",
+   7,
+   "01234,10:00-16:00-13:00-14:00-1;5,10:00-12:00---1",
+   "To schedule a passport appointment or view additional passport acceptance times, please visit www.usps.com/scheduler."
+  ],
+  "county": "Broward County",
+  "zip": "33022"
+ },
+ {
+  "id": "sj",
+  "raw": [
+   "USPS HIALEAH MAIN POST OFFICE",
+   "325 E 1ST AVE,HIALEAH,FL,33010",
+   "3058895421",
+   "https://www.usps.com/scheduler",
+   7,
+   "01234,09:00-15:00---1;5,09:30-12:30---1",
+   "To schedule a passport appointment or view additional passport acceptance times, please visit www.usps.com/scheduler."
+  ],
+  "county": "Miami-Dade County",
+  "zip": "33010"
+ },
+ {
+  "id": "sp",
+  "raw": [
+   "CLERK OF THE CIRCUIT COURT - PALM BEACH GARDENS",
+   "3188 PGA BLVD,ROOM 1210,PALM BEACH GARDENS,FL,33410",
+   "5616246650",
+   "HTTPS://WWW.MYPALMBEACHCLERK.COM",
+   2,
+   "01234,08:00-16:00---1",
+   "PHOTOCOPY  NOTARY SERVICES AVAILABLE"
+  ],
+  "county": "Palm Beach County",
+  "zip": "33410"
+ },
+ {
+  "id": "st",
+  "raw": [
+   "CLERK OF THE CIRCUIT COURT AND COMPTROLLER- WEST COUNTY COURTHOUSE",
+   "2950 STATE ROAD 15,ROOM S-100,BELLE GLADE,FL,33430",
+   "5619964843",
+   "HTTPS://WWW.MYPALMBEACHCLERK.COM",
+   7,
+   "01234,08:00-16:00---1",
+   "PHOTOCOPIES AND NOTARY SERVICES ARE AVAILABLE"
+  ],
+  "county": "Palm Beach County",
+  "zip": "33430"
+ },
+ {
+  "id": "sv",
+  "raw": [
+   "MIAMI BEACH MAIN POST OFFICE",
+   "1300 WASHINGTON AVENUE,MIAMI BEACH,FL,33139",
+   "3055341891",
+   "https://www.usps.com/scheduler",
+   7,
+   "01234,09:30-14:30---1;5,10:00-13:00---1",
+   "To schedule a passport appointment or view additional passport acceptance times, please visit www.usps.com/scheduler."
+  ],
+  "county": "Miami-Dade County",
+  "zip": "33139"
+ },
+ {
+  "id": "sw",
+  "raw": [
+   "USPS LITTLE RIVER BRANCH",
+   "140 NE 84TH ST,MIAMI,FL,33138",
+   "3057541906",
+   "https://www.usps.com/scheduler",
+   5,
+   "01234,09:00-14:00---1;5,09:00-13:00---1",
+   "To schedule a passport appointment or view additional passport acceptance times, please visit www.usps.com/scheduler."
+  ],
+  "county": "Miami-Dade County",
+  "zip": "33138"
+ },
+ {
+  "id": "sx",
+  "raw": [
+   "PALM BEACH COUNTY CLERK OF COURT- DELRAY",
+   "200 W ATLANTIC AVE,DELRAY BEACH,FL,33444",
+   "5613552994",
+   "HTTPS://WWW.MYPALMBEACHCLERK.COM",
+   7,
+   "01234,08:00-16:00---1",
+   "Appointments required - Visit website https://www.mypalmbeachclerk.com"
+  ],
+  "county": "Palm Beach County",
+  "zip": "33444"
+ },
+ {
+  "id": "t4",
+  "raw": [
+   "CITY OF MIRAMAR",
+   "2300 CIVIC CENTER PL,MIRAMAR,FL,33025",
+   "9546023011",
+   "HTTPS://MIRAMARFL.GOV",
+   7,
+   "012,07:15-16:45-12:00-13:00-1;3,07:15-15:45-12:00-13:00-1",
+   "We do offer photocopy and notary services. We no longer offer walk-in services."
+  ],
+  "county": "Broward County",
+  "zip": "33025"
+ },
+ {
+  "id": "t5",
+  "raw": [
+   "CITY OF PEMBROKE PINES",
+   "601 CITY CENTER WAY,4TH FLOOR,PEMBROKE PINES,FL,33025",
+   "9544501043",
+   "HTTPS://WWW.PPINES.COM",
+   7,
+   "0123,07:30-17:30---1",
+   "BY APPOINTMENT ONLY***To schedule an appointment, visit www.ppines.com/153/Passport-Office or contact (954)450-1043."
+  ],
+  "county": "Broward County",
+  "zip": "33025"
+ },
+ {
+  "id": "t7",
+  "raw": [
+   "CITY HALL IN THE MALL/CITY OF CORAL SPRINGS",
+   "9239 W ATLANTIC BLVD,CORAL SPRINGS,FL,33071",
+   "9543441828",
+   "HTTPS://CORALSPRINGS.GOV/PASSPORTS.",
+   7,
+   "01234,10:00-18:00---1;5,10:00-16:00---1",
+   "PHOTOCOPY, NOTARY, AND FINGERPRINTING SERVICES"
+  ],
+  "county": "Broward County",
+  "zip": "33071"
+ },
+ {
+  "id": "td",
+  "raw": [
+   "BROWARD COUNTY CLERK OF COURTS",
+   "1600 W HILLSBORO BLVD,ROOM 160,DEERFIELD BEACH,FL,33442",
+   "9548311453",
+   "HTTPS://WWW.BROWARDCLERK.ORG",
+   7,
+   "01234,08:00-16:30---0",
+   "PHOTOCOPIES AND PHOTOS ARE DONE ON-SITE"
+  ],
+  "county": "Broward County",
+  "zip": "33442"
+ },
+ {
+  "id": "te",
+  "raw": [
+   "CITY OF COOPER CITY",
+   "9090 SW 50TH PLACE,COOPER,FL,33328",
+   "9544344300",
+   "HTTPS://WWW.COOPERCITY.GOV",
+   7,
+   "0123,07:00-16:30---1",
+   "PHOTOCOPY SERVICES  NOTARY SERVICES  PASSPORT PHOTO SERVICES"
+  ],
+  "county": "Broward County",
+  "zip": "33328"
+ },
+ {
+  "id": "ti",
+  "raw": [
+   "BROWARD COUNTY CLERK OF COURT - SOUTH REGIONAL COURTHOUSE",
+   "3550 HOLLYWOOD BLVD,ROOM 160,HOLLYWOOD,FL,33021",
+   "9548310350",
+   "HTTPS://WWW.BROWARDCLERK.ORG",
+   7,
+   "01234,08:00-16:30---0",
+   "Appointment not required Website: htttp://www.browardclerk.org"
+  ],
+  "county": "Broward County",
+  "zip": "33021"
+ },
+ {
+  "id": "tj",
+  "raw": [
+   "BROWARD COUNTY CLERK OF COURT - WEST REGIONAL COURTHOUSE",
+   "100 NORTH PINE ISLAND ROAD,ROOM 180,PLANTATION,FL,33324",
+   "9548312391",
+   "HTTPS://WWW.BROWARDCLERK.ORG",
+   7,
+   "01234,08:00-16:30---0",
+   "Appointments not required Website: http://www.browardclerk.org"
+  ],
+  "county": "Broward County",
+  "zip": "33324"
+ },
+ {
+  "id": "tk",
+  "raw": [
+   "CITY OF SWEETWATER",
+   "512 SW 109TH AVE,SWEETWATER,FL,33174",
+   "3052073343",
+   "HTTPS://",
+   7,
+   "01234,08:00-19:00---1;5,08:00-15:00---1",
+   "WALK-INS ARE ACCPETED M-F 9AM-5PM  SATURDAY 8AM-2PM. APP RECCOMENDED."
+  ],
+  "county": "Miami-Dade County",
+  "zip": "33174"
+ },
+ {
+  "id": "tp",
+  "raw": [
+   "USPS HOMESTEAD MAIN POST OFFICE",
+   "739 WASHINGTON AVE,HOMESTEAD,FL,33030",
+   "3052474689",
+   "https://www.usps.com/scheduler",
+   7,
+   "01234,10:00-15:00---1;5,09:00-10:00---0",
+   "To schedule a passport appointment or view additional passport acceptance times, please visit www.usps.com/scheduler."
+  ],
+  "county": "Miami-Dade County",
+  "zip": "33030"
+ },
+ {
+  "id": "tq",
+  "raw": [
+   "USPS JOSE MARTI STATION",
+   "425 NW 27TH AVE,MIAMI,FL,33125",
+   "3055413264",
+   "https://www.usps.com/scheduler",
+   7,
+   "01234,10:00-15:00---1;5,10:00-12:00---1",
+   "To schedule a passport appointment or view additional passport acceptance times, please visit www.usps.com/scheduler."
+  ],
+  "county": "Miami-Dade County",
+  "zip": "33125"
+ },
+ {
+  "id": "tr",
+  "raw": [
+   "SOUTH MIAMI BRANCH PO",
+   "5927 SW 70TH ST,MIAMI,FL,33143",
+   "3056621321",
+   "https://www.usps.com/scheduler",
+   7,
+   "01234,09:00-14:00---1",
+   "To schedule a passport appointment or view additional passport acceptance times, please visit www.usps.com/scheduler."
+  ],
+  "county": "Miami-Dade County",
+  "zip": "33143"
+ },
+ {
+  "id": "ts",
+  "raw": [
+   "NORTH MIAMI BRANCH",
+   "14311 BISCAYNE BLVD,NORTH MIAMI,FL,33181",
+   "3053548047",
+   "https://www.usps.com/scheduler",
+   7,
+   "01234,09:00-14:45---1;5,09:00-11:45---1",
+   "To schedule a passport appointment or view additional passport acceptance times, please visit www.usps.com/scheduler."
+  ],
+  "county": "Miami-Dade County",
+  "zip": "33181"
+ },
+ {
+  "id": "tu",
+  "raw": [
+   "USPS NORMANDY POST OFFICE",
+   "525 71ST ST,MIAMI BEACH,FL,33141",
+   "3058649868",
+   "https://www.usps.com/scheduler",
+   7,
+   "01234,09:00-15:00---1",
+   "To schedule a passport appointment or view additional passport acceptance times, please visit www.usps.com/scheduler."
+  ],
+  "county": "Miami-Dade County",
+  "zip": "33141"
+ },
+ {
+  "id": "tv",
+  "raw": [
+   "USPS DANIA POST OFFICE",
+   "21 NW 1ST AVE,DANIA,FL,33004",
+   "9549203108",
+   "https://www.usps.com/scheduler",
+   7,
+   "01234,10:00-15:00---1",
+   "To schedule a passport appointment or view additional passport acceptance times, please visit www.usps.com/scheduler."
+  ],
+  "county": "Broward County",
+  "zip": "33004"
+ },
+ {
+  "id": "tw",
+  "raw": [
+   "USPS PROMENADE BRANCH",
+   "3690 W 18TH AVE,HIALEAH,FL,33012",
+   "3058199860",
+   "https://www.usps.com/scheduler",
+   7,
+   "01234,10:00-15:00---1;5,10:00-12:15---1",
+   "To schedule a passport appointment or view additional passport acceptance times, please visit www.usps.com/scheduler."
+  ],
+  "county": "Miami-Dade County",
+  "zip": "33012"
+ },
+ {
+  "id": "tx",
+  "raw": [
+   "USPS ALRIDGE STATION",
+   "400 NW 7TH AVE,FORT LAUDERDALE,FL,33311",
+   "9545272020",
+   "https://www.usps.com/scheduler",
+   7,
+   "01234,10:00-15:00---1",
+   "To schedule a passport appointment or view additional passport acceptance times, please visit www.usps.com/scheduler."
+  ],
+  "county": "Broward County",
+  "zip": "33311"
+ },
+ {
+  "id": "ty",
+  "raw": [
+   "USPS EL MERCADO POSTAL STORE",
+   "2440 W 60TH ST,HIALEAH,FL,33016",
+   "3055581831",
+   "https://www.usps.com/scheduler",
+   7,
+   "01234,10:00-16:00-14:00-15:00-1",
+   "To schedule a passport appointment or view additional passport acceptance times, please visit www.usps.com/scheduler."
+  ],
+  "county": "Miami-Dade County",
+  "zip": "33016"
+ },
+ {
+  "id": "tz",
+  "raw": [
+   "OCEAN VIEW POST OFFICE",
+   "445 W 40TH ST,MIAMI BEACH,FL,33140",
+   "3055383167",
+   "https://www.usps.com/scheduler",
+   7,
+   "01234,10:00-15:00---1",
+   "To schedule a passport appointment or view additional passport acceptance times, please visit www.usps.com/scheduler."
+  ],
+  "county": "Miami-Dade County",
+  "zip": "33140"
+ },
+ {
+  "id": "u3",
+  "raw": [
+   "NORTH BAY VILLAGE - OFFICE OF THE VILLAGE CLERK",
+   "1666 KENNEDY CSWY,STE 300,NORTH BAY VILLAGE,FL,33141",
+   "3057567171",
+   "",
+   1,
+   "0234,10:00-12:00---0;1,10:00-12:00--02:00-0",
+   "***By Appointment Only***Contact 305-756-7171"
+  ],
+  "county": "Miami-Dade County",
+  "zip": "33141"
+ },
+ {
+  "id": "u4",
+  "raw": [
+   "PALMS WEST POST OFFICE",
+   "10299 SOUTHERN BLVD,ROYAL PALM BEACH,FL,33411",
+   "5612463480",
+   "https://www.usps.com/scheduler",
+   5,
+   "01234,09:00-14:00---1;5,12:00-14:00---1",
+   "To schedule a passport appointment or view additional passport acceptance times, please visit www.usps.com/scheduler."
+  ],
+  "county": "Palm Beach County",
+  "zip": "33411"
+ },
+ {
+  "id": "u5",
+  "raw": [
+   "CITY OF CORAL GABLES",
+   "4520 PONCE DE LEON BLVD,CORAL GABLES,FL,33146",
+   "3054605351",
+   "HTTPS://CORALGABLES.COM/PASSPORTS",
+   7,
+   "01234,08:30-16:00---0;5,08:00-14:00---0",
+   "By Appointments Only. Please schedule an appointment via www.coralgables.com/passports."
+  ],
+  "county": "Miami-Dade County",
+  "zip": "33146"
+ },
+ {
+  "id": "u7",
+  "raw": [
+   "USPS KENDALL FINANCE UNIT",
+   "8821 SW 136TH ST,MIAMI,FL,33176",
+   "3052357172",
+   "https://www.usps.com/scheduler",
+   7,
+   "01234,10:00-15:00---1;5,08:30-13:00---1",
+   "To schedule a passport appointment or view additional passport acceptance times, please visit www.usps.com/scheduler."
+  ],
+  "county": "Miami-Dade County",
+  "zip": "33176"
+ },
+ {
+  "id": "uh",
+  "raw": [
+   "USPS HALLANDALE MAIN POST OFFICE",
+   "500 S FEDERAL HWY,HALLANDALE BEACH,FL,33009",
+   "9544559733",
+   "https://www.usps.com/scheduler",
+   7,
+   "04,09:00-15:00-12:00-13:00-1;123,09:30-15:00-12:00-13:00-1;5,10:00-12:00---1",
+   "walk-ins Monday through Friday 8:30-9, Saturday no walk ins. To schedule a passport appointment or view additional passport acceptance times, please visit www.usps.com/scheduler."
+  ],
+  "county": "Broward County",
+  "zip": "33009"
+ },
+ {
+  "id": "ui",
+  "raw": [
+   "USPS DEERFIELD BEACH POST OFFICE",
+   "212 E HILLSBORO BLVD,DEERFIELD BEACH,FL,33441",
+   "9542461688",
+   "https://www.usps.com/scheduler",
+   7,
+   "01234,09:00-14:00---1;5,10:00-12:00---1",
+   "To schedule a passport appointment or view additional passport acceptance times, please visit www.usps.com/scheduler."
+  ],
+  "county": "Broward County",
+  "zip": "33441"
+ },
+ {
+  "id": "uj",
+  "raw": [
+   "EVERGLADES BRANCH",
+   "67959 SW 196TH AVE,FORT LAUDERDALE,FL,33332",
+   "9544340163",
+   "https://www.usps.com/scheduler",
+   3,
+   "01234,10:00-15:00---1",
+   "To schedule a passport appointment or view additional passport acceptance times, please visit www.usps.com/scheduler."
+  ],
+  "county": "Broward County",
+  "zip": "33332"
+ },
+ {
+  "id": "uk",
+  "raw": [
+   "USPS PALMETTO LAKES POST OFFICE",
+   "5375 NW 159TH ST,HIALEAH,FL,33014",
+   "3056237993",
+   "https://www.usps.com/scheduler",
+   7,
+   "01234,10:00-15:00---1;5,10:00-12:00---1",
+   "To schedule a passport appointment or view additional passport acceptance times, please visit www.usps.com/scheduler."
+  ],
+  "county": "Miami-Dade County",
+  "zip": "33014"
+ },
+ {
+  "id": "un",
+  "raw": [
+   "VILLAGE OF KEY BISCAYNE",
+   "10 VILLAGE GREEN WAY,KEY BISCAYNE,FL,33149",
+   "3053658900",
+   "HTTPS://RLOHUIS@KEYBISCAYNE.FL.GOV",
+   5,
+   "0124,09:00-16:00-12:00-13:00-1;3,09:00-16:00-13:00-13:00-1",
+   "***BY APPOINTMENT ONLY*For appointments call 305-365-8900 "
+  ],
+  "county": "Miami-Dade County",
+  "zip": "33149"
+ },
+ {
+  "id": "ur",
+  "raw": [
+   "USPS DOWNTOWN BOCA RATON POST OFFICE",
+   "170 NE 2ND ST,BOCA RATON,FL,33432",
+   "5612874551",
+   "https://www.usps.com/scheduler",
+   7,
+   "01234,10:00-15:00---1",
+   "To schedule a passport appointment or view additional passport acceptance times, please visit www.usps.com/scheduler."
+  ],
+  "county": "Palm Beach County",
+  "zip": "33432"
+ },
+ {
+  "id": "uy",
+  "raw": [
+   "DOWNTOWN WPB",
+   "640 CLEMATIS ST,WEST PALM BEACH,FL,33401",
+   "5618330836",
+   "https://www.usps.com/scheduler",
+   3,
+   "01234,10:00-15:00---1",
+   "To schedule a passport appointment or view additional passport acceptance times, please visit www.usps.com/scheduler."
+  ],
+  "county": "Palm Beach County",
+  "zip": "33401"
+ },
+ {
+  "id": "uz",
+  "raw": [
+   "USPS RIVIERA BEACH POST OFFICE",
+   "1905 W BLUE HERON BLVD,RIVIERA BEACH,FL,33404",
+   "5618637173",
+   "https://www.usps.com/scheduler",
+   7,
+   "01234,09:30-14:30---1;5,12:00-14:00---1",
+   "To schedule a passport appointment or view additional passport acceptance times, please visit www.usps.com/scheduler."
+  ],
+  "county": "Palm Beach County",
+  "zip": "33404"
+ },
+ {
+  "id": "v0",
+  "raw": [
+   "PALM BEACH GARDENS POST OFFICE",
+   "3330 FAIRCHILD GARDENS AVE,PALM BEACH GARDENS,FL,33410",
+   "5617994068",
+   "https://www.usps.com/scheduler",
+   7,
+   "01234,09:30-15:30---1;5,12:00-14:00---1",
+   "To schedule a passport appointment or view additional passport acceptance times, please visit www.usps.com/scheduler."
+  ],
+  "county": "Palm Beach County",
+  "zip": "33410"
+ },
+ {
+  "id": "v1",
+  "raw": [
+   "CITY OF WEST MIAMI",
+   "901 SW 62ND AVE,WEST MIAMI,FL,33144",
+   "3052661122",
+   "HTTPS://WWW.CITYOFWESTMIAMI.GOV",
+   7,
+   "024,09:00-16:30-12:00-13:00-1;1,09:00-18:30-12:00-13:00-1;3,09:00-16:30-13:00-13:00-1",
+   "OUR OFFICE WORKS BY APPOINTMENT AND ACCEPT WALK-INS UPON AVAILABILITY"
+  ],
+  "county": "Miami-Dade County",
+  "zip": "33144"
+ },
+ {
+  "id": "v3",
+  "raw": [
+   "USPS KEY BISCAYNE BRANCH",
+   "951 CRANDON BLVD.,KEY BISCAYNE,FL,33149",
+   "3053617884",
+   "https://www.usps.com/scheduler",
+   6,
+   "01234,10:00-15:00---1",
+   "To schedule a passport appointment or view additional passport acceptance times, please visit www.usps.com/scheduler."
+  ],
+  "county": "Miami-Dade County",
+  "zip": "33149"
+ },
+ {
+  "id": "v7",
+  "raw": [
+   "CITY OF MIAMI",
+   "3500 PAN AMERICAN DR,MIAMI,FL,33133",
+   "3058592705",
+   "HTTPS://WWW.MIAMIGOV.COM/PASSPORT",
+   7,
+   "12,09:00-14:00---1",
+   "By Appointments Only via: https://www.miamigov.com/passport"
+  ],
+  "county": "Miami-Dade County",
+  "zip": "33133"
+ },
+ {
+  "id": "v8",
+  "raw": [
+   "CITY OF NORTH MIAMI",
+   "776 NE 125TH ST,ROOM 101,NORTH MIAMI,FL,33161",
+   "3058959817",
+   "HTTPS://WWW.NORTHMIAMIFL.GOV",
+   5,
+   "01234,09:00-12:00---1",
+   "To schedule appointments please call(305) 895-9817 or Website: https://www.northmiamifl.gov/162/city-clerk "
+  ],
+  "county": "Miami-Dade County",
+  "zip": "33161"
+ },
+ {
+  "id": "va",
+  "raw": [
+   "PALM BEACH COUNTY CLERK OF THE CIRCUIT COURT AND COMPTROLLER - ROYAL PALM BEACH",
+   "200 CIVIC CENTER WAY,,SUITE 400,ROYAL PALM BEACH,FL,33411",
+   "5617841271",
+   "HTTPS://WWW.MYPALMBEACHCLERK.COM",
+   7,
+   "01234,08:00-16:00---0",
+   "Photocopy and Notary services on-site."
+  ],
+  "county": "Palm Beach County",
+  "zip": "33411"
+ },
+ {
+  "id": "vb",
+  "raw": [
+   "USPS HAVERHILL STATION",
+   "3900 N HAVERHILL RD,WEST PALM BEACH,FL,33417",
+   "5616836415",
+   "https://www.usps.com/scheduler",
+   0,
+   "01234,09:00-14:00---1;5,12:00-14:00---1",
+   "To schedule a passport appointment or view additional passport acceptance times, please visit www.usps.com/scheduler."
+  ],
+  "county": "Palm Beach County",
+  "zip": "33417"
+ },
+ {
+  "id": "w2",
+  "raw": [
+   "USPS SOUTH BAY POST OFFICE",
+   "190 U.S. HIGHWAY 27 SOUTH,SOUTH BAY,FL,33493",
+   "5619839104",
+   "https://www.usps.com/scheduler",
+   7,
+   "0134,09:00-15:30-12:00-13:30-1;2,09:00-12:00---1",
+   "To schedule a passport appointment or view additional passport acceptance times, please visit www.usps.com/scheduler."
+  ],
+  "county": "Palm Beach County",
+  "zip": "33493"
+ },
+ {
+  "id": "xt",
+  "raw": [
+   "USPS BOYNTON BEACH MAIN POST OFFICE",
+   "1530 W BOYNTON BEACH BLVD,BOYNTON BEACH,FL,33436",
+   "5617321702",
+   "https://www.usps.com/scheduler",
+   7,
+   "01234,09:30-14:30---1;5,10:00-12:00---1",
+   "To schedule a passport appointment or view additional passport acceptance times, please visit www.usps.com/scheduler."
+  ],
+  "county": "Palm Beach County",
+  "zip": "33436"
+ },
+ {
+  "id": "3or",
+  "raw": [
+   "WEST KENDALL  REGIONAL LIBRARY",
+   "10201 HAMMOCKS BOULEVARD,MIAMI,FL,33196",
+   "3053857135",
+   "HTTPS://MDPLS.ORG/PASSPORT",
+   5,
+   "0,16:30-19:30---1;13,11:30-19:30---1;245,09:30-17:30---1",
+   "By Appointment Only - Please call 305-385-7135 for further assistance.  Website: mdpls.org/passport"
+  ],
+  "county": "Miami-Dade County",
+  "zip": "33196"
+ },
+ {
+  "id": "3wn",
+  "raw": [
+   "JOHN F. KENNEDY MEMORIAL LIBRARY",
+   "190 WEST 49TH STREET,HIALEAH,FL,33012",
+   "3058212700",
+   "HTTPS://",
+   5,
+   "0123,12:00-18:30---1;45,10:00-16:30-13:00-14:00-1",
+   "PHOTOCOPIES PROVIDED"
+  ],
+  "county": "Miami-Dade County",
+  "zip": "33012"
+ },
+ {
+  "id": "3wr",
+  "raw": [
+   "CITY OF MIAMI SPRINGS (OFFICE OF THE CITY CLERK)",
+   "274 WESTWARD DRIVE,MIAMI SPRINGS,FL,33166",
+   "3058055157",
+   "HTTPS://",
+   3,
+   "01234,09:00-16:00---0;5,08:00-12:00---0",
+   "Appointments recommended. Photocopies, notary and Walk-Ins accepted. Schedule an appointment online:   https://www.miamisprings-fl.gov/cityclerk/page/miami-springs-passport-services-0 "
+  ],
+  "county": "Miami-Dade County",
+  "zip": "33166"
+ },
+ {
+  "id": "3x7",
+  "raw": [
+   "CITY OF BELLE GLADE",
+   "110 DR MLK BLVD WEST,BELLE GLADE,FL,33430",
+   "5619960100",
+   "",
+   7,
+   "0123,07:30-18:30---0",
+   ""
+  ],
+  "county": "Palm Beach County",
+  "zip": "33430"
+ },
+ {
+  "id": "50d",
+  "raw": [
+   "CITY OF MIAMI BEACH - FINANCE OFFICE",
+   "1755 MERIDIAN AVE,1ST FLOOR,MIAMI BEACH,FL,33139",
+   "3056737420",
+   "HTTPS://WWW.MIAMIBEACHFL.GOV/CITY-HALL/CUSTOMER-SERVICE-CENTER/",
+   7,
+   "0124,08:30-14:00-12:00-13:00-1;3,08:30-14:00-13:00-13:00-1",
+   "By appointments only - please call 305-673-7420 or https://www.miamibeachfl.gov/city-hall/customer-service-center"
+  ],
+  "county": "Miami-Dade County",
+  "zip": "33139"
+ },
+ {
+  "id": "53s",
+  "raw": [
+   "NARANJA BRANCH LIBRARY",
+   "14850 SW 280 STREET,HOMESTEAD,FL,33032",
+   "3052422290",
+   "HTTPS://WWW.MDPLS.ORG/PASSPORT",
+   5,
+   "0,11:00-14:30---1;123,11:00-19:30---1;45,10:00-17:30---1",
+   "BY APPOINTMENT ONLY - To schedule visit website: www.mdpls.org/passport"
+  ],
+  "county": "Miami-Dade County",
+  "zip": "33032"
+ },
+ {
+  "id": "5ag",
+  "raw": [
+   "NORTH MIAMI BEACH LIBRARY",
+   "1601 NE 164 ST,NORTH MIAMI BEACH,FL,33162",
+   "3059482970",
+   "HTTPS://DISCOVERYLIBRARY@CITYNMB.COM",
+   1,
+   "01,10:00-17:00-13:00-14:00-1;2,11:00-16:30-13:00-14:00-1;3,10:00-17:00-14:00-14:00-1;4,10:00-15:30-13:00-14:00-1",
+   ""
+  ],
+  "county": "Miami-Dade County",
+  "zip": "33162"
+ },
+ {
+  "id": "5d7",
+  "raw": [
+   "BROWARD COUNTY CLERK OF COURT CENTRAL",
+   "201 SE 6TH ST,ROOM 1160,FORT LAUDERDALE,FL,33301",
+   "9548312343",
+   "HTTPS://WWW.BROWARDCLERK.ORG",
+   7,
+   "01234,07:30-16:30---0",
+   "N/A"
+  ],
+  "county": "Broward County",
+  "zip": "33301"
+ },
+ {
+  "id": "5e0",
+  "raw": [
+   "NORTH DADE REGIONAL LIBRARY",
+   "2455 N.W. 183RD STREET,MIAMI GARDENS,FL,33056",
+   "3056256424",
+   "HTTPS://MDPLS.ORG/PASSPORT",
+   5,
+   "023,11:30-19:30---1;145,09:30-17:30---1",
+   "Appointments Required - Please contact us at 305 625-6424 Website: www.mdpls.org/passport"
+  ],
+  "county": "Miami-Dade County",
+  "zip": "33056"
+ },
+ {
+  "id": "5go",
+  "raw": [
+   "CITY OF GREENACRES",
+   "5800 MELALEUCA LANE,GREENACRES,FL,33463",
+   "5616422060",
+   "HTTPS://WWW.GREENACRESFL.GOV/",
+   7,
+   "01234,08:00-16:00---0",
+   "WALK IN FACILITY"
+  ],
+  "county": "Palm Beach County",
+  "zip": "33463"
+ },
+ {
+  "id": "5ka",
+  "raw": [
+   "VILLAGE OF PALMETTO BAY",
+   "9705 EAST HIBISCUS ST,PALMETTO BAY,FL,33157",
+   "3052591234",
+   "HTTPS://WWW.PALMETTOBAY-FL.GOV",
+   3,
+   "01234,09:00-16:00-12:30-13:30-2",
+   "By Appointment Only  - Please call (305)259-1234 or  online at www.palmettobay-fl.gov"
+  ],
+  "county": "Miami-Dade County",
+  "zip": "33157"
+ },
+ {
+  "id": "5p2",
+  "raw": [
+   "PALM BEACH COUNTY LIBRARY - MAIN LIBRARY",
+   "3650 SUMMIT BLVD.,WEST PALM BEACH,FL,33406",
+   "5612332788",
+   "HTTPS://",
+   5,
+   "123,15:00-20:00---0;5,09:30-16:00-12:00-13:30-0",
+   "Appointment Only, Please call (561)233-2788 for further assistance."
+  ],
+  "county": "Palm Beach County",
+  "zip": "33406"
+ }
+]

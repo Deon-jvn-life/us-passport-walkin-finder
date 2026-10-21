@@ -1,0 +1,34 @@
+[
+ {
+  "match": "BROWARD COUNTY CLERK",
+  "county": "Broward County",
+  "title": "Broward County Clerk of Courts passport offices",
+  "url": "https://www.browardclerk.org/Divisions/Passports",
+  "fact": "Central Courthouse, 201 S.E. 6th Street, Room 01160, Fort Lauderdale: Monday to Friday 7:30 a.m. to 4:30 p.m. North (Deerfield Beach), South (Hollywood) and West (Plantation) Regional Courthouses: Monday to Friday 8:00 a.m. to 4:30 p.m. Excluding holidays.",
+  "walkin": null
+ },
+ {
+  "match": "PALM BEACH COUNTY CLERK",
+  "county": "Palm Beach County",
+  "title": "Palm Beach County Clerk passport services",
+  "url": "https://www.mypalmbeachclerk.com/services/passports",
+  "fact": "Appointment required: walk-in customers are not accepted. Appointments at Palm Beach Gardens, Delray Beach, Royal Palm Beach or Belle Glade. Passport photos $16 each.",
+  "walkin": false
+ },
+ {
+  "match": "CLERK OF THE CIRCUIT COURT",
+  "county": "Palm Beach County",
+  "title": "Palm Beach County Clerk passport services",
+  "url": "https://www.mypalmbeachclerk.com/services/passports",
+  "fact": "Appointment required: walk-in customers are not accepted. Appointments at Palm Beach Gardens, Delray Beach, Royal Palm Beach or Belle Glade. Passport photos $16 each.",
+  "walkin": false
+ },
+ {
+  "match": "LIBRARY",
+  "county": "Miami-Dade County",
+  "title": "Miami-Dade Public Library System passport services",
+  "url": "https://mdpls.org/passport",
+  "fact": "North Dade Regional, West Kendall Regional and Naranja Branch libraries accept passport applications by appointment only; one appointment per applicant. Photo service is currently not available.",
+  "walkin": false
+ }
+]

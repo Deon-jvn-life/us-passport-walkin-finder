@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://us-passport-walkin-finder.vercel.app/sitemap.xml
