@@ -1,8 +1,29 @@
 #!/usr/bin/env python3
 """Build the South Florida passport acceptance facility site from JSON in tools/ into site/."""
-import json,os,re,html as H,shutil
+import json,os,re,html as H,shutil,sys,struct,zlib
 HERE=os.path.dirname(os.path.abspath(__file__)); ROOT=os.path.dirname(HERE); OUT=os.path.join(ROOT,'site')
 D="21 October 2026"; BASE="https://us-passport-walkin-finder.vercel.app"  # replace with real domain before deploy
+# Optional search-console tokens. Leave empty to omit the meta tags.
+GOOGLE_SITE_VERIFICATION=""
+MSVALIDATE_01=""
+SITE_NAME="South Florida Passport Places"
+DISCLAIMER="For general information only. This independent site is not affiliated with the U.S. Department of State or any government agency. Information can change and may contain errors; always confirm with the official source before you act. Nothing here is legal or professional advice, and we accept no liability for decisions made using it."
+SHORT_DISCLAIMER="For general information only. This independent site is not affiliated with the U.S. Department of State or any government agency."
+MONTHS={'January':'01','February':'02','March':'03','April':'04','May':'05','June':'06','July':'07','August':'08','September':'09','October':'10','November':'11','December':'12'}
+def iso_date(when):
+    d,m,y=when.split(); return f'{y}-{MONTHS[m]}-{int(d):02d}'
+def clean(path):
+    if path.endswith('index.html'):
+        rest=path[:-len('index.html')]
+        return '/'+rest if rest else '/'
+    return '/'+path
+def plain(s):
+    return re.sub(r'\s+',' ',H.unescape(re.sub(r'<[^>]+>','',s))).strip()
+def warn_meta(path,title,desc):
+    loc=clean(path)
+    if not 50<=len(title)<=60: print(f'WARNING: title length {len(title)} outside 50-60 for {loc}: {title}', file=sys.stderr)
+    if not 120<=len(desc)<=160: print(f'WARNING: description length {len(desc)} outside 120-160 for {loc}: {desc}', file=sys.stderr)
+NAV=[('index.html','Home'),('counties/miami-dade/index.html','Miami-Dade'),('counties/broward/index.html','Broward'),('counties/palm-beach/index.html','Palm Beach'),('walk-in-vs-appointment/index.html','Walk-in vs appointment'),('fees-and-documents/index.html','Fees and documents'),('child-under-16/index.html','Child under 16'),('faq/index.html','FAQ')]
 S=dict(pafl="https://passportfacilitylocator.travel.state.gov/",pafldata="https://passportfacilitylocator.travel.state.gov/data/Facilities.json",
  fees="https://travel.state.gov/content/travel/en/passports/how-apply/fees.html",times="https://travel.state.gov/content/travel/en/passports/how-apply/processing-times.html",
  adult="https://travel.state.gov/content/travel/en/passports/need-passport/apply-in-person.html",child="https://travel.state.gov/content/travel/en/passports/need-passport/under-16.html",
@@ -60,16 +81,51 @@ for r in recs:
 json.dump(recs,open(os.path.join(HERE,'facilities_parsed.json'),'w'),indent=1)
 CSS=open(os.path.join(HERE,'style.css')).read()
 CHECKED={}
-def page(path,title,body,desc,checked=None):
+def ld(graph):
+    raw=json.dumps({"@context":"https://schema.org","@graph":graph},ensure_ascii=True,separators=(',',':')).replace('<','\\u003c')
+    return f'<script type="application/ld+json">{raw}</script>'
+def page(path,title,body,desc,checked=None,crumb=None,home=False,error=False,faq_items=None):
     when=checked or D
-    CHECKED[path]=when
-    r='../'*path.count('/')
-    nav=f'<a href="{r}index.html">Home</a>'+''.join(f'<a href="{r}counties/{k}/index.html">{v.replace(" County","")}</a>' for k,v in COUNTIES.items())+f'<a href="{r}walk-in-vs-appointment/index.html">Walk-in vs appointment</a><a href="{r}fees-and-documents/index.html">Fees and documents</a><a href="{r}child-under-16/index.html">Child under 16</a><a href="{r}faq/index.html">FAQ</a>'
-    h=f'''<!doctype html><html lang="en-US"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>{H.escape(title)}</title><meta name="description" content="{H.escape(desc)}"><link rel="canonical" href="{BASE}/{path.replace('index.html','')}"><style>{CSS}</style><script defer src="/_vercel/insights/script.js"></script></head><body>
-<header><a href="{r}index.html">South Florida Passport Places</a><nav>{nav}</nav></header><main><p class="checked">Last checked: {when}</p>{body}</main>
-<footer>Independent, unofficial guide. Not affiliated with the U.S. Department of State, USPS, any clerk of court or library. We do not sell or promote expediting services. Facility data comes from the official Passport Acceptance Facility Locator{src('pafl')}; rules and fees from travel.state.gov. Always confirm hours with the facility before you go. Last checked: {when}.</footer></body></html>'''
+    if not error: CHECKED[path]=when
+    warn_meta(path,title,desc)
+    nav=''.join(f'<a href="{clean(p)}">{label}</a>' for p,label in NAV)
+    url=None if error else BASE+clean(path)
+    published=iso_date(when)
+    graph=[]
+    if home:
+        graph.append({"@type":"WebSite","@id":BASE+"/#website","name":SITE_NAME,"url":BASE+"/","description":desc,"publisher":{"@id":BASE+"/#organization"}})
+        graph.append({"@type":"Organization","@id":BASE+"/#organization","name":SITE_NAME,"url":BASE+"/","logo":{"@type":"ImageObject","url":BASE+"/apple-touch-icon.png"}})
+    crumbs=[{"@type":"ListItem","position":1,"name":"Home","item":BASE+"/"}]
+    if not home:
+        item={"@type":"ListItem","position":2,"name":crumb or title}
+        if url: item["item"]=url
+        crumbs.append(item)
+    graph.append({"@type":"BreadcrumbList","itemListElement":crumbs})
+    if not error:
+        graph.append({"@type":"Article","headline":title,"description":desc,"datePublished":published,"dateModified":published,"mainEntityOfPage":url,"image":BASE+"/og.png","author":{"@type":"Organization","name":SITE_NAME,"url":BASE+"/"},"publisher":{"@type":"Organization","name":SITE_NAME,"url":BASE+"/","logo":{"@type":"ImageObject","url":BASE+"/apple-touch-icon.png"}}})
+    if faq_items:
+        graph.append({"@type":"FAQPage","mainEntity":[{"@type":"Question","name":q,"acceptedAnswer":{"@type":"Answer","text":plain(a)}} for q,a in faq_items]})
+    canon=f'<link rel="canonical" href="{url}">' if url else ''
+    robots='<meta name="robots" content="noindex">' if error else ''
+    verify=''
+    if GOOGLE_SITE_VERIFICATION: verify+=f'<meta name="google-site-verification" content="{H.escape(GOOGLE_SITE_VERIFICATION)}">'
+    if MSVALIDATE_01: verify+=f'<meta name="msvalidate.01" content="{H.escape(MSVALIDATE_01)}">'
+    og_url=f'<meta property="og:url" content="{url}">' if url else ''
+    times='' if error else f'<meta property="article:published_time" content="{published}"><meta property="article:modified_time" content="{published}">'
+    og_type='website' if home or error else 'article'
+    img=BASE+'/og.png'
+    head_extra=(f'{canon}{robots}{verify}<meta property="og:type" content="{og_type}"><meta property="og:site_name" content="{H.escape(SITE_NAME)}">'
+        f'<meta property="og:title" content="{H.escape(title)}"><meta property="og:description" content="{H.escape(desc)}">{og_url}'
+        f'<meta property="og:image" content="{img}"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta property="og:image:alt" content="{H.escape(SITE_NAME)}"><meta property="og:locale" content="en_US">{times}'
+        f'<meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="{H.escape(title)}"><meta name="twitter:description" content="{H.escape(desc)}"><meta name="twitter:image" content="{img}">'
+        f'<link rel="icon" href="/favicon.svg" type="image/svg+xml"><link rel="apple-touch-icon" href="/apple-touch-icon.png">{ld(graph)}')
+    h=f'''<!doctype html><html lang="en-US"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>{H.escape(title)}</title><meta name="description" content="{H.escape(desc)}">{head_extra}<style>{CSS}</style><script defer src="/_vercel/insights/script.js"></script></head><body>
+<header><a href="/">{SITE_NAME}</a><nav>{nav}</nav></header><main><p class="disclaimer">{H.escape(SHORT_DISCLAIMER)} <a href="/disclaimer/">Full disclaimer</a>.</p><p class="checked">Last checked: {when}</p>{body}</main>
+<footer><p>Independent, unofficial guide. Not affiliated with the U.S. Department of State, USPS, any clerk of court or library. We do not sell or promote expediting services. Facility data comes from the official Passport Acceptance Facility Locator{src('pafl')}; rules and fees from travel.state.gov. Always confirm hours with the facility before you go. Last checked: {when}.</p><p>{H.escape(DISCLAIMER)}</p><p><a href="/disclaimer/">Disclaimer</a></p><p class="related">Related guides: <a href="https://south-florida-dmv-walkin-guide.vercel.app/" rel="noopener">South Florida DMV walk-in guide</a> and <a href="https://south-florida-dog-beaches.vercel.app/" rel="noopener">South Florida dog beaches</a>.</p></footer></body></html>'''
     assert '\u2014' not in h and '\u2013' not in h, path
-    p=os.path.join(OUT,path); os.makedirs(os.path.dirname(p),exist_ok=True); open(p,'w').write(h)
+    p=os.path.join(OUT,path); d=os.path.dirname(p)
+    if d: os.makedirs(d,exist_ok=True)
+    open(p,'w').write(h)
 def hrs_html(h):
     if not h: return 'Not stated by source'
     return '<br>'.join(f"{DAYS[d][:3]}: {v[0]} <span class='lv {'ok' if v[1]==0 else 'comm'}'>{'walk-in' if v[1]==0 else 'appointment'}</span>" for d,v in sorted(h.items()))
@@ -89,27 +145,27 @@ cc={k:[r for r in recs if r['county']==v] for k,v in COUNTIES.items()}
 nwalk=sum(r['walk'] for r in recs); ncon=sum(1 for r in recs if r['conflict'])
 if os.path.exists(OUT): shutil.rmtree(OUT)
 body=f'''<h1>Where to apply for a U.S. passport in South Florida</h1><p>{len(recs)} passport acceptance facilities in Miami-Dade, Broward and Palm Beach counties, from the State Department's official locator data on {D}{src('pafl')}, with acceptance hours and whether those hours are walk-in or appointment.</p>{CALL}
-<h2>By county</h2><ul class="grid">'''+''.join(f'<li><a href="counties/{k}/index.html">{v}</a> ({len(cc[k])} facilities, {sum(r["walk"] for r in cc[k])} with some walk-in hours)</li>' for k,v in COUNTIES.items())+f'''</ul>
+<h2>By county</h2><ul class="grid">'''+''.join(f'<li><a href="/counties/{k}/">{v}</a> ({len(cc[k])} facilities, {sum(r["walk"] for r in cc[k])} with some walk-in hours)</li>' for k,v in COUNTIES.items())+f'''</ul>
 <h2>Who needs to apply in person</h2><div class="card"><ul><li>First-time adult applicants, and adults whose passport was lost, stolen or damaged, issued over 15 years ago, or issued when they were under 16, must apply in person with Form DS-11{src('adult')}.</li>
-<li>All children under 16 must apply in person, usually with both parents or guardians{src('child')}. <a href="child-under-16/index.html">What to bring for a child under 16</a>.</li><li>Eligible adults can renew by mail (DS-82) or online, and postal employees should not charge the $35 facility fee for a DS-82 renewal{src('renew')}.</li></ul></div>
-<h2>Quick links</h2><ul><li><a href="walk-in-vs-appointment/index.html">Walk-in vs appointment: every facility with walk-in hours</a></li><li><a href="fees-and-documents/index.html">Fees, DS-11 vs DS-82, documents, photos, processing times</a></li><li><a href="child-under-16/index.html">Passport for a child under 16: consent, documents and fees</a></li><li><a href="faq/index.html">FAQ</a></li></ul>
+<li>All children under 16 must apply in person, usually with both parents or guardians{src('child')}. <a href="/child-under-16/">What to bring for a child under 16</a>.</li><li>Eligible adults can renew by mail (DS-82) or online, and postal employees should not charge the $35 facility fee for a DS-82 renewal{src('renew')}.</li></ul></div>
+<h2>Quick links</h2><ul><li><a href="/walk-in-vs-appointment/">Walk-in vs appointment: every facility with walk-in hours</a></li><li><a href="/fees-and-documents/">Fees, DS-11 vs DS-82, documents, photos, processing times</a></li><li><a href="/child-under-16/">Passport for a child under 16: consent, documents and fees</a></li><li><a href="/faq/">FAQ</a></li></ul>
 {MIAMI}'''
-page('index.html',"South Florida passport acceptance facilities and walk-in hours",body,"Passport acceptance facilities in Miami-Dade, Broward and Palm Beach with walk-in vs appointment hours, from official State Department locator data.")
+page('index.html',"South Florida passport acceptance facilities, walk-in hours",body,"Passport acceptance facilities in Miami-Dade, Broward and Palm Beach with walk-in vs appointment hours, from official State Department locator data.",home=True)
 for k,v in COUNTIES.items():
     note=''.join(f'<div class="card"><strong>{H.escape(e["title"])}</strong><p>{H.escape(e["fact"])} <span class="src">[<a href="{e["url"]}" rel="noopener">source</a>]</span></p></div>' for e in {x['title']:x for x in extra if x['county']==v}.values())
-    b=f'<h1>Passport acceptance facilities in {v}</h1><p>{len(cc[k])} facilities in the official locator, {sum(r["walk"] for r in cc[k])} with at least some hours flagged walk-in. County is assigned from the facility ZIP code using the Census 2020 ZCTA to county file{src("census")}.</p>{CALL}{note}<p>Applying for a child under 16: <a href="../../child-under-16/index.html">both parents, the consent form, documents and fees</a>.</p>'+table(cc[k])+(MIAMI if k=='miami-dade' else '')
-    page(f'counties/{k}/index.html',f"Passport acceptance facilities in {v}, FL",b,f"Passport acceptance facilities in {v} with hours, walk-in or appointment, from official locator data.")
+    b=f'<h1>Passport acceptance facilities in {v}</h1><p>{len(cc[k])} facilities in the official locator, {sum(r["walk"] for r in cc[k])} with at least some hours flagged walk-in. County is assigned from the facility ZIP code using the Census 2020 ZCTA to county file{src("census")}.</p>{CALL}{note}<p>Applying for a child under 16: <a href="/child-under-16/">both parents, the consent form, documents and fees</a>.</p>'+table(cc[k])+(MIAMI if k=='miami-dade' else '')
+    page(f'counties/{k}/index.html',f"Passport acceptance facilities in {v}, FL",b,f"Passport acceptance facilities in {v} with hours, walk-in or appointment, from official State Department locator data.",crumb=v)
 wr=[r for r in recs if r['walk']]
 b=f'''<h1>Passport walk-in vs appointment in South Florida</h1>
 <div class="card"><p>The official locator marks each block of acceptance hours. Its "Walk-in hours" filter counts only hours not flagged "By Appointment"{src('pafl')}. On {D}: <strong>{nwalk}</strong> of {len(recs)} South Florida facilities have at least some walk-in hours; the rest are appointment-flagged for all listed hours. Every USPS location in the data shows "To schedule a passport appointment or view additional passport acceptance times, please visit www.usps.com/scheduler."{src('usps')}</p>
 <p>{ncon} facilities have a conflict between the locator's walk-in flag and the comment text or the operator's own page. They are marked Conflict below. Trust the operator and call.</p></div>
 <h2>Facilities with some walk-in hours</h2>{table(wr,True)}
 <h2>What operators say on their own pages</h2>'''+''.join(f'<div class="card"><strong>{H.escape(e["title"])}</strong><p>{H.escape(e["fact"])} <span class="src">[<a href="{e["url"]}" rel="noopener">source</a>]</span></p></div>' for e in {x['title']:x for x in extra}.values())+MIAMI
-page('walk-in-vs-appointment/index.html',"Passport walk-in vs appointment: South Florida",b,"Which South Florida passport acceptance facilities accept walk-ins and which need appointments, with conflicts flagged.")
+page('walk-in-vs-appointment/index.html',"Passport walk-in vs appointment hours in South Florida",b,"Which South Florida passport acceptance facilities accept walk-ins and which need appointments, with source conflicts flagged.",crumb="Walk-in vs appointment")
 fb=f'''<h1>U.S. passport fees, forms and documents</h1><p>All amounts as stated by travel.state.gov on {D}.</p>
 <h2>Which form</h2><div class="card"><ul><li><strong>DS-11 (in person)</strong>: first-time adults, children under 16, and adults whose passport was lost, stolen, damaged, issued over 15 years ago, or issued when under 16{src('adult','child')}.</li>
 <li><strong>DS-82 (renew by mail)</strong>: you can submit your most recent passport, it was never reported lost or stolen, issued within the last 15 years, issued when you were 16 or older and valid for 10 years, in your current name (or you have a name change document), and not damaged beyond normal wear{src('renew')}.</li>
-<li>Children's passports cannot be renewed; apply in person each time{src('child')}. <a href="../child-under-16/index.html">Child under 16 in South Florida</a> covers consent, custody proof and minor fees.</li></ul></div>
+<li>Children's passports cannot be renewed; apply in person each time{src('child')}. <a href="/child-under-16/">Child under 16 in South Florida</a> covers consent, custody proof and minor fees.</li></ul></div>
 <h2>Fees (DS-11, in person)</h2><div class="wrap"><table><tr><th>Document</th><th>Adult 16+ application fee</th><th>Child under 16 application fee</th><th>Facility acceptance fee</th></tr>
 <tr><td>Passport book</td><td>$130</td><td>$100</td><td>$35</td></tr><tr><td>Passport card</td><td>$30</td><td>$15</td><td>$35</td></tr><tr><td>Book and card</td><td>$160</td><td>$115</td><td>$35</td></tr></table></div><p class="src">Source: {src('fees')}</p>
 <h2>Fees (DS-82 renewal by mail or online)</h2><div class="wrap"><table><tr><th>Document</th><th>Application fee</th></tr><tr><td>Passport book</td><td>$130</td></tr><tr><td>Passport card</td><td>$30</td></tr><tr><td>Book and card</td><td>$160</td></tr></table></div><p>No facility acceptance fee{src('fees','renew')}.</p>
@@ -117,24 +173,24 @@ fb=f'''<h1>U.S. passport fees, forms and documents</h1><p>All amounts as stated 
 <h2>How to pay at an acceptance facility</h2><div class="card"><p>Application fee: check (personal, certified, cashier's, traveler's) or money order payable to "U.S. Department of State", with the applicant's name and date of birth in the memo{src('fees')}. The $35 acceptance fee is paid to the facility; ask the facility what it accepts{src('fees')}. Example: Palm Beach Clerk accepts cash, check, money order and major cards for its $35 execution fee, and only check or money order for the State Department fee{src('pbcfees')}.</p></div>
 <h2>Documents to bring (DS-11)</h2><div class="card"><ul><li>The DS-11, printed single-sided. Do not sign until the acceptance agent asks{src('adult')}.</li><li>Physical evidence of U.S. citizenship (for example a U.S. birth certificate, a full-validity undamaged passport, a Consular Report of Birth Abroad, or a Certificate of Naturalization or Citizenship) plus a photocopy. Digital or mobile birth certificates are not accepted{src('adult')}.</li>
 <li>A physical photo ID such as a valid driver's license, plus a photocopy of front and back on 8.5 x 11 inch single-sided paper. If your ID is from another state, bring a second photo ID{src('adult')}.</li><li>One passport photo{src('adult','photos')}.</li>
-<li>Children: proof of relationship, both parents' IDs, and if a parent cannot attend, Form DS-3053 notarized within 90 days, or other documents listed by the State Department{src('child')}. Full checklist: <a href="../child-under-16/index.html">child under 16</a>.</li></ul></div>
+<li>Children: proof of relationship, both parents' IDs, and if a parent cannot attend, Form DS-3053 notarized within 90 days, or other documents listed by the State Department{src('child')}. Full checklist: <a href="/child-under-16/">child under 16</a>.</li></ul></div>
 <h2>Photo rules (summary)</h2><div class="card"><ul><li>1 color photo taken in the last 6 months, 2 x 2 inches (51 x 51 mm), head 1 to 1 3/8 inches (25 to 35 mm) chin to top of head{src('photos')}.</li><li>Plain white or off-white background, no shadows, no filters or edits{src('photos')}.</li><li>No glasses. Hats or head coverings only for documented religious or medical reasons, with a signed statement{src('photos')}.</li><li>No uniforms, camouflage or headphones; you may smile with mouth closed{src('photos')}.</li></ul></div>
 <h2>Processing times (as officially stated)</h2><div class="card"><ul><li>Routine: 4 to 6 weeks. Expedited: 2 to 3 weeks{src('times')}.</li><li>Mailing is not included: up to 2 weeks to reach the State Department and up to 2 weeks to receive the passport{src('times')}.</li><li>Urgent travel needs an appointment at a passport agency and proof of international travel within 14 calendar days{src('times')}. Busiest season is late winter to summer; October to December is quieter{src('times')}.</li></ul></div>{MIAMI}'''
-page('fees-and-documents/index.html',"U.S. passport fees, DS-11 vs DS-82, documents and photo rules",fb,"Official U.S. passport fees, which form to use, documents, photo rules and processing times from travel.state.gov.")
-faq=[("Can I walk in at a post office?",f"USPS listings in the locator point to usps.com/scheduler for appointments and additional times{src('usps','pafl')}. Some USPS hours in the data are flagged walk-in. See the <a href=\"../walk-in-vs-appointment/index.html\">walk-in page</a>."),
+page('fees-and-documents/index.html',"Passport fees, DS-11 vs DS-82, documents and photo rules",fb,"Official U.S. passport fees, which form to use, documents, photo rules and processing times published on travel.state.gov.",crumb="Fees and documents")
+faq=[("Can I walk in at a post office?",f"USPS listings in the locator point to usps.com/scheduler for appointments and additional times{src('usps','pafl')}. Some USPS hours in the data are flagged walk-in. See the <a href=\"/walk-in-vs-appointment/\">walk-in page</a>."),
 ("Which South Florida offices say they take walk-ins?",f"Broward Clerk of Courts lists passport hours at its Central, North, South and West courthouses{src('broward')}, and the locator comments for its regional courthouses say appointments are not required{src('pafl')}. Palm Beach Clerk says walk-in customers are not accepted{src('pbc')}. Miami-Dade Public Library says its passport service is by appointment only{src('mdpls')}."),
 ("How much does a first adult passport book cost?",f"$130 to the U.S. Department of State plus $35 to the acceptance facility{src('fees')}."),
 ("Can I renew at an acceptance facility?",f"If you are eligible for DS-82, you renew by mail or online. Postal employees should not charge the $35 fee or review a DS-82{src('renew')}."),
 ("I travel in less than two weeks. Where do I go?",f"Make an appointment at a passport agency within 14 days of travel. The nearest is the Miami Passport Agency; call 877-487-2778{src('miami','times')}."),
-("Do I need both parents for a child's passport?",f"For a child under 16, both parents or guardians must be present or give approval, for example with a notarized DS-3053. Sole custody uses different documents, and ages 16 and 17 follow another rule. <a href=\"../child-under-16/index.html\">Child under 16</a>.{src('under16','teen')}"),
+("Do I need both parents for a child's passport?",f"For a child under 16, both parents or guardians must be present or give approval, for example with a notarized DS-3053. Sole custody uses different documents, and ages 16 and 17 follow another rule. <a href=\"/child-under-16/\">Child under 16</a>.{src('under16','teen')}"),
 ("Can I bring a digital birth certificate?",f"No. Physical evidence of citizenship only{src('adult')}."),
 ("Do facilities take photos?",f"Some do; the locator flags 'photos on site'{src('pafl')}. Palm Beach Clerk sells photos for $16 each{src('pbc')}. Miami-Dade libraries say photo service is not currently available{src('mdpls')}.")]
-page('faq/index.html',"South Florida passport FAQ",'<h1>Passport FAQ for South Florida</h1>'+''.join(f'<div class="card"><strong>{q}</strong><p>{a}</p></div>' for q,a in faq),"Short sourced answers about applying for a U.S. passport in Miami-Dade, Broward and Palm Beach.")
+page('faq/index.html',"South Florida passport FAQ: walk-ins, fees, documents",'<h1>Passport FAQ for South Florida</h1>'+''.join(f'<div class="card"><strong>{q}</strong><p>{a}</p></div>' for q,a in faq),"Short sourced answers on walk-in hours, fees, documents and applying for a U.S. passport in Miami-Dade, Broward and Palm Beach.",crumb="FAQ",faq_items=faq)
 CHILD=f'''<h1>Passport for a child under 16 in South Florida</h1>
 <p>A child under 16 applies in person with Form DS-11 at a passport acceptance facility. Bring the child. You cannot renew a child's passport, and the passport is valid for 5 years. Both parents or guardians go with the child, or you bring the consent or custody documents below.{src('under16')}</p>
 <div class="card note"><strong>Ages 16 and 17 use different rules.</strong> They still apply in person on DS-11, but only one parent or guardian has to show they know about the application, the passport is valid for 10 years, and the fees are the adult fees. Those rules are at the end of this page.{src('teen')}</div>
 <h2>Where to apply in Miami-Dade, Broward and Palm Beach</h2>
-<p>Use an acceptance facility (post office, clerk of court, or library) if international travel is more than 3 weeks away, and ask whether that office needs an appointment. If the child is traveling internationally in less than 3 weeks, make an appointment at a passport agency once you are within 14 calendar days of travel.{src('under16')} Facilities: <a href="../counties/miami-dade/index.html">Miami-Dade</a>, <a href="../counties/broward/index.html">Broward</a>, <a href="../counties/palm-beach/index.html">Palm Beach</a>.</p>
+<p>Use an acceptance facility (post office, clerk of court, or library) if international travel is more than 3 weeks away, and ask whether that office needs an appointment. If the child is traveling internationally in less than 3 weeks, make an appointment at a passport agency once you are within 14 calendar days of travel.{src('under16')} Facilities: <a href="/counties/miami-dade/">Miami-Dade</a>, <a href="/counties/broward/">Broward</a>, <a href="/counties/palm-beach/">Palm Beach</a>.</p>
 <div class="card"><strong>Miami-Dade Public Library</strong><p>North Dade Regional, West Kendall Regional and Naranja Branch take applications by appointment only. Book a separate appointment for each person, including each child. A family of five needs five appointments. These libraries do not take passport photos, so bring the photo. The library's execution fee is $35 per application, paid in cash, by cashier's check, or by money order payable to "Miami-Dade Public Library System." The State Department fee is a check or money order only.{src('mdpls')}</p>
 <p>On the library's own list, applicants age 15 or under who submit a naturalization certificate or a Certificate of Citizenship must also include a certified birth certificate.{src('mdpls')}</p></div>
 <div class="card"><strong>Broward Clerk of Courts</strong><p>The child must appear. The clerk's office says both parents must appear if both are listed on the birth certificate. If one cannot, bring Form DS-3053 and a copy of that parent's identification, front and back. If a parent is not listed on the legal birth certificate, the clerk's office says only the listed parents must appear or give consent in writing.{src('broward')}</p>
@@ -231,14 +287,123 @@ CHILD=f'''<h1>Passport for a child under 16 in South Florida</h1>
 </ul>
 <p>If it is not clear that a parent knows, the State Department may ask for a notarized DS-3053 and a photocopy of that parent's ID. If the applicant is enrolled in the Children's Passport Issuance Alert Program, the State Department contacts the parent or guardian who enrolled them before it issues the passport.{src('teen')}</p>
 <p>Fees at 16 and 17 are the adult DS-11 fees, not the under-16 fees: passport book $130, passport card $30, book and card $160, plus the $35 facility fee.{src('teen','fees')}</p></div>
-<p>Related: <a href="../fees-and-documents/index.html">fees and documents</a> and the <a href="../faq/index.html">FAQ</a>.</p>'''
-page('child-under-16/index.html',"Passport for a child under 16 in South Florida",CHILD,"How to apply in person for a U.S. passport for a child under 16 in Miami-Dade, Broward and Palm Beach: DS-11, both parents, DS-3053, custody proof, documents and fees.",checked="22 October 2026")
-pages=[os.path.relpath(os.path.join(dp,f),OUT) for dp,_,fs in os.walk(OUT) for f in fs if f.endswith('.html')]
+<p>Related: <a href="/fees-and-documents/">fees and documents</a> and the <a href="/faq/">FAQ</a>.</p>'''
+page('child-under-16/index.html',"U.S. passport for a child under 16 in South Florida",CHILD,"How to apply for a U.S. passport for a child under 16 in Miami-Dade, Broward and Palm Beach: DS-11, both parents, DS-3053, custody proof, documents and fees.",checked="22 October 2026",crumb="Child under 16")
+GLYPHS={
+'A':['01110','10001','10001','11111','10001','10001','10001'],
+'B':['11110','10001','10001','11110','10001','10001','11110'],
+'C':['01111','10000','10000','10000','10000','10000','01111'],
+'D':['11110','10001','10001','10001','10001','10001','11110'],
+'E':['11111','10000','10000','11110','10000','10000','11111'],
+'F':['11111','10000','10000','11110','10000','10000','10000'],
+'G':['01111','10000','10000','10111','10001','10001','01111'],
+'H':['10001','10001','10001','11111','10001','10001','10001'],
+'I':['01110','00100','00100','00100','00100','00100','01110'],
+'J':['00111','00010','00010','00010','00010','10010','01100'],
+'K':['10001','10010','10100','11000','10100','10010','10001'],
+'L':['10000','10000','10000','10000','10000','10000','11111'],
+'M':['10001','11011','10101','10101','10001','10001','10001'],
+'N':['10001','11001','10101','10011','10001','10001','10001'],
+'O':['01110','10001','10001','10001','10001','10001','01110'],
+'P':['11110','10001','10001','11110','10000','10000','10000'],
+'Q':['01110','10001','10001','10001','10101','10010','01101'],
+'R':['11110','10001','10001','11110','10100','10010','10001'],
+'S':['01111','10000','10000','01110','00001','00001','11110'],
+'T':['11111','00100','00100','00100','00100','00100','00100'],
+'U':['10001','10001','10001','10001','10001','10001','01110'],
+'V':['10001','10001','10001','10001','10001','01010','00100'],
+'W':['10001','10001','10001','10101','10101','10101','01010'],
+'X':['10001','10001','01010','00100','01010','10001','10001'],
+'Y':['10001','10001','01010','00100','00100','00100','00100'],
+'Z':['11111','00001','00010','00100','01000','10000','11111'],
+' ' :['00000','00000','00000','00000','00000','00000','00000'],
+'-':['00000','00000','00000','11111','00000','00000','00000'],
+',':['00000','00000','00000','00000','00110','00110','01100'],
+}
+NAVY=(0x1f,0x3a,0x68); CREAM=(0xf4,0xf7,0xfb); WHITE=(255,255,255); GOLD=(0xf3,0xd2,0x7a); MUTED=(0xdb,0xe4,0xf5)
+def blank(w,h,color):
+    px=bytes(color)
+    return bytearray(px*(w*h)),w,h
+def rect(buf,w,h,x,y,rw,rh,color):
+    x0,y0,x1,y1=max(0,x),max(0,y),min(w,x+rw),min(h,y+rh)
+    if x0>=x1 or y0>=y1: return
+    span=bytes(color)*(x1-x0)
+    for yy in range(y0,y1):
+        i=(yy*w+x0)*3
+        buf[i:i+len(span)]=span
+def disc(buf,w,h,cx,cy,r,color):
+    r2=r*r
+    for yy in range(max(0,cy-r),min(h,cy+r+1)):
+        for xx in range(max(0,cx-r),min(w,cx+r+1)):
+            if (xx-cx)*(xx-cx)+(yy-cy)*(yy-cy)<=r2:
+                i=(yy*w+xx)*3; buf[i:i+3]=bytes(color)
+def text(buf,w,h,s,x,y,scale,color,gap=None):
+    if gap is None: gap=scale
+    for ch in s:
+        g=GLYPHS[ch]
+        for ry,row in enumerate(g):
+            for rx,bit in enumerate(row):
+                if bit=='1': rect(buf,w,h,x+rx*scale,y+ry*scale,scale,scale,color)
+        x+=5*scale+gap
+    return x
+def passport(buf,w,h,x,y,s):
+    rect(buf,w,h,x,y,s,int(s*1.38),CREAM)
+    m=max(4,s//10)
+    rect(buf,w,h,x+m,y+m,s-2*m,int(s*1.38)-2*m,NAVY)
+    inset=max(3,s//16)
+    rect(buf,w,h,x+m+inset,y+m+inset,s-2*m-2*inset,int(s*1.38)-2*m-2*inset,CREAM)
+    cx,cy=x+s//2,y+int(s*0.50)
+    disc(buf,w,h,cx,cy,int(s*0.16),NAVY)
+    disc(buf,w,h,cx,cy,int(s*0.09),CREAM)
+    lw=max(3,s//22)
+    rect(buf,w,h,x+int(s*0.28),y+int(s*0.86),int(s*0.44),lw,NAVY)
+    rect(buf,w,h,x+int(s*0.34),y+int(s*1.02),int(s*0.32),lw,NAVY)
+def save_png(path,buf,w,h):
+    raw=bytearray()
+    for y in range(h):
+        raw.append(0); raw.extend(buf[y*w*3:(y+1)*w*3])
+    def chunk(tag,data):
+        return struct.pack('>I',len(data))+tag+data+struct.pack('>I',zlib.crc32(tag+data)&0xffffffff)
+    png=b'\x89PNG\r\n\x1a\n'+chunk(b'IHDR',struct.pack('>IIBBBBB',w,h,8,2,0,0,0))+chunk(b'IDAT',zlib.compress(bytes(raw),9))+chunk(b'IEND',b'')
+    open(path,'wb').write(png)
+def write_assets():
+    os.makedirs(OUT,exist_ok=True)
+    w,h=1200,630
+    buf,w,h=blank(w,h,NAVY)
+    rect(buf,w,h,0,0,18,h,GOLD)
+    passport(buf,w,h,86,145,230)
+    text(buf,w,h,'SOUTH FLORIDA',390,185,8,WHITE)
+    text(buf,w,h,'PASSPORT PLACES',390,285,8,WHITE)
+    text(buf,w,h,'MIAMI-DADE, BROWARD AND PALM BEACH',360,420,4,MUTED)
+    save_png(os.path.join(OUT,'og.png'),buf,w,h)
+    aw=ah=180
+    abuf,aw,ah=blank(aw,ah,NAVY)
+    passport(abuf,aw,ah,46,28,88)
+    save_png(os.path.join(OUT,'apple-touch-icon.png'),abuf,aw,ah)
+    open(os.path.join(OUT,'favicon.svg'),'w').write('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><rect width="32" height="32" rx="6" fill="#1f3a68"/><rect x="8" y="5" width="16" height="22" rx="1.5" fill="#f4f7fb"/><circle cx="16" cy="13" r="3.1" fill="none" stroke="#1f3a68" stroke-width="1.5"/><rect x="11" y="19.5" width="10" height="1.5" rx="0.75" fill="#1f3a68"/><rect x="12.2" y="22.5" width="7.6" height="1.5" rx="0.75" fill="#1f3a68"/></svg>\n')
+DISC=f'''<h1>Disclaimer</h1>
+<p>{H.escape(DISCLAIMER)}</p>
+<h2>Accuracy</h2>
+<p>Hours, fees, forms and document rules on this site are taken from the official pages linked on each guide, as of the last-checked date on that page. Those sources can change after that date. This site can be incomplete or wrong, including a missed facility, a misread hours flag, or a lag behind an operator's own page. Where the sources disagree, the page says so.</p>
+<h2>No warranty</h2>
+<p>This site is provided as is and as available. There is no warranty of any kind, express or implied, including of accuracy, completeness, timeliness, fitness for a particular purpose, or non-infringement.</p>
+<h2>Limitation of liability</h2>
+<p>To the fullest extent permitted by law, the operator of this site accepts no liability for any loss, cost, or damage that results from using this site or relying on it. That includes a missed appointment, a refused application, a fee, a delay, or a change in travel plans. You use this site at your own risk.</p>
+<h2>External links are not endorsed</h2>
+<p>Links to travel.state.gov, the Passport Acceptance Facility Locator, USPS, clerks of court, libraries, the Census Bureau, and other sites are there so you can read the source. A link is not an endorsement, and this site does not control those pages.</p>
+<h2>Not affiliated</h2>
+<p>This independent site is not affiliated with, endorsed by, or operated by the U.S. Department of State, USPS, any clerk of court, any library, or any other government agency. It does not sell or promote expediting services, and it does not submit applications.</p>
+<h2>Check official sources</h2>
+<p>Before you go to a facility or mail an application, confirm the hours, whether you need an appointment, the fees, and the documents on the official page linked from the guide, or by calling the facility.</p>
+<h2>Contact and corrections</h2>
+<p>This site does not offer passport services and has no contact form or email address. It cannot update an application with the U.S. Department of State. If something here disagrees with the official source linked on the page, follow the official source.</p>'''
+page('disclaimer/index.html',"Disclaimer for this South Florida passport acceptance guide",DISC,"Accuracy, no warranty, limitation of liability, external links, affiliation, official sources and corrections for this passport guide.",checked="24 October 2026",crumb="Disclaimer")
+HUBS=[('/','Home'),('/counties/miami-dade/','Miami-Dade County'),('/counties/broward/','Broward County'),('/counties/palm-beach/','Palm Beach County'),('/walk-in-vs-appointment/','Walk-in vs appointment'),('/fees-and-documents/','Fees and documents'),('/child-under-16/','Child under 16'),('/faq/','FAQ')]
+page('404.html',"Page not found: South Florida passport acceptance guide",'<h1>Page not found</h1><p>That address is not on this site. Use the navigation above or one of these guides:</p><ul>'+''.join(f'<li><a href="{h}">{n}</a></li>' for h,n in HUBS)+'</ul>',"That address is not on this site. Browse passport acceptance facilities in Miami-Dade, Broward and Palm Beach, plus fees, documents and walk-in hours.",crumb="Page not found",error=True)
+write_assets()
+pages=[os.path.relpath(os.path.join(dp,f),OUT) for dp,_,fs in os.walk(OUT) for f in fs if f.endswith('.html') and f!='404.html']
 open(os.path.join(OUT,'robots.txt'),'w').write(f"User-agent: *\nAllow: /\nSitemap: {BASE}/sitemap.xml\n")
-MONTHS={'January':'01','February':'02','March':'03','April':'04','May':'05','June':'06','July':'07','August':'08','September':'09','October':'10','November':'11','December':'12'}
-def iso_date(when):
-    d,m,y=when.split(); return f'{y}-{MONTHS[m]}-{int(d):02d}'
-open(os.path.join(OUT,'sitemap.xml'),'w').write('<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'+''.join(f'<url><loc>{BASE}/{p.replace("index.html","")}</loc><lastmod>{iso_date(CHECKED.get(p,D))}</lastmod></url>\n' for p in sorted(pages))+'</urlset>\n')
+open(os.path.join(OUT,'sitemap.xml'),'w').write('<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'+''.join(f'<url><loc>{BASE+clean(p)}</loc><lastmod>{iso_date(CHECKED.get(p,D))}</lastmod></url>\n' for p in sorted(pages))+'</urlset>\n')
 print(len(recs),'facilities',{k:len(v) for k,v in cc.items()},'walk',nwalk,'conflicts',ncon)
 for r in recs:
     if r['conflict']: print(' C:',r['name'],'|',r['conflict'])
