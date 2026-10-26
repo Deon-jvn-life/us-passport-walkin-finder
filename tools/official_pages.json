@@ -4,7 +4,7 @@
   "county": "Broward County",
   "title": "Broward County Clerk of Courts passport offices",
   "url": "https://www.browardclerk.org/Divisions/Passports",
-  "fact": "Central Courthouse, 201 S.E. 6th Street, Room 01160, Fort Lauderdale: Monday to Friday 7:30 a.m. to 4:30 p.m. North (Deerfield Beach), South (Hollywood) and West (Plantation) Regional Courthouses: Monday to Friday 8:00 a.m. to 4:30 p.m. Excluding holidays.",
+  "fact": "Central Courthouse, 201 S.E. 6th Street, Room 01160, Fort Lauderdale: Monday to Friday 7:30 a.m. to 4:30 p.m., phone (954) 831-2343. North Regional Courthouse, Deerfield Beach: Monday to Friday 8:00 a.m. to 4:30 p.m., phone (954) 831-1453. South Regional Courthouse, Hollywood: Monday to Friday 8:00 a.m. to 4:30 p.m., phone (954) 831-0320. West Regional Courthouse, Plantation, Room 180: Monday to Friday 8:00 a.m. to 4:30 p.m., phone (954) 831-6528. Closed holidays. The clerk's page says wait times are longer than usual and the line may close as early as 1:00 p.m. while the listed hours stay the same.",
   "walkin": null
  },
  {
@@ -12,7 +12,7 @@
   "county": "Palm Beach County",
   "title": "Palm Beach County Clerk passport services",
   "url": "https://www.mypalmbeachclerk.com/services/passports",
-  "fact": "Appointment required: walk-in customers are not accepted. Appointments at Palm Beach Gardens, Delray Beach, Royal Palm Beach or Belle Glade. Passport photos $16 each.",
+  "fact": "Appointment required: walk-in customers are not accepted. Appointments at Palm Beach Gardens, Delray Beach, Royal Palm Beach or Belle Glade. Passport photos are $16 each. Veterans, active-duty service members, and reservists get that photo free when they show a military discharge form (DD-214), military identification, or a veteran designation on a driver's license.",
   "walkin": false
  },
  {
@@ -20,7 +20,7 @@
   "county": "Palm Beach County",
   "title": "Palm Beach County Clerk passport services",
   "url": "https://www.mypalmbeachclerk.com/services/passports",
-  "fact": "Appointment required: walk-in customers are not accepted. Appointments at Palm Beach Gardens, Delray Beach, Royal Palm Beach or Belle Glade. Passport photos $16 each.",
+  "fact": "Appointment required: walk-in customers are not accepted. Appointments at Palm Beach Gardens, Delray Beach, Royal Palm Beach or Belle Glade. Passport photos are $16 each. Veterans, active-duty service members, and reservists get that photo free when they show a military discharge form (DD-214), military identification, or a veteran designation on a driver's license.",
   "walkin": false
  },
  {
@@ -28,7 +28,47 @@
   "county": "Miami-Dade County",
   "title": "Miami-Dade Public Library System passport services",
   "url": "https://mdpls.org/passport",
-  "fact": "North Dade Regional, West Kendall Regional and Naranja Branch libraries accept passport applications by appointment only; one appointment per applicant. Photo service is currently not available.",
+  "fact": "North Dade Regional, West Kendall Regional and Naranja Branch libraries accept passport applications by appointment only; one appointment per applicant. Photo service is currently not available. The library's own page lists North Dade Regional Monday hours as 4:30 p.m. to 7:30 p.m.",
   "walkin": false
+ },
+ {
+  "match": "CITY OF CORAL GABLES",
+  "county": "Miami-Dade County",
+  "title": "City of Coral Gables passport office",
+  "url": "https://www.coralgables.com/passport",
+  "fact": "Applications are by appointment only. The office is closed Wednesday, 11 November 2026, for Veterans Day, and reopens Thursday, 12 November 2026.",
+  "walkin": false
+ },
+ {
+  "match": "CITY OF MIAMI BEACH",
+  "county": "Miami-Dade County",
+  "title": "City of Miami Beach passport hours",
+  "url": "https://www.miamibeachfl.gov/city-hall/customer-service-center/",
+  "fact": "Passport customers are seen Monday to Friday, 8:30 a.m. to 1:30 p.m., by appointment only.",
+  "walkin": false
+ },
+ {
+  "match": "CITY OF MIAMI SPRINGS",
+  "county": "Miami-Dade County",
+  "title": "City of Miami Springs passport services",
+  "url": "https://www.miamisprings-fl.gov/cityclerk/page/miami-springs-passport-services-0",
+  "fact": "Monday to Friday 9:00 a.m. to 4:00 p.m. and Saturday 8:00 a.m. to 2:00 p.m. Appointments are prioritized, and a walk-in may not be served the same day.",
+  "walkin": null
+ },
+ {
+  "match": "CITY OF WEST MIAMI",
+  "county": "Miami-Dade County",
+  "title": "City of West Miami passport services",
+  "url": "https://cityofwestmiami.gov/index.asp?SEC=9B066478-6E25-403F-876D-3BFDF7EAEC72",
+  "fact": "Monday to Friday 9:00 a.m. to 4:00 p.m., last appointment 3:30 p.m. Tuesday 9:00 a.m. to 6:00 p.m., last appointment 5:30 p.m. Appointments are online only. Walk-ins are accepted if a slot is open.",
+  "walkin": null
+ },
+ {
+  "match": "CITY OF MIRAMAR",
+  "county": "Broward County",
+  "title": "City of Miramar passport services",
+  "url": "https://www.miramarfl.gov/Departments/City-Clerk/U.S.-Passports",
+  "fact": "Passport appointments are Monday to Thursday, 7:15 a.m. to 5:00 p.m. Photo-only walk-in service is Monday to Thursday, 8:00 a.m. to noon.",
+  "walkin": null
  }
 ]

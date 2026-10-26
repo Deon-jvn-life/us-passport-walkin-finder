@@ -4,7 +4,7 @@ Ideas for later pages. Official sources only (travel.state.gov and county clerk 
 
 ## Done
 
-- Passport for a child under 16 in South Florida (`/child-under-16/`). DS-11 in person, both parents or guardians, Form DS-3053, sole-custody evidence, citizenship and relationship proof, minor fees, 5-year validity, and how ages 16 and 17 differ. Checked 22 October 2026 against travel.state.gov, the Broward Clerk passport page, and the Miami-Dade Public Library passport page.
+- Passport for a child under 16 in South Florida (`/child-under-16/`). DS-11 in person, both parents or guardians, Form DS-3053, sole-custody evidence, citizenship and relationship proof, minor fees, 5-year validity, and how ages 16 and 17 differ. Checked 26 October 2026 against travel.state.gov, the Broward Clerk passport page, and the Miami-Dade Public Library passport page.
 
 ## Not done
 

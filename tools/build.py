@@ -2,7 +2,7 @@
 """Build the South Florida passport acceptance facility site from JSON in tools/ into site/."""
 import json,os,re,html as H,shutil,sys,struct,zlib
 HERE=os.path.dirname(os.path.abspath(__file__)); ROOT=os.path.dirname(HERE); OUT=os.path.join(ROOT,'site')
-D="21 October 2026"; BASE="https://us-passport-walkin-finder.vercel.app"  # replace with real domain before deploy
+D="26 October 2026"; BASE="https://us-passport-walkin-finder.vercel.app"  # replace with real domain before deploy
 # Optional search-console tokens. Leave empty to omit the meta tags.
 GOOGLE_SITE_VERIFICATION=""
 MSVALIDATE_01=""
@@ -52,6 +52,14 @@ def parse(hours):
             if d.isdigit() and int(d)<7: out[int(d)]=(txt,f)
     return out
 FEAT=lambda b:{'Accessible':bool(b&1),'Photos on site':bool(b&2),'Photos nearby':bool(b&4)}
+# Locator website fields that no longer open the facility's own passport page.
+REDIRECTS={
+ 'https://coralgables.com/passports':'https://www.coralgables.com/passport',
+ 'https://www.cityofwestmiami.gov':'https://cityofwestmiami.gov/index.asp?SEC=9B066478-6E25-403F-876D-3BFDF7EAEC72',
+ 'https://www.northmiamifl.gov':'https://www.northmiamifl.gov/162/City-Clerks-Office',
+ 'https://www.ppines.com':'https://www.ppines.com/153/Passport-Office',
+ 'https://miramarfl.gov':'https://www.miramarfl.gov/Departments/City-Clerk/U.S.-Passports',
+}
 fac=json.load(open(os.path.join(HERE,'sofla_facilities.json')))
 extra=json.load(open(os.path.join(HERE,'official_pages.json')))
 COUNTIES={"miami-dade":"Miami-Dade County","broward":"Broward County","palm-beach":"Palm Beach County"}
@@ -67,10 +75,12 @@ for f in fac:
     if walk and com and re.search(r'appointment[s]? only|appointments only|appointment required|appointments required|appointment only',com,re.I): conflict='Locator hours are flagged walk-in, but the locator comment says appointments only or required.'
     if not walk and com and re.search(r'walk[- ]?ins? (are )?acc[ep]|walk-ins monday|accept walk-ins',com,re.I): conflict='Locator comment mentions walk-ins, but all listed hours are flagged by appointment.'
     kind='USPS' if ('USPS' in n or 'POST OFFICE' in n or 'usps.com' in (web or '') ) else ('Clerk of Court' if 'CLERK OF' in n and 'COURT' in n else ('Library' if 'LIBRARY' in n else 'Municipal or other government office'))
-    w=(web or '').strip()
-    if w and not re.match(r'^https?://[A-Za-z0-9.-]+\.[a-z]{2,}',w,re.I) or '@' in w: w=''
+    w=(web or '').strip().rstrip('.,;')
+    if '@' in w or not re.match(r'^https?://[A-Za-z0-9.-]+\.[A-Za-z]{2,}',w,re.I): w=''
+    else: w=w.lower()
+    w=REDIRECTS.get(w,w)
     recs.append(dict(id=f['id'],name=n.title().replace('Usps','USPS').replace('Po ','PO ').replace("'S","'s"),street=street.title(),city=city.title(),zip=z,county=f['county'],
-      phone=re.sub(r'(\d{3})(\d{3})(\d{4})',r'(\1) \2-\3',ph or '') or 'Not stated by source',web=w.lower() if w else '',feat=FEAT(int(feat or 0)),hours=h,walk=walk,appt_only=appt_only,
+      phone=re.sub(r'(\d{3})(\d{3})(\d{4})',r'(\1) \2-\3',ph or '') or 'Not stated by source',web=w,feat=FEAT(int(feat or 0)),hours=h,walk=walk,appt_only=appt_only,
       comment=com,conflict=conflict,kind=kind,raw_hours=hrs))
 for r in recs:
     for e in extra:
@@ -78,6 +88,20 @@ for r in recs:
 for r in recs:
     for e in r.get('official',[]):
         if e.get('walkin') is False and r['walk']: r['conflict']=(r['conflict']+' ' if r['conflict'] else '')+f"The operator page says walk-ins are not accepted, but locator hours for this office are flagged walk-in."
+def add_conflict(pred,text):
+    for r in recs:
+        if pred(r): r['conflict']=(r['conflict']+' ' if r['conflict'] else '')+text
+add_conflict(lambda r:'South Regional' in r['name'] and r['county']=='Broward County',"The clerk page lists phone (954) 831-0320. The locator still lists (954) 831-0350.")
+add_conflict(lambda r:'West Regional' in r['name'] and r['county']=='Broward County',"The clerk page lists phone (954) 831-6528. The locator still lists (954) 831-2391.")
+add_conflict(lambda r:'North Dade Regional' in r['name'],"The library page lists Monday passport hours as 4:30 p.m. to 7:30 p.m. The locator lists Monday as 11:30 a.m. to 7:30 p.m.")
+add_conflict(lambda r:'Miami Springs' in r['name'],"The city page lists Saturday as 8:00 a.m. to 2:00 p.m. The locator lists Saturday as 8:00 a.m. to 12:00 p.m. The city page says a walk-in may not be served the same day.")
+add_conflict(lambda r:r['name'].startswith('City Of West Miami'),"The city page lists Monday to Friday until 4:00 p.m. (last appointment 3:30 p.m.) and Tuesday until 6:00 p.m. (last appointment 5:30 p.m.). The locator lists later closing times.")
+add_conflict(lambda r:'Miami Beach - Finance' in r['name'],"The city page says passport hours run until 1:30 p.m. The locator lists those days until 2:00 p.m.")
+add_conflict(lambda r:r['name'].startswith('City Of Miramar'),"The city page says passport appointments run until 5:00 p.m. Monday to Thursday. The locator lists shorter hours and a midday closure.")
+for r in recs:
+    if 'South Regional' in r['name'] and r['county']=='Broward County': r['phone']='(954) 831-0320'
+    if 'West Regional' in r['name'] and r['county']=='Broward County': r['phone']='(954) 831-6528'
+    if 'Miami Springs' in r['name'] and not r['web']: r['web']='https://www.miamisprings-fl.gov/cityclerk/page/miami-springs-passport-services-0'
 json.dump(recs,open(os.path.join(HERE,'facilities_parsed.json'),'w'),indent=1)
 CSS=open(os.path.join(HERE,'style.css')).read()
 CHECKED={}
@@ -139,7 +163,7 @@ def table(rows,showcounty=False):
         web=f'<br><a href="{H.escape(r["web"])}" rel="noopener">website</a>' if r['web'] else ''
         t+=f'<tr><td><strong>{H.escape(r["name"])}</strong><br><span class="src">{r["kind"]}</span></td><td>{H.escape(r["street"])}<br>{H.escape(r["city"])}, FL {r["zip"]}</td>'+(f'<td>{r["county"]}</td>' if showcounty else '')+f'<td>{hrs_html(r["hours"])}</td><td>{wk}</td><td>{r["phone"]}{web}</td><td><span class="src">Locator comment: "{H.escape(r["comment"]) or "none"}". Features: {ft}.</span>{o}{cf} <span class="src">[<a href="{S["pafl"]}" rel="noopener">source</a>]</span></td></tr>'
     return t+'</table></div>'
-MIAMI=f'''<div class="card"><strong>Miami Passport Agency (urgent travel only)</strong><p>Omni Center, 1501 Biscayne Blvd, Suite 400, Miami, FL 33132. Monday to Friday 7:00 a.m. to 2:00 p.m., closed weekends and federal holidays. By appointment only, for international travel within 14 calendar days or a foreign visa needed within 28 calendar days. Appointments: 877-487-2778{src('miami')}. This is not an acceptance facility; routine applications go to the places listed on this site.</p></div>'''
+MIAMI=f'''<div class="card"><strong>Miami Passport Agency (urgent travel only)</strong><p>Omni Center, 1501 Biscayne Blvd, Suite 400, Miami, FL 33132. Monday to Friday 7:00 a.m. to 2:00 p.m., closed weekends and federal holidays. By appointment only. Miami is in a State Department pilot with the Detroit and San Juan passport agencies: you can make an appointment for urgent international travel within 21 calendar days, or if you need a foreign visa within 28 calendar days. Appointments: 877-487-2778{src('miami')}. This is not an acceptance facility; routine applications go to the places listed on this site.</p></div>'''
 CALL='<div class="card note"><strong>Call or check online before you go.</strong> The locator says to check with the facility whether you need an appointment{0}. USPS locations direct you to usps.com/scheduler{1}. Hours below are as published in the official locator data on the date shown.</div>'.format(src('adult'),src('usps'))
 cc={k:[r for r in recs if r['county']==v] for k,v in COUNTIES.items()}
 nwalk=sum(r['walk'] for r in recs); ncon=sum(1 for r in recs if r['conflict'])
@@ -169,28 +193,28 @@ fb=f'''<h1>U.S. passport fees, forms and documents</h1><p>All amounts as stated 
 <h2>Fees (DS-11, in person)</h2><div class="wrap"><table><tr><th>Document</th><th>Adult 16+ application fee</th><th>Child under 16 application fee</th><th>Facility acceptance fee</th></tr>
 <tr><td>Passport book</td><td>$130</td><td>$100</td><td>$35</td></tr><tr><td>Passport card</td><td>$30</td><td>$15</td><td>$35</td></tr><tr><td>Book and card</td><td>$160</td><td>$115</td><td>$35</td></tr></table></div><p class="src">Source: {src('fees')}</p>
 <h2>Fees (DS-82 renewal by mail or online)</h2><div class="wrap"><table><tr><th>Document</th><th>Application fee</th></tr><tr><td>Passport book</td><td>$130</td></tr><tr><td>Passport card</td><td>$30</td></tr><tr><td>Book and card</td><td>$160</td></tr></table></div><p>No facility acceptance fee{src('fees','renew')}.</p>
-<h2>Optional fees</h2><div class="card"><ul><li>Expedited service: $60 per application{src('fees')}.</li><li>1 to 3 day return delivery: $26.87 (not offered for card-only applications){src('fees')}.</li><li>File search if you cannot get evidence of citizenship: $150{src('fees')}.</li><li>Faster shipping of your application to the State Department: paid to the acceptance facility; cost varies by location{src('fees')}.</li></ul></div>
-<h2>How to pay at an acceptance facility</h2><div class="card"><p>Application fee: check (personal, certified, cashier's, traveler's) or money order payable to "U.S. Department of State", with the applicant's name and date of birth in the memo{src('fees')}. The $35 acceptance fee is paid to the facility; ask the facility what it accepts{src('fees')}. Example: Palm Beach Clerk accepts cash, check, money order and major cards for its $35 execution fee, and only check or money order for the State Department fee{src('pbcfees')}.</p></div>
+<h2>Optional fees</h2><div class="card"><ul><li>Expedited service: $60 per application{src('fees')}.</li><li>1 to 3 day return delivery: $26.87 (not offered for card-only applications){src('fees')}.</li><li>File search if you cannot get evidence of citizenship: $150 when the missing passport or Consular Report of Birth Abroad was issued before 1994. If that record was issued in 1994 or later, do not pay the $150 when you apply. The State Department may ask for the $150 later if an electronic search does not find the record{src('fees','citizenship')}.</li><li>Faster shipping of your application to the State Department: paid to the acceptance facility; cost varies by location{src('fees')}.</li></ul></div>
+<h2>How to pay at an acceptance facility</h2><div class="card"><p>Application fee: check (personal, certified, cashier's, traveler's) or money order payable to "U.S. Department of State", with the applicant's name and date of birth in the memo{src('fees')}. The $35 acceptance fee is paid to the facility; ask the facility what it accepts{src('fees')}. Example: Palm Beach Clerk accepts cash, a personal check, a cashier's check, a money order, MasterCard, Visa, American Express, or Discover for its $35 execution fee, and only a personal check, a cashier's check, or a money order for the State Department fee{src('pbcfees')}. Passport photos there are $16 each, and free for veterans, active-duty service members, and reservists who show a military discharge form (DD-214), military identification, or a veteran designation on a driver's license{src('pbc')}.</p></div>
 <h2>Documents to bring (DS-11)</h2><div class="card"><ul><li>The DS-11, printed single-sided. Do not sign until the acceptance agent asks{src('adult')}.</li><li>Physical evidence of U.S. citizenship (for example a U.S. birth certificate, a full-validity undamaged passport, a Consular Report of Birth Abroad, or a Certificate of Naturalization or Citizenship) plus a photocopy. Digital or mobile birth certificates are not accepted{src('adult')}.</li>
 <li>A physical photo ID such as a valid driver's license, plus a photocopy of front and back on 8.5 x 11 inch single-sided paper. If your ID is from another state, bring a second photo ID{src('adult')}.</li><li>One passport photo{src('adult','photos')}.</li>
 <li>Children: proof of relationship, both parents' IDs, and if a parent cannot attend, Form DS-3053 notarized within 90 days, or other documents listed by the State Department{src('child')}. Full checklist: <a href="/child-under-16/">child under 16</a>.</li></ul></div>
 <h2>Photo rules (summary)</h2><div class="card"><ul><li>1 color photo taken in the last 6 months, 2 x 2 inches (51 x 51 mm), head 1 to 1 3/8 inches (25 to 35 mm) chin to top of head{src('photos')}.</li><li>Plain white or off-white background, no shadows, no filters or edits{src('photos')}.</li><li>No glasses. Hats or head coverings only for documented religious or medical reasons, with a signed statement{src('photos')}.</li><li>No uniforms, camouflage or headphones; you may smile with mouth closed{src('photos')}.</li></ul></div>
-<h2>Processing times (as officially stated)</h2><div class="card"><ul><li>Routine: 4 to 6 weeks. Expedited: 2 to 3 weeks{src('times')}.</li><li>Mailing is not included: up to 2 weeks to reach the State Department and up to 2 weeks to receive the passport{src('times')}.</li><li>Urgent travel needs an appointment at a passport agency and proof of international travel within 14 calendar days{src('times')}. Busiest season is late winter to summer; October to December is quieter{src('times')}.</li></ul></div>{MIAMI}'''
+<h2>Processing times (as officially stated)</h2><div class="card"><ul><li>Routine: 4 to 6 weeks. Expedited: 2 to 3 weeks{src('times')}.</li><li>Mailing is not included: up to 2 weeks to reach the State Department and up to 2 weeks to receive the passport{src('times')}.</li><li>Urgent travel needs an appointment at a passport agency and proof of international travel within 14 calendar days{src('times')}. The Miami Passport Agency is in a pilot that allows an appointment within 21 calendar days of travel, or within 28 calendar days if you need a foreign visa{src('miami')}. Busiest season is late winter to summer; October to December is quieter{src('times')}.</li></ul></div>{MIAMI}'''
 page('fees-and-documents/index.html',"Passport fees, DS-11 vs DS-82, documents and photo rules",fb,"Official U.S. passport fees, which form to use, documents, photo rules and processing times published on travel.state.gov.",crumb="Fees and documents")
 faq=[("Can I walk in at a post office?",f"USPS listings in the locator point to usps.com/scheduler for appointments and additional times{src('usps','pafl')}. Some USPS hours in the data are flagged walk-in. See the <a href=\"/walk-in-vs-appointment/\">walk-in page</a>."),
 ("Which South Florida offices say they take walk-ins?",f"Broward Clerk of Courts lists passport hours at its Central, North, South and West courthouses{src('broward')}, and the locator comments for its regional courthouses say appointments are not required{src('pafl')}. Palm Beach Clerk says walk-in customers are not accepted{src('pbc')}. Miami-Dade Public Library says its passport service is by appointment only{src('mdpls')}."),
 ("How much does a first adult passport book cost?",f"$130 to the U.S. Department of State plus $35 to the acceptance facility{src('fees')}."),
 ("Can I renew at an acceptance facility?",f"If you are eligible for DS-82, you renew by mail or online. Postal employees should not charge the $35 fee or review a DS-82{src('renew')}."),
-("I travel in less than two weeks. Where do I go?",f"Make an appointment at a passport agency within 14 days of travel. The nearest is the Miami Passport Agency; call 877-487-2778{src('miami','times')}."),
+("I travel in less than two weeks. Where do I go?",f"Most passport agencies take an appointment once you are within 14 calendar days of international travel, or within 28 calendar days if you need a foreign visa. The Miami Passport Agency is in a pilot that allows an appointment within 21 calendar days of urgent travel, or within 28 calendar days if you need a foreign visa. Call 877-487-2778{src('miami','times')}."),
 ("Do I need both parents for a child's passport?",f"For a child under 16, both parents or guardians must be present or give approval, for example with a notarized DS-3053. Sole custody uses different documents, and ages 16 and 17 follow another rule. <a href=\"/child-under-16/\">Child under 16</a>.{src('under16','teen')}"),
 ("Can I bring a digital birth certificate?",f"No. Physical evidence of citizenship only{src('adult')}."),
-("Do facilities take photos?",f"Some do; the locator flags 'photos on site'{src('pafl')}. Palm Beach Clerk sells photos for $16 each{src('pbc')}. Miami-Dade libraries say photo service is not currently available{src('mdpls')}.")]
+("Do facilities take photos?",f"Some do; the locator flags 'photos on site'{src('pafl')}. Palm Beach Clerk sells photos for $16 each, and that photo is free for veterans, active-duty service members, and reservists who show military identification or a discharge form{src('pbc')}. Miami-Dade libraries say photo service is not currently available{src('mdpls')}.")]
 page('faq/index.html',"South Florida passport FAQ: walk-ins, fees, documents",'<h1>Passport FAQ for South Florida</h1>'+''.join(f'<div class="card"><strong>{q}</strong><p>{a}</p></div>' for q,a in faq),"Short sourced answers on walk-in hours, fees, documents and applying for a U.S. passport in Miami-Dade, Broward and Palm Beach.",crumb="FAQ",faq_items=faq)
 CHILD=f'''<h1>Passport for a child under 16 in South Florida</h1>
 <p>A child under 16 applies in person with Form DS-11 at a passport acceptance facility. Bring the child. You cannot renew a child's passport, and the passport is valid for 5 years. Both parents or guardians go with the child, or you bring the consent or custody documents below.{src('under16')}</p>
 <div class="card note"><strong>Ages 16 and 17 use different rules.</strong> They still apply in person on DS-11, but only one parent or guardian has to show they know about the application, the passport is valid for 10 years, and the fees are the adult fees. Those rules are at the end of this page.{src('teen')}</div>
 <h2>Where to apply in Miami-Dade, Broward and Palm Beach</h2>
-<p>Use an acceptance facility (post office, clerk of court, or library) if international travel is more than 3 weeks away, and ask whether that office needs an appointment. If the child is traveling internationally in less than 3 weeks, make an appointment at a passport agency once you are within 14 calendar days of travel.{src('under16')} Facilities: <a href="/counties/miami-dade/">Miami-Dade</a>, <a href="/counties/broward/">Broward</a>, <a href="/counties/palm-beach/">Palm Beach</a>.</p>
+<p>Use an acceptance facility (post office, clerk of court, or library) if international travel is more than 3 weeks away, and ask whether that office needs an appointment. If the child is traveling internationally in less than 3 weeks, make an appointment at a passport agency once you are within 14 calendar days of travel.{src('under16')} The Miami Passport Agency is in a pilot that allows an appointment within 21 calendar days of urgent travel, or within 28 calendar days if you need a foreign visa.{src('miami')} Facilities: <a href="/counties/miami-dade/">Miami-Dade</a>, <a href="/counties/broward/">Broward</a>, <a href="/counties/palm-beach/">Palm Beach</a>.</p>
 <div class="card"><strong>Miami-Dade Public Library</strong><p>North Dade Regional, West Kendall Regional and Naranja Branch take applications by appointment only. Book a separate appointment for each person, including each child. A family of five needs five appointments. These libraries do not take passport photos, so bring the photo. The library's execution fee is $35 per application, paid in cash, by cashier's check, or by money order payable to "Miami-Dade Public Library System." The State Department fee is a check or money order only.{src('mdpls')}</p>
 <p>On the library's own list, applicants age 15 or under who submit a naturalization certificate or a Certificate of Citizenship must also include a certified birth certificate.{src('mdpls')}</p></div>
 <div class="card"><strong>Broward Clerk of Courts</strong><p>The child must appear. The clerk's office says both parents must appear if both are listed on the birth certificate. If one cannot, bring Form DS-3053 and a copy of that parent's identification, front and back. If a parent is not listed on the legal birth certificate, the clerk's office says only the listed parents must appear or give consent in writing.{src('broward')}</p>
@@ -288,7 +312,7 @@ CHILD=f'''<h1>Passport for a child under 16 in South Florida</h1>
 <p>If it is not clear that a parent knows, the State Department may ask for a notarized DS-3053 and a photocopy of that parent's ID. If the applicant is enrolled in the Children's Passport Issuance Alert Program, the State Department contacts the parent or guardian who enrolled them before it issues the passport.{src('teen')}</p>
 <p>Fees at 16 and 17 are the adult DS-11 fees, not the under-16 fees: passport book $130, passport card $30, book and card $160, plus the $35 facility fee.{src('teen','fees')}</p></div>
 <p>Related: <a href="/fees-and-documents/">fees and documents</a> and the <a href="/faq/">FAQ</a>.</p>'''
-page('child-under-16/index.html',"U.S. passport for a child under 16 in South Florida",CHILD,"How to apply for a U.S. passport for a child under 16 in Miami-Dade, Broward and Palm Beach: DS-11, both parents, DS-3053, custody proof, documents and fees.",checked="22 October 2026",crumb="Child under 16")
+page('child-under-16/index.html',"U.S. passport for a child under 16 in South Florida",CHILD,"How to apply for a U.S. passport for a child under 16 in Miami-Dade, Broward and Palm Beach: DS-11, both parents, DS-3053, custody proof, documents and fees.",checked="26 October 2026",crumb="Child under 16")
 GLYPHS={
 'A':['01110','10001','10001','11111','10001','10001','10001'],
 'B':['11110','10001','10001','11110','10001','10001','11110'],
@@ -397,7 +421,7 @@ DISC=f'''<h1>Disclaimer</h1>
 <p>Before you go to a facility or mail an application, confirm the hours, whether you need an appointment, the fees, and the documents on the official page linked from the guide, or by calling the facility.</p>
 <h2>Contact and corrections</h2>
 <p>This site does not offer passport services and has no contact form or email address. It cannot update an application with the U.S. Department of State. If something here disagrees with the official source linked on the page, follow the official source.</p>'''
-page('disclaimer/index.html',"Disclaimer for this South Florida passport acceptance guide",DISC,"Accuracy, no warranty, limitation of liability, external links, affiliation, official sources and corrections for this passport guide.",checked="24 October 2026",crumb="Disclaimer")
+page('disclaimer/index.html',"Disclaimer for this South Florida passport acceptance guide",DISC,"Accuracy, no warranty, limitation of liability, external links, affiliation, official sources and corrections for this passport guide.",checked="26 October 2026",crumb="Disclaimer")
 HUBS=[('/','Home'),('/counties/miami-dade/','Miami-Dade County'),('/counties/broward/','Broward County'),('/counties/palm-beach/','Palm Beach County'),('/walk-in-vs-appointment/','Walk-in vs appointment'),('/fees-and-documents/','Fees and documents'),('/child-under-16/','Child under 16'),('/faq/','FAQ')]
 page('404.html',"Page not found: South Florida passport acceptance guide",'<h1>Page not found</h1><p>That address is not on this site. Use the navigation above or one of these guides:</p><ul>'+''.join(f'<li><a href="{h}">{n}</a></li>' for h,n in HUBS)+'</ul>',"That address is not on this site. Browse passport acceptance facilities in Miami-Dade, Broward and Palm Beach, plus fees, documents and walk-in hours.",crumb="Page not found",error=True)
 write_assets()

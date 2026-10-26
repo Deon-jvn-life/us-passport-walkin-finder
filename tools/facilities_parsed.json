@@ -184,7 +184,7 @@
     "county": "Palm Beach County",
     "title": "Palm Beach County Clerk passport services",
     "url": "https://www.mypalmbeachclerk.com/services/passports",
-    "fact": "Appointment required: walk-in customers are not accepted. Appointments at Palm Beach Gardens, Delray Beach, Royal Palm Beach or Belle Glade. Passport photos $16 each.",
+    "fact": "Appointment required: walk-in customers are not accepted. Appointments at Palm Beach Gardens, Delray Beach, Royal Palm Beach or Belle Glade. Passport photos are $16 each. Veterans, active-duty service members, and reservists get that photo free when they show a military discharge form (DD-214), military identification, or a veteran designation on a driver's license.",
     "walkin": false
    }
   ]
@@ -237,7 +237,7 @@
     "county": "Palm Beach County",
     "title": "Palm Beach County Clerk passport services",
     "url": "https://www.mypalmbeachclerk.com/services/passports",
-    "fact": "Appointment required: walk-in customers are not accepted. Appointments at Palm Beach Gardens, Delray Beach, Royal Palm Beach or Belle Glade. Passport photos $16 each.",
+    "fact": "Appointment required: walk-in customers are not accepted. Appointments at Palm Beach Gardens, Delray Beach, Royal Palm Beach or Belle Glade. Passport photos are $16 each. Veterans, active-duty service members, and reservists get that photo free when they show a military discharge form (DD-214), military identification, or a veteran designation on a driver's license.",
     "walkin": false
    }
   ]
@@ -384,7 +384,7 @@
     "county": "Palm Beach County",
     "title": "Palm Beach County Clerk passport services",
     "url": "https://www.mypalmbeachclerk.com/services/passports",
-    "fact": "Appointment required: walk-in customers are not accepted. Appointments at Palm Beach Gardens, Delray Beach, Royal Palm Beach or Belle Glade. Passport photos $16 each.",
+    "fact": "Appointment required: walk-in customers are not accepted. Appointments at Palm Beach Gardens, Delray Beach, Royal Palm Beach or Belle Glade. Passport photos are $16 each. Veterans, active-duty service members, and reservists get that photo free when they show a military discharge form (DD-214), military identification, or a veteran designation on a driver's license.",
     "walkin": false
    }
   ]
@@ -397,7 +397,7 @@
   "zip": "33025",
   "county": "Broward County",
   "phone": "(954) 602-3011",
-  "web": "https://miramarfl.gov",
+  "web": "https://www.miramarfl.gov/Departments/City-Clerk/U.S.-Passports",
   "feat": {
    "Accessible": true,
    "Photos on site": true,
@@ -424,9 +424,19 @@
   "walk": false,
   "appt_only": true,
   "comment": "We do offer photocopy and notary services. We no longer offer walk-in services.",
-  "conflict": "",
+  "conflict": "The city page says passport appointments run until 5:00 p.m. Monday to Thursday. The locator lists shorter hours and a midday closure.",
   "kind": "Municipal or other government office",
-  "raw_hours": "012,07:15-16:45-12:00-13:00-1;3,07:15-15:45-12:00-13:00-1"
+  "raw_hours": "012,07:15-16:45-12:00-13:00-1;3,07:15-15:45-12:00-13:00-1",
+  "official": [
+   {
+    "match": "CITY OF MIRAMAR",
+    "county": "Broward County",
+    "title": "City of Miramar passport services",
+    "url": "https://www.miramarfl.gov/Departments/City-Clerk/U.S.-Passports",
+    "fact": "Passport appointments are Monday to Thursday, 7:15 a.m. to 5:00 p.m. Photo-only walk-in service is Monday to Thursday, 8:00 a.m. to noon.",
+    "walkin": null
+   }
+  ]
  },
  {
   "id": "t5",
@@ -436,7 +446,7 @@
   "zip": "33025",
   "county": "Broward County",
   "phone": "(954) 450-1043",
-  "web": "https://www.ppines.com",
+  "web": "https://www.ppines.com/153/Passport-Office",
   "feat": {
    "Accessible": true,
    "Photos on site": true,
@@ -475,7 +485,7 @@
   "zip": "33071",
   "county": "Broward County",
   "phone": "(954) 344-1828",
-  "web": "https://coralsprings.gov/passports.",
+  "web": "https://coralsprings.gov/passports",
   "feat": {
    "Accessible": true,
    "Photos on site": true,
@@ -562,7 +572,7 @@
     "county": "Broward County",
     "title": "Broward County Clerk of Courts passport offices",
     "url": "https://www.browardclerk.org/Divisions/Passports",
-    "fact": "Central Courthouse, 201 S.E. 6th Street, Room 01160, Fort Lauderdale: Monday to Friday 7:30 a.m. to 4:30 p.m. North (Deerfield Beach), South (Hollywood) and West (Plantation) Regional Courthouses: Monday to Friday 8:00 a.m. to 4:30 p.m. Excluding holidays.",
+    "fact": "Central Courthouse, 201 S.E. 6th Street, Room 01160, Fort Lauderdale: Monday to Friday 7:30 a.m. to 4:30 p.m., phone (954) 831-2343. North Regional Courthouse, Deerfield Beach: Monday to Friday 8:00 a.m. to 4:30 p.m., phone (954) 831-1453. South Regional Courthouse, Hollywood: Monday to Friday 8:00 a.m. to 4:30 p.m., phone (954) 831-0320. West Regional Courthouse, Plantation, Room 180: Monday to Friday 8:00 a.m. to 4:30 p.m., phone (954) 831-6528. Closed holidays. The clerk's page says wait times are longer than usual and the line may close as early as 1:00 p.m. while the listed hours stay the same.",
     "walkin": null
    }
   ]
@@ -613,7 +623,7 @@
   "city": "Hollywood",
   "zip": "33021",
   "county": "Broward County",
-  "phone": "(954) 831-0350",
+  "phone": "(954) 831-0320",
   "web": "https://www.browardclerk.org",
   "feat": {
    "Accessible": true,
@@ -645,7 +655,7 @@
   "walk": true,
   "appt_only": false,
   "comment": "Appointment not required Website: htttp://www.browardclerk.org",
-  "conflict": "",
+  "conflict": "The clerk page lists phone (954) 831-0320. The locator still lists (954) 831-0350.",
   "kind": "Clerk of Court",
   "raw_hours": "01234,08:00-16:30---0",
   "official": [
@@ -654,7 +664,7 @@
     "county": "Broward County",
     "title": "Broward County Clerk of Courts passport offices",
     "url": "https://www.browardclerk.org/Divisions/Passports",
-    "fact": "Central Courthouse, 201 S.E. 6th Street, Room 01160, Fort Lauderdale: Monday to Friday 7:30 a.m. to 4:30 p.m. North (Deerfield Beach), South (Hollywood) and West (Plantation) Regional Courthouses: Monday to Friday 8:00 a.m. to 4:30 p.m. Excluding holidays.",
+    "fact": "Central Courthouse, 201 S.E. 6th Street, Room 01160, Fort Lauderdale: Monday to Friday 7:30 a.m. to 4:30 p.m., phone (954) 831-2343. North Regional Courthouse, Deerfield Beach: Monday to Friday 8:00 a.m. to 4:30 p.m., phone (954) 831-1453. South Regional Courthouse, Hollywood: Monday to Friday 8:00 a.m. to 4:30 p.m., phone (954) 831-0320. West Regional Courthouse, Plantation, Room 180: Monday to Friday 8:00 a.m. to 4:30 p.m., phone (954) 831-6528. Closed holidays. The clerk's page says wait times are longer than usual and the line may close as early as 1:00 p.m. while the listed hours stay the same.",
     "walkin": null
    }
   ]
@@ -666,7 +676,7 @@
   "city": "Plantation",
   "zip": "33324",
   "county": "Broward County",
-  "phone": "(954) 831-2391",
+  "phone": "(954) 831-6528",
   "web": "https://www.browardclerk.org",
   "feat": {
    "Accessible": true,
@@ -698,7 +708,7 @@
   "walk": true,
   "appt_only": false,
   "comment": "Appointments not required Website: http://www.browardclerk.org",
-  "conflict": "",
+  "conflict": "The clerk page lists phone (954) 831-6528. The locator still lists (954) 831-2391.",
   "kind": "Clerk of Court",
   "raw_hours": "01234,08:00-16:30---0",
   "official": [
@@ -707,7 +717,7 @@
     "county": "Broward County",
     "title": "Broward County Clerk of Courts passport offices",
     "url": "https://www.browardclerk.org/Divisions/Passports",
-    "fact": "Central Courthouse, 201 S.E. 6th Street, Room 01160, Fort Lauderdale: Monday to Friday 7:30 a.m. to 4:30 p.m. North (Deerfield Beach), South (Hollywood) and West (Plantation) Regional Courthouses: Monday to Friday 8:00 a.m. to 4:30 p.m. Excluding holidays.",
+    "fact": "Central Courthouse, 201 S.E. 6th Street, Room 01160, Fort Lauderdale: Monday to Friday 7:30 a.m. to 4:30 p.m., phone (954) 831-2343. North Regional Courthouse, Deerfield Beach: Monday to Friday 8:00 a.m. to 4:30 p.m., phone (954) 831-1453. South Regional Courthouse, Hollywood: Monday to Friday 8:00 a.m. to 4:30 p.m., phone (954) 831-0320. West Regional Courthouse, Plantation, Room 180: Monday to Friday 8:00 a.m. to 4:30 p.m., phone (954) 831-6528. Closed holidays. The clerk's page says wait times are longer than usual and the line may close as early as 1:00 p.m. while the listed hours stay the same.",
     "walkin": null
    }
   ]
@@ -1303,7 +1313,7 @@
   "zip": "33146",
   "county": "Miami-Dade County",
   "phone": "(305) 460-5351",
-  "web": "https://coralgables.com/passports",
+  "web": "https://www.coralgables.com/passport",
   "feat": {
    "Accessible": true,
    "Photos on site": true,
@@ -1338,9 +1348,19 @@
   "walk": true,
   "appt_only": false,
   "comment": "By Appointments Only. Please schedule an appointment via www.coralgables.com/passports.",
-  "conflict": "Locator hours are flagged walk-in, but the locator comment says appointments only or required.",
+  "conflict": "Locator hours are flagged walk-in, but the locator comment says appointments only or required. The operator page says walk-ins are not accepted, but locator hours for this office are flagged walk-in.",
   "kind": "Municipal or other government office",
-  "raw_hours": "01234,08:30-16:00---0;5,08:00-14:00---0"
+  "raw_hours": "01234,08:30-16:00---0;5,08:00-14:00---0",
+  "official": [
+   {
+    "match": "CITY OF CORAL GABLES",
+    "county": "Miami-Dade County",
+    "title": "City of Coral Gables passport office",
+    "url": "https://www.coralgables.com/passport",
+    "fact": "Applications are by appointment only. The office is closed Wednesday, 11 November 2026, for Veterans Day, and reopens Thursday, 12 November 2026.",
+    "walkin": false
+   }
+  ]
  },
  {
   "id": "u7",
@@ -1804,7 +1824,7 @@
   "zip": "33144",
   "county": "Miami-Dade County",
   "phone": "(305) 266-1122",
-  "web": "https://www.cityofwestmiami.gov",
+  "web": "https://cityofwestmiami.gov/index.asp?SEC=9B066478-6E25-403F-876D-3BFDF7EAEC72",
   "feat": {
    "Accessible": true,
    "Photos on site": true,
@@ -1835,9 +1855,19 @@
   "walk": false,
   "appt_only": true,
   "comment": "OUR OFFICE WORKS BY APPOINTMENT AND ACCEPT WALK-INS UPON AVAILABILITY",
-  "conflict": "Locator comment mentions walk-ins, but all listed hours are flagged by appointment.",
+  "conflict": "Locator comment mentions walk-ins, but all listed hours are flagged by appointment. The city page lists Monday to Friday until 4:00 p.m. (last appointment 3:30 p.m.) and Tuesday until 6:00 p.m. (last appointment 5:30 p.m.). The locator lists later closing times.",
   "kind": "Municipal or other government office",
-  "raw_hours": "024,09:00-16:30-12:00-13:00-1;1,09:00-18:30-12:00-13:00-1;3,09:00-16:30-13:00-13:00-1"
+  "raw_hours": "024,09:00-16:30-12:00-13:00-1;1,09:00-18:30-12:00-13:00-1;3,09:00-16:30-13:00-13:00-1",
+  "official": [
+   {
+    "match": "CITY OF WEST MIAMI",
+    "county": "Miami-Dade County",
+    "title": "City of West Miami passport services",
+    "url": "https://cityofwestmiami.gov/index.asp?SEC=9B066478-6E25-403F-876D-3BFDF7EAEC72",
+    "fact": "Monday to Friday 9:00 a.m. to 4:00 p.m., last appointment 3:30 p.m. Tuesday 9:00 a.m. to 6:00 p.m., last appointment 5:30 p.m. Appointments are online only. Walk-ins are accepted if a slot is open.",
+    "walkin": null
+   }
+  ]
  },
  {
   "id": "v3",
@@ -1921,7 +1951,7 @@
   "zip": "33161",
   "county": "Miami-Dade County",
   "phone": "(305) 895-9817",
-  "web": "https://www.northmiamifl.gov",
+  "web": "https://www.northmiamifl.gov/162/City-Clerks-Office",
   "feat": {
    "Accessible": true,
    "Photos on site": false,
@@ -2004,7 +2034,7 @@
     "county": "Palm Beach County",
     "title": "Palm Beach County Clerk passport services",
     "url": "https://www.mypalmbeachclerk.com/services/passports",
-    "fact": "Appointment required: walk-in customers are not accepted. Appointments at Palm Beach Gardens, Delray Beach, Royal Palm Beach or Belle Glade. Passport photos $16 each.",
+    "fact": "Appointment required: walk-in customers are not accepted. Appointments at Palm Beach Gardens, Delray Beach, Royal Palm Beach or Belle Glade. Passport photos are $16 each. Veterans, active-duty service members, and reservists get that photo free when they show a military discharge form (DD-214), military identification, or a veteran designation on a driver's license.",
     "walkin": false
    }
   ]
@@ -2198,7 +2228,7 @@
     "county": "Miami-Dade County",
     "title": "Miami-Dade Public Library System passport services",
     "url": "https://mdpls.org/passport",
-    "fact": "North Dade Regional, West Kendall Regional and Naranja Branch libraries accept passport applications by appointment only; one appointment per applicant. Photo service is currently not available.",
+    "fact": "North Dade Regional, West Kendall Regional and Naranja Branch libraries accept passport applications by appointment only; one appointment per applicant. Photo service is currently not available. The library's own page lists North Dade Regional Monday hours as 4:30 p.m. to 7:30 p.m.",
     "walkin": false
    }
   ]
@@ -2255,7 +2285,7 @@
     "county": "Miami-Dade County",
     "title": "Miami-Dade Public Library System passport services",
     "url": "https://mdpls.org/passport",
-    "fact": "North Dade Regional, West Kendall Regional and Naranja Branch libraries accept passport applications by appointment only; one appointment per applicant. Photo service is currently not available.",
+    "fact": "North Dade Regional, West Kendall Regional and Naranja Branch libraries accept passport applications by appointment only; one appointment per applicant. Photo service is currently not available. The library's own page lists North Dade Regional Monday hours as 4:30 p.m. to 7:30 p.m.",
     "walkin": false
    }
   ]
@@ -2268,7 +2298,7 @@
   "zip": "33166",
   "county": "Miami-Dade County",
   "phone": "(305) 805-5157",
-  "web": "",
+  "web": "https://www.miamisprings-fl.gov/cityclerk/page/miami-springs-passport-services-0",
   "feat": {
    "Accessible": true,
    "Photos on site": true,
@@ -2303,9 +2333,19 @@
   "walk": true,
   "appt_only": false,
   "comment": "Appointments recommended. Photocopies, notary and Walk-Ins accepted. Schedule an appointment online:   https://www.miamisprings-fl.gov/cityclerk/page/miami-springs-passport-services-0",
-  "conflict": "",
+  "conflict": "The city page lists Saturday as 8:00 a.m. to 2:00 p.m. The locator lists Saturday as 8:00 a.m. to 12:00 p.m. The city page says a walk-in may not be served the same day.",
   "kind": "Municipal or other government office",
-  "raw_hours": "01234,09:00-16:00---0;5,08:00-12:00---0"
+  "raw_hours": "01234,09:00-16:00---0;5,08:00-12:00---0",
+  "official": [
+   {
+    "match": "CITY OF MIAMI SPRINGS",
+    "county": "Miami-Dade County",
+    "title": "City of Miami Springs passport services",
+    "url": "https://www.miamisprings-fl.gov/cityclerk/page/miami-springs-passport-services-0",
+    "fact": "Monday to Friday 9:00 a.m. to 4:00 p.m. and Saturday 8:00 a.m. to 2:00 p.m. Appointments are prioritized, and a walk-in may not be served the same day.",
+    "walkin": null
+   }
+  ]
  },
  {
   "id": "3x7",
@@ -2385,9 +2425,19 @@
   "walk": false,
   "appt_only": true,
   "comment": "By appointments only - please call 305-673-7420 or https://www.miamibeachfl.gov/city-hall/customer-service-center",
-  "conflict": "",
+  "conflict": "The city page says passport hours run until 1:30 p.m. The locator lists those days until 2:00 p.m.",
   "kind": "Municipal or other government office",
-  "raw_hours": "0124,08:30-14:00-12:00-13:00-1;3,08:30-14:00-13:00-13:00-1"
+  "raw_hours": "0124,08:30-14:00-12:00-13:00-1;3,08:30-14:00-13:00-13:00-1",
+  "official": [
+   {
+    "match": "CITY OF MIAMI BEACH",
+    "county": "Miami-Dade County",
+    "title": "City of Miami Beach passport hours",
+    "url": "https://www.miamibeachfl.gov/city-hall/customer-service-center/",
+    "fact": "Passport customers are seen Monday to Friday, 8:30 a.m. to 1:30 p.m., by appointment only.",
+    "walkin": false
+   }
+  ]
  },
  {
   "id": "53s",
@@ -2441,7 +2491,7 @@
     "county": "Miami-Dade County",
     "title": "Miami-Dade Public Library System passport services",
     "url": "https://mdpls.org/passport",
-    "fact": "North Dade Regional, West Kendall Regional and Naranja Branch libraries accept passport applications by appointment only; one appointment per applicant. Photo service is currently not available.",
+    "fact": "North Dade Regional, West Kendall Regional and Naranja Branch libraries accept passport applications by appointment only; one appointment per applicant. Photo service is currently not available. The library's own page lists North Dade Regional Monday hours as 4:30 p.m. to 7:30 p.m.",
     "walkin": false
    }
   ]
@@ -2494,7 +2544,7 @@
     "county": "Miami-Dade County",
     "title": "Miami-Dade Public Library System passport services",
     "url": "https://mdpls.org/passport",
-    "fact": "North Dade Regional, West Kendall Regional and Naranja Branch libraries accept passport applications by appointment only; one appointment per applicant. Photo service is currently not available.",
+    "fact": "North Dade Regional, West Kendall Regional and Naranja Branch libraries accept passport applications by appointment only; one appointment per applicant. Photo service is currently not available. The library's own page lists North Dade Regional Monday hours as 4:30 p.m. to 7:30 p.m.",
     "walkin": false
    }
   ]
@@ -2547,7 +2597,7 @@
     "county": "Broward County",
     "title": "Broward County Clerk of Courts passport offices",
     "url": "https://www.browardclerk.org/Divisions/Passports",
-    "fact": "Central Courthouse, 201 S.E. 6th Street, Room 01160, Fort Lauderdale: Monday to Friday 7:30 a.m. to 4:30 p.m. North (Deerfield Beach), South (Hollywood) and West (Plantation) Regional Courthouses: Monday to Friday 8:00 a.m. to 4:30 p.m. Excluding holidays.",
+    "fact": "Central Courthouse, 201 S.E. 6th Street, Room 01160, Fort Lauderdale: Monday to Friday 7:30 a.m. to 4:30 p.m., phone (954) 831-2343. North Regional Courthouse, Deerfield Beach: Monday to Friday 8:00 a.m. to 4:30 p.m., phone (954) 831-1453. South Regional Courthouse, Hollywood: Monday to Friday 8:00 a.m. to 4:30 p.m., phone (954) 831-0320. West Regional Courthouse, Plantation, Room 180: Monday to Friday 8:00 a.m. to 4:30 p.m., phone (954) 831-6528. Closed holidays. The clerk's page says wait times are longer than usual and the line may close as early as 1:00 p.m. while the listed hours stay the same.",
     "walkin": null
    }
   ]
@@ -2595,7 +2645,7 @@
   "walk": false,
   "appt_only": true,
   "comment": "Appointments Required - Please contact us at 305 625-6424 Website: www.mdpls.org/passport",
-  "conflict": "",
+  "conflict": "The library page lists Monday passport hours as 4:30 p.m. to 7:30 p.m. The locator lists Monday as 11:30 a.m. to 7:30 p.m.",
   "kind": "Library",
   "raw_hours": "023,11:30-19:30---1;145,09:30-17:30---1",
   "official": [
@@ -2604,7 +2654,7 @@
     "county": "Miami-Dade County",
     "title": "Miami-Dade Public Library System passport services",
     "url": "https://mdpls.org/passport",
-    "fact": "North Dade Regional, West Kendall Regional and Naranja Branch libraries accept passport applications by appointment only; one appointment per applicant. Photo service is currently not available.",
+    "fact": "North Dade Regional, West Kendall Regional and Naranja Branch libraries accept passport applications by appointment only; one appointment per applicant. Photo service is currently not available. The library's own page lists North Dade Regional Monday hours as 4:30 p.m. to 7:30 p.m.",
     "walkin": false
    }
   ]

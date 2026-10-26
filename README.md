@@ -8,4 +8,4 @@ Plain-HTML guide to U.S. passport acceptance facilities in Miami-Dade, Broward a
 - Hours string decoding follows the locator's own front-end code: days 0=Monday to 6=Sunday; flag 0 = walk-in, 1/3 = "By Appointment", 2 = not counted as walk-in.
 - `vercel.json`: static, no build. Set `BASE` in build.py to the real domain before deploying (used in canonical, robots and sitemap).
 
-Last checked: 21 October 2026. No expediter promotions. Not affiliated with the U.S. Department of State.
+Last checked: 26 October 2026. No expediter promotions. Not affiliated with the U.S. Department of State.
