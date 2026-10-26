@@ -4,7 +4,7 @@ import json,os,re,html as H,shutil,sys,struct,zlib
 HERE=os.path.dirname(os.path.abspath(__file__)); ROOT=os.path.dirname(HERE); OUT=os.path.join(ROOT,'site')
 D="26 October 2026"; BASE="https://us-passport-walkin-finder.vercel.app"  # replace with real domain before deploy
 # Optional search-console tokens. Leave empty to omit the meta tags.
-GOOGLE_SITE_VERIFICATION=""
+GOOGLE_SITE_VERIFICATION="XA7XgB_UwrIRvQyNVsnWpSyTyaU6e3-v4g4RBw8RAVI"
 MSVALIDATE_01=""
 SITE_NAME="South Florida Passport Places"
 DISCLAIMER="For general information only. This independent site is not affiliated with the U.S. Department of State or any government agency. Information can change and may contain errors; always confirm with the official source before you act. Nothing here is legal or professional advice, and we accept no liability for decisions made using it."
@@ -132,7 +132,7 @@ def page(path,title,body,desc,checked=None,crumb=None,home=False,error=False,faq
     canon=f'<link rel="canonical" href="{url}">' if url else ''
     robots='<meta name="robots" content="noindex">' if error else ''
     verify=''
-    if GOOGLE_SITE_VERIFICATION: verify+=f'<meta name="google-site-verification" content="{H.escape(GOOGLE_SITE_VERIFICATION)}">'
+    if GOOGLE_SITE_VERIFICATION: verify+=f'<meta name="google-site-verification" content="{H.escape(GOOGLE_SITE_VERIFICATION)}" />'
     if MSVALIDATE_01: verify+=f'<meta name="msvalidate.01" content="{H.escape(MSVALIDATE_01)}">'
     og_url=f'<meta property="og:url" content="{url}">' if url else ''
     times='' if error else f'<meta property="article:published_time" content="{published}"><meta property="article:modified_time" content="{published}">'
