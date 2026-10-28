@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """Build the South Florida passport acceptance facility site from JSON in tools/ into site/."""
-import json,os,re,html as H,shutil,sys,struct,zlib
+import json,os,re,html as H,shutil,sys,struct,zlib,urllib.parse
 HERE=os.path.dirname(os.path.abspath(__file__)); ROOT=os.path.dirname(HERE); OUT=os.path.join(ROOT,'site')
 sys.path.insert(0, HERE)
 from sitelib import Site, esc, href, slug
@@ -69,6 +69,7 @@ REDIRECTS={
 }
 fac=json.load(open(os.path.join(HERE,'sofla_facilities.json')))
 extra=json.load(open(os.path.join(HERE,'official_pages.json')))
+COORD=json.load(open(os.path.join(HERE,'coordinates.json'),encoding='utf-8'))
 COUNTIES={"miami-dade":"Miami-Dade County","broward":"Broward County","palm-beach":"Palm Beach County"}
 recs=[]
 APPT=re.compile(r'appointment[s]? (only|required)|by appointment|no longer offer walk-in|walk-in customers are not accepted',re.I)
@@ -129,9 +130,57 @@ def table(rows,showcounty=False):
         o=''.join(f'<br><span class="src">{H.escape(e["fact"])} [<a href="{e["url"]}" rel="noopener">operator page</a>]</span>' for e in r.get('official',[]))
         cf=f'<br><span class="lv comm">Conflict</span> <span class="src">{H.escape(r["conflict"])}</span>' if r['conflict'] else ''
         web=f'<br><a href="{H.escape(r["web"])}" rel="noopener">website</a>' if r['web'] else ''
-        t+=f'<tr><td><strong>{H.escape(r["name"])}</strong><br><span class="src">{r["kind"]}</span></td><td>{H.escape(r["street"])}<br>{H.escape(r["city"])}, FL {r["zip"]}</td>'+(f'<td>{r["county"]}</td>' if showcounty else '')+f'<td>{hrs_html(r["hours"])}</td><td>{wk}</td><td>{r["phone"]}{web}</td><td><span class="src">Locator comment: "{H.escape(r["comment"]) or "none"}". Features: {ft}.</span>{o}{cf} <span class="src">[<a href="{S["pafl"]}" rel="noopener">source</a>]</span></td></tr>'
+        t+=f'<tr><td><strong>{H.escape(r["name"])}</strong><br><span class="src">{r["kind"]}</span></td><td>{H.escape(r["street"])}<br>{H.escape(r["city"])}, FL {r["zip"]}<br>{directions_html(postal_address(r), r["name"])}</td>'+(f'<td>{r["county"]}</td>' if showcounty else '')+f'<td>{hrs_html(r["hours"])}</td><td>{wk}</td><td>{r["phone"]}{web}</td><td><span class="src">Locator comment: "{H.escape(r["comment"]) or "none"}". Features: {ft}.</span>{o}{cf} <span class="src">[<a href="{S["pafl"]}" rel="noopener">source</a>]</span></td></tr>'
     return t+'</table></div>'
-MIAMI=f'''<div class="card"><strong>Miami Passport Agency (urgent travel only)</strong><p>Omni Center, 1501 Biscayne Blvd, Suite 400, Miami, FL 33132. Monday to Friday 7:00 a.m. to 2:00 p.m., closed weekends and federal holidays. By appointment only. Miami is in a State Department pilot with the Detroit and San Juan passport agencies: you can make an appointment for urgent international travel within 21 calendar days, or if you need a foreign visa within 28 calendar days. Appointments: 877-487-2778{src('miami')}. This is not an acceptance facility; routine applications go to the places listed on this site.</p></div>'''
+def postal_address(r):
+    return f"{r['street']}, {r['city']}, FL {r['zip']}"
+def directions_href(address):
+    return 'https://www.google.com/maps/dir/?api=1&destination=' + urllib.parse.quote(address, safe='')
+def directions_html(address, name):
+    url=directions_href(address)
+    if ' ' in url or not url.startswith('https://www.google.com/maps/dir/?api=1&destination='):
+        raise SystemExit('Bad directions link')
+    hidden=f' to {name}, opens in a new tab'
+    return f'<a class="directions" href="{H.escape(url, quote=True)}" target="_blank" rel="noopener">Get directions<span class="visually-hidden">{H.escape(hidden)}</span></a>'
+def point_ok(p):
+    if not isinstance(p, dict): return False
+    lat,lon=p.get('lat'),p.get('lon')
+    if isinstance(lat, bool) or isinstance(lon, bool): return False
+    if not isinstance(lat,(int,float)) or not isinstance(lon,(int,float)): return False
+    return 25.2<=float(lat)<=27.2 and -81.05<=float(lon)<=-79.9
+AGENCY_ADDRESS='Omni Center, 1501 Biscayne Blvd, Suite 400, Miami, FL 33132'
+def map_points(rows, include_agency=False):
+    pts=[]
+    for r in rows:
+        p=COORD['places'].get(r['id'])
+        if not point_ok(p): continue
+        address=postal_address(r)
+        pts.append({'name':r['name'],'address':address,'lat':p['lat'],'lon':p['lon'],'directions':directions_href(address)})
+    agency=COORD.get('miami_passport_agency') or {}
+    if include_agency and point_ok(agency):
+        pts.append({'name':'Miami Passport Agency','address':AGENCY_ADDRESS,'lat':agency['lat'],'lon':agency['lon'],'directions':directions_href(AGENCY_ADDRESS)})
+    return pts
+def map_block(rows, label, include_agency=False):
+    pts=map_points(rows, include_agency)
+    if not pts: return ''
+    missing=[r for r in rows if not point_ok(COORD['places'].get(r['id']))]
+    data=json.dumps(pts, ensure_ascii=True, separators=(',', ':')).replace('<','\\u003c')
+    omitted=''
+    note='The list is the main information. The map is an extra view. Click the map to zoom with the scroll wheel. Before that, scrolling moves the page.'
+    if include_agency:
+        note='The list is the main information. The map is an extra view of those places, plus the Miami Passport Agency. Click the map to zoom with the scroll wheel. Before that, scrolling moves the page.'
+    if missing:
+        names=', '.join(H.escape(r['name']) for r in missing)
+        omitted=f'<p>These places are in the list and not on the map: {names}.</p>'
+    return (
+        '<div class="loc-map">'
+        f'<p id="map-note">{note}</p>'
+        f'<div id="facility-map" class="loc-map-canvas" role="region" tabindex="0" aria-label="{H.escape(label)}" aria-describedby="map-note" data-leaflet="/vendor/leaflet/leaflet.js" data-leaflet-css="/vendor/leaflet/leaflet.css">{len(pts)} places. The map loads when this part of the page is on screen. The list has every place.</div>'
+        f'<script type="application/json" id="facility-map-data">{data}</script>'
+        f'<p class="src">Map data from <a href="https://www.openstreetmap.org/copyright" rel="noopener">OpenStreetMap</a> contributors.</p>'
+        f'{omitted}</div><script src="/map.js" defer></script>'
+    )
+MIAMI=f'''<div class="card"><strong>Miami Passport Agency (urgent travel only)</strong><p>Omni Center, 1501 Biscayne Blvd, Suite 400, Miami, FL 33132. {directions_html(AGENCY_ADDRESS, 'the Miami Passport Agency')}</p><p>Monday to Friday 7:00 a.m. to 2:00 p.m., closed weekends and federal holidays. By appointment only. Miami is in a State Department pilot with the Detroit and San Juan passport agencies: you can make an appointment for urgent international travel within 21 calendar days, or if you need a foreign visa within 28 calendar days. Appointments: 877-487-2778{src('miami')}. This is not an acceptance facility; routine applications go to the places listed on this site.</p></div>'''
 CALL='<div class="card note"><strong>Call or check online before you go.</strong> The locator says to check with the facility whether you need an appointment{0}. USPS locations direct you to usps.com/scheduler{1}. Hours below are as published in the official locator data on the date shown.</div>'.format(src('adult'),src('usps'))
 cc={k:[r for r in recs if r['county']==v] for k,v in COUNTIES.items()}
 nwalk=sum(r['walk'] for r in recs); ncon=sum(1 for r in recs if r['conflict'])
@@ -202,14 +251,16 @@ for k,v in COUNTIES.items():
     note=''.join(f'<div class="card"><strong>{H.escape(e["title"])}</strong><p>{H.escape(e["fact"])} <span class="src">[<a href="{e["url"]}" rel="noopener">source</a>]</span></p></div>' for e in {x['title']:x for x in extra if x['county']==v}.values())
     b=f'<h1>Passport acceptance facilities in {v}</h1><p>{len(cc[k])} facilities in the official locator, {sum(r["walk"] for r in cc[k])} with at least some hours flagged walk-in. County is assigned from the facility ZIP code using the Census 2020 ZCTA to county file{src("census")}.</p><h2>Check before you go</h2>{CALL}'
     if note: b+=f'<h2>What operator pages say</h2>{note}'
-    b+=f'<p>Applying for a child under 16: <a href="/child-under-16/">both parents, the consent form, documents and fees</a>.</p><h2>Facility list</h2>'+table(cc[k])
+    map_label=f'Map of passport acceptance facilities in {v}'
+    if k=='miami-dade': map_label='Map of passport places in Miami-Dade County, including the Miami Passport Agency'
+    b+=f'<p>Applying for a child under 16: <a href="/child-under-16/">both parents, the consent form, documents and fees</a>.</p><h2>Facility list</h2>'+map_block(cc[k], map_label, include_agency=(k=='miami-dade'))+table(cc[k])
     if k=='miami-dade': b+=f'<h2>Urgent travel only</h2>{MIAMI}'
     page(f'counties/{k}/index.html',f"Passport acceptance facilities in {v}, FL",b,f"Passport acceptance facilities in {v} with hours, walk-in or appointment, from official State Department locator data.",crumb=v,long_page=True)
 wr=[r for r in recs if r['walk']]
 b=f'''<h1>Passport walk-in vs appointment in South Florida</h1>
 <div class="card"><p>The official locator marks each block of acceptance hours. Its "Walk-in hours" filter counts only hours not flagged "By Appointment"{src('pafl')}. On {D}: <strong>{nwalk}</strong> of {len(recs)} South Florida facilities have at least some walk-in hours; the rest are appointment-flagged for all listed hours. Every USPS location in the data shows "To schedule a passport appointment or view additional passport acceptance times, please visit www.usps.com/scheduler."{src('usps')}</p>
 <p>{ncon} facilities have a conflict between the locator's walk-in flag and the comment text or the operator's own page. They are marked Conflict below. Trust the operator and call.</p></div>
-<h2>Facilities with some walk-in hours</h2>{table(wr,True)}
+<h2>Facilities with some walk-in hours</h2>{map_block(wr, 'Map of South Florida passport facilities with walk-in hours, and the Miami Passport Agency', include_agency=True)}{table(wr,True)}
 <h2>What operators say on their own pages</h2>'''+''.join(f'<div class="card"><strong>{H.escape(e["title"])}</strong><p>{H.escape(e["fact"])} <span class="src">[<a href="{e["url"]}" rel="noopener">source</a>]</span></p></div>' for e in {x['title']:x for x in extra}.values())+MIAMI
 page('walk-in-vs-appointment/index.html',"Passport walk-in vs appointment hours in South Florida",b,"Which South Florida passport acceptance facilities accept walk-ins and which need appointments, with source conflicts flagged.",crumb="Walk-in vs appointment",long_page=True)
 fb=f'''<h1>U.S. passport fees, forms and documents</h1><p>All amounts as stated by travel.state.gov on {D}.</p>
@@ -431,6 +482,8 @@ def write_assets():
     passport(abuf,aw,ah,46,28,88)
     save_png(os.path.join(OUT,'apple-touch-icon.png'),abuf,aw,ah)
     open(os.path.join(OUT,'favicon.svg'),'w').write('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><rect width="32" height="32" rx="6" fill="#1f3a68"/><rect x="8" y="5" width="16" height="22" rx="1.5" fill="#f4f7fb"/><circle cx="16" cy="13" r="3.1" fill="none" stroke="#1f3a68" stroke-width="1.5"/><rect x="11" y="19.5" width="10" height="1.5" rx="0.75" fill="#1f3a68"/><rect x="12.2" y="22.5" width="7.6" height="1.5" rx="0.75" fill="#1f3a68"/></svg>\n')
+    shutil.copytree(os.path.join(HERE,'vendor','leaflet'), os.path.join(OUT,'vendor','leaflet'))
+    shutil.copy(os.path.join(HERE,'map.js'), os.path.join(OUT,'map.js'))
 DISC=f'''<h1>Disclaimer</h1>
 <p>{H.escape(DISCLAIMER)}</p>
 <h2>Accuracy</h2>
@@ -459,6 +512,12 @@ HUBS=[('/','Home'),('/counties/miami-dade/','Miami-Dade County'),('/counties/bro
 page('404.html',"Page not found: South Florida passport acceptance guide",'<h1>Page not found</h1><p>That address is not on this site. Use the navigation above or one of these guides:</p><ul>'+''.join(f'<li><a href="{h}">{n}</a></li>' for h,n in HUBS)+'</ul>',"That address is not on this site. Browse passport acceptance facilities in Miami-Dade, Broward and Palm Beach, plus fees, documents and walk-in hours.",crumb="Page not found",error=True)
 write_assets()
 site.finish()
-print(len(recs),'facilities',{k:len(v) for k,v in cc.items()},'walk',nwalk,'conflicts',ncon)
+pinned=sum(1 for r in recs if point_ok(COORD['places'].get(r['id'])))
+print(len(recs),'facilities',{k:len(v) for k,v in cc.items()},'walk',nwalk,'conflicts',ncon,'pinned',pinned,'unplaced',len(recs)-pinned)
+for r in recs:
+    if not point_ok(COORD['places'].get(r['id'])):
+        print(' UNPLACED:', r['id'], r['name'], '|', COORD.get('unplaced',{}).get(r['id'],{}).get('reason',''))
+if not point_ok(COORD.get('miami_passport_agency')):
+    raise SystemExit('Miami Passport Agency has no confident coordinate')
 for r in recs:
     if r['conflict']: print(' C:',r['name'],'|',r['conflict'])

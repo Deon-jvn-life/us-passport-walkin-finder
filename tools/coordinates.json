@@ -1,0 +1,597 @@
+{
+ "note": "Coordinates are copied from the U.S. Department of State passport locations API when the house number, street, and ZIP match. Other points come from geocoding the official street address with OpenStreetMap Nominatim. Unplaced locations have no pin.",
+ "state_department_url": "https://cadataapi.state.gov/api/Passport/Applications/Locations/States/FL",
+ "nominatim_url": "https://nominatim.openstreetmap.org/",
+ "places": {
+  "s9": {
+   "lat": 26.0136386,
+   "lon": -80.14394589999999,
+   "source": "us-department-of-state",
+   "source_url": "https://cadataapi.state.gov/api/Passport/Applications/Locations/States/FL",
+   "official_address": "1801 Polk St, Hollywood, FL 33022",
+   "matched_name": "US POSTAL SERVICE HOLLYWOOD FL",
+   "matched_address": "1801 POLK STREET, HOLLYWOOD, FL 33022",
+   "confidence": "House number, street, and ZIP match a State Department location record."
+  },
+  "sj": {
+   "lat": 25.8248623,
+   "lon": -80.2790363,
+   "source": "us-department-of-state",
+   "source_url": "https://cadataapi.state.gov/api/Passport/Applications/Locations/States/FL",
+   "official_address": "325 E 1St Ave, Hialeah, FL 33010",
+   "matched_name": "HIALEAH MAIN POST OFFICE",
+   "matched_address": "325 EAST FIRST AVENUE, HIALEAH, FL 33010",
+   "confidence": "House number, street, and ZIP match a State Department location record."
+  },
+  "sp": {
+   "lat": 26.8439598,
+   "lon": -80.0832993,
+   "source": "us-department-of-state",
+   "source_url": "https://cadataapi.state.gov/api/Passport/Applications/Locations/States/FL",
+   "official_address": "3188 Pga Blvd, Room 1210, Palm Beach Gardens, FL 33410",
+   "matched_name": "CLERK OF THE CIRCUIT COURT AND COMPTROLLER",
+   "matched_address": "3188 PROFESSIONAL GOLFERS ASSOC. BLVD.,, PALM BEACH GARDENS, FL 33410",
+   "confidence": "House number, street, and ZIP match a State Department location record."
+  },
+  "st": {
+   "lat": 26.725533,
+   "lon": -80.66649819999999,
+   "source": "us-department-of-state",
+   "source_url": "https://cadataapi.state.gov/api/Passport/Applications/Locations/States/FL",
+   "official_address": "2950 State Road 15, Room S-100, Belle Glade, FL 33430",
+   "matched_name": "PALM BEACH COUNTY CLERK AND COMPTROLLER - BELLE GLADE",
+   "matched_address": "2950 S.R. 15, BELLE GLADE, FL 33430",
+   "confidence": "House number, street, and ZIP match a State Department location record."
+  },
+  "sv": {
+   "lat": 25.784519,
+   "lon": -80.1325279,
+   "source": "us-department-of-state",
+   "source_url": "https://cadataapi.state.gov/api/Passport/Applications/Locations/States/FL",
+   "official_address": "1300 Washington Avenue, Miami Beach, FL 33139",
+   "matched_name": "US POSTAL SERVICE MIAMI BEACH FL",
+   "matched_address": "1300 WASHINGTON AVENUE, MIAMI BEACH, FL 33139",
+   "confidence": "House number, street, and ZIP match a State Department location record."
+  },
+  "sw": {
+   "lat": 25.8520076,
+   "lon": -80.1947394,
+   "source": "us-department-of-state",
+   "source_url": "https://cadataapi.state.gov/api/Passport/Applications/Locations/States/FL",
+   "official_address": "140 Ne 84Th St, Miami, FL 33138",
+   "matched_name": "LITTLE RIVER POST OFFICE",
+   "matched_address": "140 N.E. 84TH STREET, MIAMI, FL 33138",
+   "confidence": "House number, street, and ZIP match a State Department location record."
+  },
+  "sx": {
+   "lat": 26.4605894,
+   "lon": -80.0756383,
+   "source": "us-department-of-state",
+   "source_url": "https://cadataapi.state.gov/api/Passport/Applications/Locations/States/FL",
+   "official_address": "200 W Atlantic Ave, Delray Beach, FL 33444",
+   "matched_name": "CLERK AND COMPTROLLER - - DELRAY BEACH",
+   "matched_address": "200 W. ATLANTIC AVENUE,, DELRAY BEACH, FL 33444",
+   "confidence": "House number, street, and ZIP match a State Department location record."
+  },
+  "t4": {
+   "lat": 25.9869531,
+   "lon": -80.30106669999999,
+   "source": "us-department-of-state",
+   "source_url": "https://cadataapi.state.gov/api/Passport/Applications/Locations/States/FL",
+   "official_address": "2300 Civic Center Pl, Miramar, FL 33025",
+   "matched_name": "CITY OF MIRAMAR",
+   "matched_address": "2300 CIVIC CENTER PLACE, MIRAMAR, FL 33025",
+   "confidence": "House number, street, and ZIP match a State Department location record."
+  },
+  "t7": {
+   "lat": 26.2418288,
+   "lon": -80.24946159999999,
+   "source": "us-department-of-state",
+   "source_url": "https://cadataapi.state.gov/api/Passport/Applications/Locations/States/FL",
+   "official_address": "9239 W Atlantic Blvd, Coral Springs, FL 33071",
+   "matched_name": "CITY HALL IN THE MALL CORAL SPRINGS",
+   "matched_address": "9239 W. ATLANTIC BOULEVARD, CORAL SPRINGS, FL 33071",
+   "confidence": "House number, street, and ZIP match a State Department location record."
+  },
+  "td": {
+   "lat": 26.3172013,
+   "lon": -80.1245181,
+   "source": "us-department-of-state",
+   "source_url": "https://cadataapi.state.gov/api/Passport/Applications/Locations/States/FL",
+   "official_address": "1600 W Hillsboro Blvd, Room 160, Deerfield Beach, FL 33442",
+   "matched_name": "BROWARD COUNTY CLERK OF COURT - - DEERFIELD BEACH",
+   "matched_address": "1600 WEST HILLSBORO BOULEVARD,, DEERFIELD BEACH, FL 33442",
+   "confidence": "House number, street, and ZIP match a State Department location record."
+  },
+  "te": {
+   "lat": 26.058297,
+   "lon": -80.2722514,
+   "source": "us-department-of-state",
+   "source_url": "https://cadataapi.state.gov/api/Passport/Applications/Locations/States/FL",
+   "official_address": "9090 Sw 50Th Place, Cooper, FL 33328",
+   "matched_name": "CITY OF COOPER CITY",
+   "matched_address": "9090 S.W. 50TH PLACE, COOPER CITY, FL 33328",
+   "confidence": "House number, street, and ZIP match a State Department location record."
+  },
+  "ti": {
+   "lat": 26.0101606,
+   "lon": -80.1798999,
+   "source": "us-department-of-state",
+   "source_url": "https://cadataapi.state.gov/api/Passport/Applications/Locations/States/FL",
+   "official_address": "3550 Hollywood Blvd, Room 160, Hollywood, FL 33021",
+   "matched_name": "BROWARD COUNTY CLERK OF COURT - - HOLLYWOOD",
+   "matched_address": "3550 HOLLYWOOD BOULEVARD, HOLLYWOOD, FL 33021",
+   "confidence": "House number, street, and ZIP match a State Department location record."
+  },
+  "tj": {
+   "lat": 26.1223463,
+   "lon": -80.2626281,
+   "source": "us-department-of-state",
+   "source_url": "https://cadataapi.state.gov/api/Passport/Applications/Locations/States/FL",
+   "official_address": "100 North Pine Island Road, Room 180, Plantation, FL 33324",
+   "matched_name": "BROWARD COUNTY CLERK OF COURT - - PLANTATION",
+   "matched_address": "100 NORTH PINE ISLAND ROAD, PLANTATION, FL 33324",
+   "confidence": "House number, street, and ZIP match a State Department location record."
+  },
+  "tk": {
+   "lat": 25.7635757,
+   "lon": -80.3728679,
+   "source": "us-department-of-state",
+   "source_url": "https://cadataapi.state.gov/api/Passport/Applications/Locations/States/FL",
+   "official_address": "512 Sw 109Th Ave, Sweetwater, FL 33174",
+   "matched_name": "CITY OF SWEETWATER",
+   "matched_address": "512 S.W. 109TH AVENUE, SWEETWATER, FL 33174",
+   "confidence": "House number, street, and ZIP match a State Department location record."
+  },
+  "tp": {
+   "lat": 25.4767358,
+   "lon": -80.4759484,
+   "source": "us-department-of-state",
+   "source_url": "https://cadataapi.state.gov/api/Passport/Applications/Locations/States/FL",
+   "official_address": "739 Washington Ave, Homestead, FL 33030",
+   "matched_name": "HOMESTEAD MAIN POST OFFICE",
+   "matched_address": "739 WASHINGTON AVENUE, HOMESTEAD, FL 33030",
+   "confidence": "House number, street, and ZIP match a State Department location record."
+  },
+  "tq": {
+   "lat": 25.7767278,
+   "lon": -80.2387336,
+   "source": "us-department-of-state",
+   "source_url": "https://cadataapi.state.gov/api/Passport/Applications/Locations/States/FL",
+   "official_address": "425 Nw 27Th Ave, Miami, FL 33125",
+   "matched_name": "US POSTAL SERVICE JOSE MARTI STATION",
+   "matched_address": "425 N.W. 27TH AVENUE, MIAMI, FL 33125",
+   "confidence": "House number, street, and ZIP match a State Department location record."
+  },
+  "tr": {
+   "lat": 25.7065035,
+   "lon": -80.2901404,
+   "source": "us-department-of-state",
+   "source_url": "https://cadataapi.state.gov/api/Passport/Applications/Locations/States/FL",
+   "official_address": "5927 Sw 70Th St, Miami, FL 33143",
+   "matched_name": "US POSTAL SERVICE SOUTH MIAMI BRANCH",
+   "matched_address": "5927 S.W. 70TH STREET, MIAMI, FL 33143",
+   "confidence": "House number, street, and ZIP match a State Department location record."
+  },
+  "tu": {
+   "lat": 25.8562572,
+   "lon": -80.12391319999999,
+   "source": "us-department-of-state",
+   "source_url": "https://cadataapi.state.gov/api/Passport/Applications/Locations/States/FL",
+   "official_address": "525 71St St, Miami Beach, FL 33141",
+   "matched_name": "NORMANDY POST OFFICE",
+   "matched_address": "525 71ST STREET, MIAMI BEACH, FL 33141",
+   "confidence": "House number, street, and ZIP match a State Department location record."
+  },
+  "tv": {
+   "lat": 26.0532576,
+   "lon": -80.14468889999999,
+   "source": "us-department-of-state",
+   "source_url": "https://cadataapi.state.gov/api/Passport/Applications/Locations/States/FL",
+   "official_address": "21 Nw 1St Ave, Dania, FL 33004",
+   "matched_name": "DANIA POST OFFICE",
+   "matched_address": "21 N.W. FIRST AVENUE, DANIA, FL 33004",
+   "confidence": "House number, street, and ZIP match a State Department location record."
+  },
+  "tw": {
+   "lat": 25.8549467,
+   "lon": -80.31933649999999,
+   "source": "us-department-of-state",
+   "source_url": "https://cadataapi.state.gov/api/Passport/Applications/Locations/States/FL",
+   "official_address": "3690 W 18Th Ave, Hialeah, FL 33012",
+   "matched_name": "US POSTAL SERVICE PROMENADE BRANCH",
+   "matched_address": "3690 WEST 18TH AVENUE, HIALEAH, FL 33012",
+   "confidence": "House number, street, and ZIP match a State Department location record."
+  },
+  "tx": {
+   "lat": 26.1263026,
+   "lon": -80.1501569,
+   "source": "us-department-of-state",
+   "source_url": "https://cadataapi.state.gov/api/Passport/Applications/Locations/States/FL",
+   "official_address": "400 Nw 7Th Ave, Fort Lauderdale, FL 33311",
+   "matched_name": "US POSTAL SERVICE ALRIDGE STATION",
+   "matched_address": "400 N.W. SEVENTH AVENUE, FORT LAUDERDALE, FL 33311",
+   "confidence": "House number, street, and ZIP match a State Department location record."
+  },
+  "ty": {
+   "lat": 25.8769654,
+   "lon": -80.3325589,
+   "source": "us-department-of-state",
+   "source_url": "https://cadataapi.state.gov/api/Passport/Applications/Locations/States/FL",
+   "official_address": "2440 W 60Th St, Hialeah, FL 33016",
+   "matched_name": "EL MERCADO POSTAL STORE",
+   "matched_address": "2440 WEST 60TH STREET, HIALEAH, FL 33016",
+   "confidence": "House number, street, and ZIP match a State Department location record."
+  },
+  "tz": {
+   "lat": 25.813167,
+   "lon": -80.12867469999999,
+   "source": "us-department-of-state",
+   "source_url": "https://cadataapi.state.gov/api/Passport/Applications/Locations/States/FL",
+   "official_address": "445 W 40Th St, Miami Beach, FL 33140",
+   "matched_name": "OCEANVIEW POST OFFICE",
+   "matched_address": "445 W. 40TH STREET, MIAMI BEACH, FL 33140",
+   "confidence": "House number, street, and ZIP match a State Department location record."
+  },
+  "u3": {
+   "lat": 25.8483724,
+   "lon": -80.151035,
+   "source": "us-department-of-state",
+   "source_url": "https://cadataapi.state.gov/api/Passport/Applications/Locations/States/FL",
+   "official_address": "1666 Kennedy Cswy, Ste 300, North Bay Village, FL 33141",
+   "matched_name": "CITY OF NORTH BAY VILLAGE",
+   "matched_address": "1666 KENNEDY CAUSEWAY, NORTH BAY VILLAGE, FL 33141",
+   "confidence": "House number, street, and ZIP match a State Department location record."
+  },
+  "u4": {
+   "lat": 26.6834316,
+   "lon": -80.20616480000001,
+   "source": "us-department-of-state",
+   "source_url": "https://cadataapi.state.gov/api/Passport/Applications/Locations/States/FL",
+   "official_address": "10299 Southern Blvd, Royal Palm Beach, FL 33411",
+   "matched_name": "USPOSTAL SERVICE PALMS WEST POST OFFICE",
+   "matched_address": "10299 SOUTHERN BOULEVARD, ROYAL PALM BEACH, FL 33411",
+   "confidence": "House number, street, and ZIP match a State Department location record."
+  },
+  "u5": {
+   "lat": 25.7294697,
+   "lon": -80.2592167,
+   "source": "us-department-of-state",
+   "source_url": "https://cadataapi.state.gov/api/Passport/Applications/Locations/States/FL",
+   "official_address": "4520 Ponce De Leon Blvd, Coral Gables, FL 33146",
+   "matched_name": "CITY OF CORAL GABLES",
+   "matched_address": "4520 PONCE DE LEON BOULEVARD, CORAL GABLES, FL 33146",
+   "confidence": "House number, street, and ZIP match a State Department location record."
+  },
+  "u7": {
+   "lat": 25.6469957,
+   "lon": -80.33660239999999,
+   "source": "us-department-of-state",
+   "source_url": "https://cadataapi.state.gov/api/Passport/Applications/Locations/States/FL",
+   "official_address": "8821 Sw 136Th St, Miami, FL 33176",
+   "matched_name": "KENDALL FINANCE UNIT",
+   "matched_address": "8821 S.W. 136 STREET, MIAMI, FL 33176",
+   "confidence": "House number, street, and ZIP match a State Department location record."
+  },
+  "uh": {
+   "lat": 25.9792189,
+   "lon": -80.14314630000001,
+   "source": "us-department-of-state",
+   "source_url": "https://cadataapi.state.gov/api/Passport/Applications/Locations/States/FL",
+   "official_address": "500 S Federal Hwy, Hallandale Beach, FL 33009",
+   "matched_name": "HALLANDALE POST OFFICE",
+   "matched_address": "500 SOUTH FEDERAL HIGHWAY, HALLANDALE, FL 33009",
+   "confidence": "House number, street, and ZIP match a State Department location record."
+  },
+  "ui": {
+   "lat": 26.3180404,
+   "lon": -80.0994267,
+   "source": "us-department-of-state",
+   "source_url": "https://cadataapi.state.gov/api/Passport/Applications/Locations/States/FL",
+   "official_address": "212 E Hillsboro Blvd, Deerfield Beach, FL 33441",
+   "matched_name": "DEERFIELD BEACH POST OFFICE",
+   "matched_address": "212 EAST HILLSBORO BLVD., DEERFIELD BEACH, FL 33441",
+   "confidence": "House number, street, and ZIP match a State Department location record."
+  },
+  "uk": {
+   "lat": 25.9183853,
+   "lon": -80.28767359999999,
+   "source": "us-department-of-state",
+   "source_url": "https://cadataapi.state.gov/api/Passport/Applications/Locations/States/FL",
+   "official_address": "5375 Nw 159Th St, Hialeah, FL 33014",
+   "matched_name": "PALMETTO LAKES POST OFFICE",
+   "matched_address": "5375 N.W. 159TH STREET, HIALEAH, FL 33014",
+   "confidence": "House number, street, and ZIP match a State Department location record."
+  },
+  "un": {
+   "lat": 25.6917121,
+   "lon": -80.1647794,
+   "source": "us-department-of-state",
+   "source_url": "https://cadataapi.state.gov/api/Passport/Applications/Locations/States/FL",
+   "official_address": "10 Village Green Way, Key Biscayne, FL 33149",
+   "matched_name": "VILLAGE OF KEY BISCAYNE",
+   "matched_address": "10 VILLAGE GREEN WAY, KEY BISCAYNE, FL 33149",
+   "confidence": "House number, street, and ZIP match a State Department location record."
+  },
+  "ur": {
+   "lat": 26.3520571,
+   "lon": -80.0842445,
+   "source": "us-department-of-state",
+   "source_url": "https://cadataapi.state.gov/api/Passport/Applications/Locations/States/FL",
+   "official_address": "170 Ne 2Nd St, Boca Raton, FL 33432",
+   "matched_name": "BOCA RATON DOWNTOWN STATION POST OFFICE",
+   "matched_address": "170 N.E. SECOND STREET, BOCA RATON, FL 33432",
+   "confidence": "House number, street, and ZIP match a State Department location record."
+  },
+  "uy": {
+   "lat": 26.7131931,
+   "lon": -80.0584405,
+   "source": "us-department-of-state",
+   "source_url": "https://cadataapi.state.gov/api/Passport/Applications/Locations/States/FL",
+   "official_address": "640 Clematis St, West Palm Beach, FL 33401",
+   "matched_name": "US POSTAL SERVICE DOWNTOWN STATION",
+   "matched_address": "640 CLEMATIS STREET, WEST PALM BEACH, FL 33401",
+   "confidence": "House number, street, and ZIP match a State Department location record."
+  },
+  "uz": {
+   "lat": 26.7807187,
+   "lon": -80.0865989,
+   "source": "us-department-of-state",
+   "source_url": "https://cadataapi.state.gov/api/Passport/Applications/Locations/States/FL",
+   "official_address": "1905 W Blue Heron Blvd, Riviera Beach, FL 33404",
+   "matched_name": "US POSTAL SERVICE RIVIERA BEACH BRANCH",
+   "matched_address": "1905 WEST BLUE HERON BOULEVARD, RIVIERA BEACH, FL 33404",
+   "confidence": "House number, street, and ZIP match a State Department location record."
+  },
+  "v0": {
+   "lat": 26.8422635,
+   "lon": -80.0877419,
+   "source": "us-department-of-state",
+   "source_url": "https://cadataapi.state.gov/api/Passport/Applications/Locations/States/FL",
+   "official_address": "3330 Fairchild Gardens Ave, Palm Beach Gardens, FL 33410",
+   "matched_name": "US POSTAL SERVICE PALM BEACH GARDENS BRANCH",
+   "matched_address": "3330 FAIRCHILD GARDENS AVENUE, PALM BEACH GARDENS, FL 33410",
+   "confidence": "House number, street, and ZIP match a State Department location record."
+  },
+  "v1": {
+   "lat": 25.7622779,
+   "lon": -80.29534690000001,
+   "source": "us-department-of-state",
+   "source_url": "https://cadataapi.state.gov/api/Passport/Applications/Locations/States/FL",
+   "official_address": "901 Sw 62Nd Ave, West Miami, FL 33144",
+   "matched_name": "CITY OF WEST MIAMI",
+   "matched_address": "901 S.W. 62ND AVENUE, WEST MIAMI, FL 33144",
+   "confidence": "House number, street, and ZIP match a State Department location record."
+  },
+  "v3": {
+   "lat": 25.6858485,
+   "lon": -80.1610431,
+   "source": "us-department-of-state",
+   "source_url": "https://cadataapi.state.gov/api/Passport/Applications/Locations/States/FL",
+   "official_address": "951 Crandon Blvd., Key Biscayne, FL 33149",
+   "matched_name": "US POSTAL SERVICE KEY BISCAYNE FL",
+   "matched_address": "951 CRANDON BOULEVARD, KEY BISCAYNE, FL 33149",
+   "confidence": "House number, street, and ZIP match a State Department location record."
+  },
+  "v7": {
+   "lat": 25.7277394,
+   "lon": -80.2338338,
+   "source": "us-department-of-state",
+   "source_url": "https://cadataapi.state.gov/api/Passport/Applications/Locations/States/FL",
+   "official_address": "3500 Pan American Dr, Miami, FL 33133",
+   "matched_name": "CITY OF MIAMI",
+   "matched_address": "3500 PAN AMERICAN DRIVE, MIAMI, FL 33133",
+   "confidence": "House number, street, and ZIP match a State Department location record."
+  },
+  "v8": {
+   "lat": 25.8901669,
+   "lon": -80.1827022,
+   "source": "us-department-of-state",
+   "source_url": "https://cadataapi.state.gov/api/Passport/Applications/Locations/States/FL",
+   "official_address": "776 Ne 125Th St, Room 101, North Miami, FL 33161",
+   "matched_name": "CITY OF NORTH MIAMI",
+   "matched_address": "776 N.E. 125TH STREET, NORTH MIAMI, FL 33161",
+   "confidence": "House number, street, and ZIP match a State Department location record."
+  },
+  "va": {
+   "lat": 26.7044117,
+   "lon": -80.2320683,
+   "source": "us-department-of-state",
+   "source_url": "https://cadataapi.state.gov/api/Passport/Applications/Locations/States/FL",
+   "official_address": "200 Civic Center Way, Suite 400, Royal Palm Beach, FL 33411",
+   "matched_name": "#N/A",
+   "matched_address": "200 CIVIC CENTER WAY,, ROYAL PALM BEACH, FL 33411",
+   "confidence": "House number, street, and ZIP match a State Department location record."
+  },
+  "w2": {
+   "lat": 26.6626094,
+   "lon": -80.71587079999999,
+   "source": "us-department-of-state",
+   "source_url": "https://cadataapi.state.gov/api/Passport/Applications/Locations/States/FL",
+   "official_address": "190 U.S. Highway 27 South, South Bay, FL 33493",
+   "matched_name": "U S POSTAL SERVICE SOUTH BAY FL",
+   "matched_address": "190 U.S. HWY. 27 S.,, SOUTH BAY, FL 33493",
+   "confidence": "House number, street, and ZIP match a State Department location record."
+  },
+  "xt": {
+   "lat": 26.5267015,
+   "lon": -80.092953,
+   "source": "us-department-of-state",
+   "source_url": "https://cadataapi.state.gov/api/Passport/Applications/Locations/States/FL",
+   "official_address": "1530 W Boynton Beach Blvd, Boynton Beach, FL 33436",
+   "matched_name": "BOYNTON MAIN OFFICE",
+   "matched_address": "1530 W. BOYNTON BEACH BLVD., BOYNTON BEACH, FL 33436",
+   "confidence": "House number, street, and ZIP match a State Department location record."
+  },
+  "50d": {
+   "lat": 25.7928544,
+   "lon": -80.13628489999999,
+   "source": "us-department-of-state",
+   "source_url": "https://cadataapi.state.gov/api/Passport/Applications/Locations/States/FL",
+   "official_address": "1755 Meridian Ave, 1St Floor, Miami Beach, FL 33139",
+   "matched_name": "CITY OF MIAMI BEACH (FINANCE DEPARTMENT)",
+   "matched_address": "1755 MERIDIAN AVENUE, MIAMI BEACH, FL 33139",
+   "confidence": "House number, street, and ZIP match a State Department location record."
+  },
+  "429": {
+   "lat": 25.4721869,
+   "lon": -80.4756547,
+   "source": "openstreetmap-nominatim",
+   "source_url": "https://nominatim.openstreetmap.org/",
+   "matched_label": "New City Hall, 100, Civic Court, Homestead Trailer Park, Homestead, Miami-Dade County, Florida, 33030, United States",
+   "osm_type": "way",
+   "osm_id": 522578671,
+   "confidence": "House number and street matched the official address in OpenStreetMap.",
+   "official_address": "100 Civic Court, Homestead, FL 33030"
+  },
+  "t5": {
+   "lat": 26.0032596,
+   "lon": -80.2865719,
+   "source": "openstreetmap-nominatim",
+   "source_url": "https://nominatim.openstreetmap.org/",
+   "matched_label": "Pembroke Pines City Hall, 601, City Center Way, Pembroke Pines, Broward County, Florida, 33025, United States",
+   "osm_type": "node",
+   "osm_id": 7295782017,
+   "confidence": "House number and street matched the official address in OpenStreetMap.",
+   "official_address": "601 City Center Way, 4Th Floor, Pembroke Pines, FL 33025"
+  },
+  "ts": {
+   "lat": 25.9083212,
+   "lon": -80.1568128,
+   "source": "openstreetmap-nominatim",
+   "source_url": "https://nominatim.openstreetmap.org/",
+   "matched_label": "North Miami Post Office, 14311, Biscayne Boulevard, North Miami, Miami-Dade County, Florida, 33181, United States",
+   "osm_type": "way",
+   "osm_id": 435744626,
+   "confidence": "House number and street matched the official address in OpenStreetMap.",
+   "official_address": "14311 Biscayne Blvd, North Miami, FL 33181"
+  },
+  "3or": {
+   "lat": 25.6728901,
+   "lon": -80.4408108,
+   "source": "openstreetmap-nominatim",
+   "source_url": "https://nominatim.openstreetmap.org/",
+   "matched_label": "West Kendall Regional Library, 10201, Hammocks Boulevard, The Hammocks, Miami, Miami-Dade County, Florida, 33196, United States",
+   "osm_type": "node",
+   "osm_id": 367823673,
+   "confidence": "House number and street matched the official address in OpenStreetMap.",
+   "official_address": "10201 Hammocks Boulevard, Miami, FL 33196"
+  },
+  "3wn": {
+   "lat": 25.8664363,
+   "lon": -80.2865173,
+   "source": "openstreetmap-nominatim",
+   "source_url": "https://nominatim.openstreetmap.org/",
+   "matched_label": "John F Kennedy Library, 190, West 49th Street, Hialeah Estates, Hialeah, Miami-Dade County, Florida, 33012, United States",
+   "osm_type": "way",
+   "osm_id": 294746839,
+   "confidence": "House number and street matched the official address in OpenStreetMap.",
+   "official_address": "190 West 49Th Street, Hialeah, FL 33012"
+  },
+  "3wr": {
+   "lat": 25.8207876,
+   "lon": -80.2854336,
+   "source": "openstreetmap-nominatim",
+   "source_url": "https://nominatim.openstreetmap.org/",
+   "matched_label": "274, Westward Drive, Miami Springs, Miami-Dade County, Florida, 33166, United States",
+   "osm_type": "node",
+   "osm_id": 6083282824,
+   "confidence": "House number and street matched the official address in OpenStreetMap.",
+   "official_address": "274 Westward Drive, Miami Springs, FL 33166"
+  },
+  "5d7": {
+   "lat": 26.1152139,
+   "lon": -80.1415064,
+   "source": "openstreetmap-nominatim",
+   "source_url": "https://nominatim.openstreetmap.org/",
+   "matched_label": "Broward County Clerk of Courts, 201, Southeast 6th Street, Las Olas, Fort Lauderdale, Broward County, Florida, 33301, United States",
+   "osm_type": "node",
+   "osm_id": 2470148994,
+   "confidence": "House number and street matched the official address in OpenStreetMap.",
+   "official_address": "201 Se 6Th St, Room 1160, Fort Lauderdale, FL 33301"
+  },
+  "5go": {
+   "lat": 26.607061,
+   "lon": -80.1355112,
+   "source": "openstreetmap-nominatim",
+   "source_url": "https://nominatim.openstreetmap.org/",
+   "matched_label": "Greenacres City Hall, 5800, Melaleuca Lane, Greenacres, Palm Beach County, Florida, 33463, United States",
+   "osm_type": "node",
+   "osm_id": 6197191209,
+   "confidence": "House number and street matched the official address in OpenStreetMap.",
+   "official_address": "5800 Melaleuca Lane, Greenacres, FL 33463"
+  },
+  "5ka": {
+   "lat": 25.6041037,
+   "lon": -80.3492124,
+   "source": "openstreetmap-nominatim",
+   "source_url": "https://nominatim.openstreetmap.org/",
+   "matched_label": "9705, East Hibiscus Street, East Perrine, Cutler Bay, Miami-Dade County, Florida, 33157, United States",
+   "osm_type": "node",
+   "osm_id": 6020477679,
+   "confidence": "House number and street matched the official address in OpenStreetMap.",
+   "official_address": "9705 East Hibiscus St, Palmetto Bay, FL 33157"
+  },
+  "5p2": {
+   "lat": 26.6626461,
+   "lon": -80.0987476,
+   "source": "openstreetmap-nominatim",
+   "source_url": "https://nominatim.openstreetmap.org/",
+   "matched_label": "Palm Beach County Main Library, 3650, Summit Boulevard, West Palm Beach, Palm Beach County, Florida, 33406, United States",
+   "osm_type": "way",
+   "osm_id": 549258803,
+   "confidence": "House number and street matched the official address in OpenStreetMap.",
+   "official_address": "3650 Summit Blvd., West Palm Beach, FL 33406"
+  },
+  "5e0": {
+   "lat": 25.9417745,
+   "lon": -80.2427284,
+   "source": "openstreetmap-nominatim",
+   "source_url": "https://nominatim.openstreetmap.org/",
+   "matched_label": "North Dade Regional Library, 2455, Northwest 183rd Street, Carol City, Miami Gardens, Miami-Dade County, Florida, 33056, United States",
+   "osm_type": "way",
+   "osm_id": 435732106,
+   "confidence": "House number and street matched the official address in OpenStreetMap.",
+   "official_address": "2455 N.W. 183Rd Street, Miami Gardens, FL 33056"
+  }
+ },
+ "unplaced": {
+  "uj": {
+   "official_address": "67959 Sw 196Th Ave, Fort Lauderdale, FL 33332",
+   "reason": "The locator address is 67959 SW 196th Ave. OpenStreetMap has no result for that house number. The State Department locations API lists Everglades Post Office at 6759 SW 196th Ave, a different house number, so that coordinate was not used.",
+   "name": "EVERGLADES BRANCH"
+  },
+  "vb": {
+   "official_address": "3900 N Haverhill Rd, West Palm Beach, FL 33417",
+   "reason": "The locator street is N Haverhill Rd. OpenStreetMap has no result for that street. The State Department locations API lists Haverhill Post Office at 3900 Haverhill Blvd. Road and boulevard do not match, so that coordinate was not used.",
+   "name": "USPS HAVERHILL STATION"
+  },
+  "3x7": {
+   "official_address": "110 Dr Mlk Blvd West, Belle Glade, FL 33430",
+   "reason": "The locator address is 110 Dr MLK Blvd West. OpenStreetMap has both 110 Southwest Martin Luther King Boulevard and 110 Southeast Martin Luther King Boulevard. The locator line does not say which street, so no pin was added.",
+   "name": "CITY OF BELLE GLADE"
+  },
+  "53s": {
+   "official_address": "14850 Sw 280 Street, Homestead, FL 33032",
+   "reason": "OpenStreetMap has no result for 14850 SW 280 Street, Homestead, FL 33032.",
+   "name": "NARANJA BRANCH LIBRARY"
+  },
+  "5ag": {
+   "official_address": "1601 Ne 164 St, North Miami Beach, FL 33162",
+   "reason": "OpenStreetMap has no house number for 1601 NE 164th Street. A library point at 1601 Northeast 16th Avenue is a different street, so it was not used.",
+   "name": "NORTH MIAMI BEACH LIBRARY"
+  }
+ },
+ "miami_passport_agency": {
+  "lat": 25.7900229,
+  "lon": -80.1875875,
+  "source": "openstreetmap-nominatim",
+  "source_url": "https://nominatim.openstreetmap.org/",
+  "matched_label": "Miami Passport Agency, 1501, Biscayne Boulevard, Miami, Miami-Dade County, Florida, 33132, United States",
+  "osm_type": "node",
+  "osm_id": 6173409978,
+  "confidence": "House number and street matched the official address in OpenStreetMap.",
+  "official_address": "1501 Biscayne Blvd, Suite 400, Miami, FL 33132",
+  "name": "Miami Passport Agency"
+ }
+}

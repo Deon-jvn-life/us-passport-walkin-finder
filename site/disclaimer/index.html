@@ -220,6 +220,13 @@ footer p{max-width:66ch}
 :focus-visible{outline:3px solid var(--ink);outline-offset:2px}
 #site-header a:focus-visible,#site-header button:focus-visible,#site-header input:focus-visible,#site-header summary:focus-visible{outline-color:var(--gold);outline-offset:2px}
 .menu summary:focus-visible{outline-color:var(--ink)}
+.visually-hidden{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+.loc-map{margin:0 0 var(--s-24)}
+.loc-map > p{max-width:66ch}
+.loc-map-canvas{height:320px;width:100%;background:#E7EFE9;color:var(--ink);border:1px solid var(--line);border-radius:12px;position:relative;z-index:0;isolation:isolate;padding:var(--s-16)}
+.loc-map-canvas.is-ready{padding:0}
+@media(min-width:720px){.loc-map-canvas{height:480px}}
+.leaflet-container{z-index:0;font-family:var(--font);font-size:1rem}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
 @media(forced-colors:active){
 .card,.inshort,.notice,.jump,.toc,.pn a,.steps a,.tasks a,.menu summary,.search-toggle,.filterbox{border:1px solid CanvasText}
