@@ -568,6 +568,7 @@ class Site:
             self.base + '/disclaimer/',
             self.base + '/faq/',
             self.base + '/fees-and-documents/',
+            self.base + '/urgent-travel/',
             self.base + '/walk-in-vs-appointment/',
             self.base + '/find/',
         ]

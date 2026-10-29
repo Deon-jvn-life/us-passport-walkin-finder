@@ -27,10 +27,10 @@ def warn_meta(path,title,desc):
     if not 120<=len(desc)<=160: print(f'WARNING: description length {len(desc)} outside 120-160 for {loc}: {desc}', file=sys.stderr)
 GROUPS=[
  ("Find a place",[('counties/miami-dade/index.html','Miami-Dade County'),('counties/broward/index.html','Broward County'),('counties/palm-beach/index.html','Palm Beach County'),('walk-in-vs-appointment/index.html','Walk-in or appointment')]),
- ("What to bring",[('fees-and-documents/index.html','Fees and documents'),('child-under-16/index.html','Child under 16')]),
+ ("What to bring",[('fees-and-documents/index.html','Fees and documents'),('urgent-travel/index.html','Urgent travel'),('child-under-16/index.html','Child under 16')]),
  ("Using this guide",[('faq/index.html','Common questions'),('find/index.html','All pages'),('disclaimer/index.html','Disclaimer')])]
 STAGE={p:g for g,items in GROUPS for p,_t in items}
-ORDER=['fees-and-documents/index.html','child-under-16/index.html','walk-in-vs-appointment/index.html']
+ORDER=['fees-and-documents/index.html','urgent-travel/index.html','child-under-16/index.html','walk-in-vs-appointment/index.html']
 S=dict(pafl="https://passportfacilitylocator.travel.state.gov/",pafldata="https://passportfacilitylocator.travel.state.gov/data/Facilities.json",
  fees="https://travel.state.gov/content/travel/en/passports/how-apply/fees.html",times="https://travel.state.gov/content/travel/en/passports/how-apply/processing-times.html",
  adult="https://travel.state.gov/content/travel/en/passports/need-passport/apply-in-person.html",child="https://travel.state.gov/content/travel/en/passports/need-passport/under-16.html",
@@ -39,6 +39,16 @@ S=dict(pafl="https://passportfacilitylocator.travel.state.gov/",pafldata="https:
  photohelp="https://travel.state.gov/en/passports/apply/help/photos.html",
  renew="https://travel.state.gov/content/travel/en/passports/have-passport/renew.html",photos="https://travel.state.gov/content/travel/en/passports/how-apply/photos.html",
  miami="https://travel.state.gov/en/passports/apply/get-fast/make-appointment/miami.html",agency="https://travel.state.gov/en/passports/apply/get-fast/make-appointment.html",
+ miami_old="https://travel.state.gov/content/travel/en/passports/get-fast/passport-agencies/miami.html",
+ life="https://travel.state.gov/en/passports/apply/get-fast/life-or-death-emergencies.html",
+ life_old="https://travel.state.gov/content/travel/en/passports/get-fast/emergencies.html",
+ fast="https://travel.state.gov/en/passports/apply/get-fast.html",
+ where="https://travel.state.gov/en/passports/apply/help/where-to-apply.html",
+ fees_en="https://travel.state.gov/en/passports/apply/help/fees.html",
+ times_en="https://travel.state.gov/en/passports/apply/help/processing-time.html",
+ status="https://passportstatus.state.gov/",
+ adults_en="https://travel.state.gov/en/passports/apply/adults.html",
+ renew_en="https://travel.state.gov/en/passports/renew-replace/mail.html",
  broward="https://www.browardclerk.org/Divisions/Passports",pbc="https://www.mypalmbeachclerk.com/services/passports",pbcfees="https://www.mypalmbeachclerk.com/about-us/fees/other-services-fees/passport-fees",
  mdpls="https://mdpls.org/passport",usps="https://www.usps.com/scheduler",census="https://www2.census.gov/geo/docs/maps-data/data/rel2020/zcta520/tab20_zcta520_county20_natl.txt")
 def src(*k): return ' <span class="src">['+', '.join(f'<a href="{S[x]}" rel="noopener">source</a>' for x in k)+']</span>'
@@ -180,7 +190,7 @@ def map_block(rows, label, include_agency=False):
         f'<p class="src">Map data from <a href="https://www.openstreetmap.org/copyright" rel="noopener">OpenStreetMap</a> contributors.</p>'
         f'{omitted}</div><script src="/map.js" defer></script>'
     )
-MIAMI=f'''<div class="card"><strong>Miami Passport Agency (urgent travel only)</strong><p>Omni Center, 1501 Biscayne Blvd, Suite 400, Miami, FL 33132. {directions_html(AGENCY_ADDRESS, 'the Miami Passport Agency')}</p><p>Monday to Friday 7:00 a.m. to 2:00 p.m., closed weekends and federal holidays. By appointment only. Miami is in a State Department pilot with the Detroit and San Juan passport agencies: you can make an appointment for urgent international travel within 21 calendar days, or if you need a foreign visa within 28 calendar days. Appointments: 877-487-2778{src('miami')}. This is not an acceptance facility; routine applications go to the places listed on this site.</p></div>'''
+MIAMI=f'''<div class="card"><strong>Miami Passport Agency (urgent travel only)</strong><p>Omni Center, 1501 Biscayne Blvd, Suite 400, Miami, FL 33132. {directions_html(AGENCY_ADDRESS, 'the Miami Passport Agency')}</p><p>Monday to Friday 7:00 a.m. to 2:00 p.m., closed weekends and federal holidays. By appointment only. Miami is in a State Department pilot with the Detroit and San Juan passport agencies: you can make an appointment for urgent international travel within 21 calendar days, or if you need a foreign visa within 28 calendar days. Appointments: 877-487-2778{src('miami')}. This is not an acceptance facility; routine applications go to the places listed on this site. <a href="/urgent-travel/">Who can book, what to bring, and how this differs from expedited service</a>.</p></div>'''
 CALL='<div class="card note"><strong>Call or check online before you go.</strong> The locator says to check with the facility whether you need an appointment{0}. USPS locations direct you to usps.com/scheduler{1}. Hours below are as published in the official locator data on the date shown.</div>'.format(src('adult'),src('usps'))
 cc={k:[r for r in recs if r['county']==v] for k,v in COUNTIES.items()}
 nwalk=sum(r['walk'] for r in recs); ncon=sum(1 for r in recs if r['conflict'])
@@ -200,6 +210,7 @@ site.summaries={
  'counties/palm-beach/index.html':county_sum('palm-beach'),
  'walk-in-vs-appointment/index.html':f'On {D}, {nwalk} of {len(recs)} South Florida facilities have at least some walk-in hours. The rest are appointment-flagged for all listed hours. {ncon} have a conflict between the locator\'s walk-in flag and the comment text or the operator\'s own page.',
  'fees-and-documents/index.html':f'All amounts as stated by travel.state.gov on {D}. This page covers which form to use, the fees, how to pay, the documents to bring, the photo rules and the processing times.',
+ 'urgent-travel/index.html':'The Miami Passport Agency takes urgent-travel appointments. Its page allows booking within 21 calendar days of travel, or 28 if you need a foreign visa. Other State Department pages still say 14 days. Bring printed proof of travel. You cannot walk in.',
  'child-under-16/index.html':'A child under 16 applies in person with Form DS-11. Bring the child. Both parents or guardians go, or you bring the consent or custody documents on this page. You cannot renew a child\'s passport, and the passport is valid for 5 years.',
  'faq/index.html':'Short sourced answers on walk-in hours, fees, documents and applying for a U.S. passport in Miami-Dade, Broward and Palm Beach.',
  'find/index.html':'Every page on this guide, grouped by topic.',
@@ -212,20 +223,22 @@ site.aliases={
  'counties/palm-beach/index.html':'palm beach county west palm delray',
  'walk-in-vs-appointment/index.html':'walk-in walk in appointment hours usps post office',
  'fees-and-documents/index.html':'fees cost ds-11 ds-82 photo documents processing form',
+ 'urgent-travel/index.html':'miami passport agency urgent appointment life-or-death expedite 21 days proof of travel cruise emergency',
  'child-under-16/index.html':'child minor under 16 ds-3053 consent parents baby',
  'faq/index.html':'faq questions answers frequently asked',
  'find/index.html':'search index all pages find',
  'disclaimer/index.html':'disclaimer liability warranty not affiliated',
 }
 site.read_next={
- 'index.html':['walk-in-vs-appointment/index.html','fees-and-documents/index.html','child-under-16/index.html'],
- 'counties/miami-dade/index.html':['counties/broward/index.html','counties/palm-beach/index.html','walk-in-vs-appointment/index.html'],
+ 'index.html':['urgent-travel/index.html','walk-in-vs-appointment/index.html','fees-and-documents/index.html'],
+ 'counties/miami-dade/index.html':['urgent-travel/index.html','counties/broward/index.html','walk-in-vs-appointment/index.html'],
  'counties/broward/index.html':['counties/miami-dade/index.html','counties/palm-beach/index.html','walk-in-vs-appointment/index.html'],
  'counties/palm-beach/index.html':['counties/miami-dade/index.html','counties/broward/index.html','fees-and-documents/index.html'],
- 'walk-in-vs-appointment/index.html':['fees-and-documents/index.html','child-under-16/index.html','faq/index.html'],
- 'fees-and-documents/index.html':['child-under-16/index.html','walk-in-vs-appointment/index.html','faq/index.html'],
- 'child-under-16/index.html':['fees-and-documents/index.html','walk-in-vs-appointment/index.html','faq/index.html'],
- 'faq/index.html':['fees-and-documents/index.html','walk-in-vs-appointment/index.html','child-under-16/index.html'],
+ 'walk-in-vs-appointment/index.html':['urgent-travel/index.html','fees-and-documents/index.html','faq/index.html'],
+ 'fees-and-documents/index.html':['urgent-travel/index.html','child-under-16/index.html','walk-in-vs-appointment/index.html'],
+ 'urgent-travel/index.html':['fees-and-documents/index.html','counties/miami-dade/index.html','child-under-16/index.html'],
+ 'child-under-16/index.html':['urgent-travel/index.html','fees-and-documents/index.html','walk-in-vs-appointment/index.html'],
+ 'faq/index.html':['urgent-travel/index.html','fees-and-documents/index.html','walk-in-vs-appointment/index.html'],
  'find/index.html':['walk-in-vs-appointment/index.html','fees-and-documents/index.html','faq/index.html'],
  'disclaimer/index.html':['faq/index.html','fees-and-documents/index.html','find/index.html'],
  '404.html':['walk-in-vs-appointment/index.html','fees-and-documents/index.html','faq/index.html'],
@@ -240,7 +253,7 @@ topics=''.join(
     for g,items in GROUPS)
 body=f'''<h1>Where to apply for a U.S. passport in South Florida</h1><p>{len(recs)} passport acceptance facilities in Miami-Dade, Broward and Palm Beach counties, from the State Department's official locator data on {D}{src('pafl')}, with acceptance hours and whether those hours are walk-in or appointment.</p>{CALL}
 <h2>Start here</h2><p>Read these pages in this order, then choose a county.</p><ol class="steps"><li><a href="/fees-and-documents/">Fees, DS-11 vs DS-82, documents, photos, processing times</a></li><li><a href="/child-under-16/">Passport for a child under 16: consent, documents and fees</a></li><li><a href="/walk-in-vs-appointment/">Walk-in vs appointment: every facility with walk-in hours</a></li></ol>
-<h2>Top tasks</h2><ul class="tasks"><li><a href="/walk-in-vs-appointment/">Walk-in vs appointment: every facility with walk-in hours</a></li><li><a href="/fees-and-documents/">Fees, DS-11 vs DS-82, documents, photos, processing times</a></li><li><a href="/child-under-16/">Passport for a child under 16: consent, documents and fees</a></li><li><a href="/faq/">FAQ</a></li></ul>
+<h2>Top tasks</h2><ul class="tasks"><li><a href="/urgent-travel/">Urgent travel: Miami Passport Agency appointments</a></li><li><a href="/walk-in-vs-appointment/">Walk-in vs appointment: every facility with walk-in hours</a></li><li><a href="/fees-and-documents/">Fees, DS-11 vs DS-82, documents, photos, processing times</a></li><li><a href="/child-under-16/">Passport for a child under 16: consent, documents and fees</a></li><li><a href="/faq/">FAQ</a></li></ul>
 <h2>By county</h2><ul class="grid">'''+''.join(f'<li><a href="/counties/{k}/">{v}</a> ({len(cc[k])} facilities, {sum(r["walk"] for r in cc[k])} with some walk-in hours)</li>' for k,v in COUNTIES.items())+f'''</ul>
 <h2>Who needs to apply in person</h2><div class="card"><ul><li>First-time adult applicants, and adults whose passport was lost, stolen or damaged, issued over 15 years ago, or issued when they were under 16, must apply in person with Form DS-11{src('adult')}.</li>
 <li>All children under 16 must apply in person, usually with both parents or guardians{src('child')}. <a href="/child-under-16/">What to bring for a child under 16</a>.</li><li>Eligible adults can renew by mail (DS-82) or online, and postal employees should not charge the $35 facility fee for a DS-82 renewal{src('renew')}.</li></ul></div>
@@ -276,13 +289,145 @@ fb=f'''<h1>U.S. passport fees, forms and documents</h1><p>All amounts as stated 
 <li>A physical photo ID such as a valid driver's license, plus a photocopy of front and back on 8.5 x 11 inch single-sided paper. If your ID is from another state, bring a second photo ID{src('adult')}.</li><li>One passport photo{src('adult','photos')}.</li>
 <li>Children: proof of relationship, both parents' IDs, and if a parent cannot attend, Form DS-3053 notarized within 90 days, or other documents listed by the State Department{src('child')}. Full checklist: <a href="/child-under-16/">child under 16</a>.</li></ul></div>
 <h2>Photo rules (summary)</h2><div class="card"><ul><li>1 color photo taken in the last 6 months, 2 x 2 inches (51 x 51 mm), head 1 to 1 3/8 inches (25 to 35 mm) chin to top of head{src('photos')}.</li><li>Plain white or off-white background, no shadows, no filters or edits{src('photos')}.</li><li>No glasses. Hats or head coverings only for documented religious or medical reasons, with a signed statement{src('photos')}.</li><li>No uniforms, camouflage or headphones; you may smile with mouth closed{src('photos')}.</li></ul></div>
-<h2>Processing times (as officially stated)</h2><div class="card"><ul><li>Routine: 4 to 6 weeks. Expedited: 2 to 3 weeks{src('times')}.</li><li>Mailing is not included: up to 2 weeks to reach the State Department and up to 2 weeks to receive the passport{src('times')}.</li><li>Urgent travel needs an appointment at a passport agency and proof of international travel within 14 calendar days{src('times')}. The Miami Passport Agency is in a pilot that allows an appointment within 21 calendar days of travel, or within 28 calendar days if you need a foreign visa{src('miami')}. Busiest season is late winter to summer; October to December is quieter{src('times')}.</li></ul></div>{MIAMI}'''
+<h2>Processing times (as officially stated)</h2><div class="card"><ul><li>Routine: 4 to 6 weeks. Expedited: 2 to 3 weeks{src('times')}.</li><li>Mailing is not included: up to 2 weeks to reach the State Department and up to 2 weeks to receive the passport{src('times')}.</li><li>Urgent travel needs an appointment at a passport agency and proof of international travel within 14 calendar days{src('times')}. The Miami Passport Agency is in a pilot that allows an appointment within 21 calendar days of travel, or within 28 calendar days if you need a foreign visa{src('miami')}. <a href="/urgent-travel/">How to book at the Miami Passport Agency</a>. Busiest season is late winter to summer; October to December is quieter{src('times')}.</li></ul></div>{MIAMI}'''
 page('fees-and-documents/index.html',"Passport fees, DS-11 vs DS-82, documents and photo rules",fb,"Official U.S. passport fees, which form to use, documents, photo rules and processing times published on travel.state.gov.",crumb="Fees and documents",long_page=True)
+URGENT=f'''<h1>Urgent travel at the Miami Passport Agency</h1>
+<p>The Miami Passport Agency is the U.S. Department of State office for urgent passport appointments in South Florida. It is not a post office, clerk, or library acceptance facility. You need an appointment. A routine application goes to an acceptance facility in <a href="/counties/miami-dade/">Miami-Dade</a>, <a href="/counties/broward/">Broward</a>, or <a href="/counties/palm-beach/">Palm Beach</a>.{src('where','miami')}</p>
+<p>Agency rules on this page were checked on 28 October 2026. Facility hours on the rest of this site were checked on 26 October 2026.</p>
+<div class="card note"><strong>Official pages do not agree on the travel window.</strong><p>The Miami agency page lets you book for international travel within 21 calendar days, or within 28 calendar days if you need a foreign visa. The national appointment page, the processing-time page, the fees page, and the "where to apply" page still say 14 calendar days, or 28 if you need a foreign visa. The last section lists every conflict found on this check. When you book Miami, use the Miami page, and read the other page before you rely on a rule that conflicts.{src('miami','agency','times_en','fees','where')}</p></div>
+<h2>The office</h2>
+<div class="card"><p>Omni Center, 1501 Biscayne Blvd, Suite 400, Miami, FL 33132. {directions_html(AGENCY_ADDRESS, 'the Miami Passport Agency')}</p>
+<p>Monday to Friday, 7:00 a.m. to 2:00 p.m. Closed Saturday, Sunday, and federal holidays. By appointment only.{src('miami')}</p>
+<p>Appointments are free. A request to pay for an appointment is a fraud warning on the State Department page. The Department says it is not affiliated with third-party booking services, it may not honor an appointment booked that way, and you should not book a duplicate appointment.{src('miami','agency')}</p>
+<p>The July 31, 2025 Miami page lists a mailing address in Sterling, Virginia: U.S. Department of State, Miami Passport Agency, CA/PPT/MM, 44132 Mercure Cir., PO Box 1094, Sterling, VA 20166-1094. That is not the office you visit. The current Miami page does not repeat this mailing address. Confirm it on that older page before you mail anything there.{src('miami_old','miami')}</p></div>
+<h2>Which time limit applies to you</h2>
+<div class="card"><ul>
+<li>Miami's own page: an appointment for urgent international travel within 21 calendar days, or if you need a foreign visa within 28 calendar days.{src('miami')}</li>
+<li>The same page says Detroit, Miami, and San Juan are in a pilot that allows an appointment within 21 calendar days of urgent travel. You can book online or by phone. The Department says it will use the pilot to gather data for its operations.{src('miami')}</li>
+<li>The national "make an appointment" page: urgent travel abroad in the next 14 days, or a foreign visa in the next 28 days.{src('agency')}</li>
+<li>The "where to apply" page: agencies help customers with urgent international travel within 14 calendar days, or a foreign visa within 28 calendar days. They require an appointment, proof of travel such as an airline ticket or hotel reservation, and an extra $60 expedited fee.{src('where')}</li>
+<li>The processing-time page, last updated October 5, 2026: routine service is 4 to 6 weeks, expedited service is 2 to 3 weeks, and urgent travel requires an appointment plus proof of international travel within 14 calendar days. Mailing is extra: up to 2 weeks for the application to arrive, and up to 2 weeks to receive the passport.{src('times_en')}</li>
+<li>The "get your passport fast" page, last updated September 30, 2026, splits the choice this way. Routine: you travel more than 6 weeks after you apply (4 to 6 weeks to process, and mailing may add 2 weeks). Expedited: you travel in less than 6 weeks ($60, 2 to 3 weeks to process, and mailing may add 2 weeks), at an acceptance facility or by mail if you are renewing. Urgent: you travel in less than 2 to 3 weeks, and you book an agency when you are within 14 calendar days of travel, or 28 days if you need a foreign visa. Life-or-death: travel in less than 14 days for the family emergency described below. You must have an appointment for urgent and life-or-death service, and a slot may not be free right away.{src('fast')}</li>
+</ul>
+<p>If your trip is outside the agency window, use expedited or routine service at an acceptance facility, or renew by mail or online if you qualify. Fee amounts, Form DS-11 (the in-person application), and Form DS-82 (the mail renewal) are on the <a href="/fees-and-documents/">fees and documents</a> page. Offices are on the <a href="/walk-in-vs-appointment/">walk-in or appointment</a> page.</p></div>
+<h2>Life-or-death emergency</h2>
+<div class="card"><p>You may qualify if you need to travel abroad in the next 2 weeks because an immediate family member outside the United States has died, is dying or in hospice care, or has a life-threatening illness or injury. The "get your passport fast" page describes the same service as travel in the next 14 days.{src('life','fast')}</p>
+<p>An immediate family member is a parent or legal guardian, a child, a spouse, a sibling, or a grandparent. The page says aunts, uncles, cousins, and other relatives are not immediate family.{src('life')}</p>
+<p>Travel for your own medical care does not qualify for life-or-death service. That page tells you to book a regular urgent appointment instead, and it says to do that when you are within 14 calendar days of travel. The Miami page's 21-day pilot is the conflict in the last section.{src('life','miami')}</p>
+<p>Schedule the appointment up to 2 weeks before the trip. Gather these items first:{src('life')}</p>
+<ul>
+<li>Proof of the emergency: a death certificate, a statement from a mortuary, or a letter from the hospital. The hospital letter must be on hospital letterhead, signed by a doctor, and must explain the relative's medical condition.</li>
+<li>A professional translation if that document is not in English.</li>
+<li>Proof you are traveling abroad in the next 2 weeks, such as an itinerary or an airline ticket.</li>
+<li>A passport application. The form depends on whether this is a new passport or a renewal. A passport photo. A valid government-issued photo identification (ID).</li>
+</ul>
+<p>If you have not applied yet, try the online appointment system first. If you cannot get an appointment online, or you have already applied, call. The current life-or-death page gives these hours:{src('life')}</p>
+<ul>
+<li>Monday to Friday, 8:00 a.m. to 5:00 p.m. Eastern Time (ET): 877-487-2778. If you are deaf or hard of hearing, call 888-874-7793 for telecommunications device for the deaf / teletypewriter (TDD/TTY) service.</li>
+<li>Saturday, Sunday, federal holidays, and after 5:00 p.m. ET on weekdays: 202-647-4000. The page says not to call 202-647-4000 on weekdays from 8:00 a.m. to 5:00 p.m. ET.</li>
+</ul>
+<p>An older life-or-death page, last updated April 17, 2024, still gives different hours: 877-487-2778 until 8:00 p.m. ET on weekdays, and 202-647-4000 only after 8:00 p.m., on weekends, and on federal holidays. That older page also says not to call 202-647-4000 if you need urgent travel service rather than a life-or-death appointment. Use 877-487-2778 for an ordinary urgent trip.{src('life_old')}</p></div>
+<h2>Book online if you have not applied</h2>
+<div class="card"><p>The Miami page and the national appointment page give the same online steps. The system is the Online Passport Appointment System linked from those pages. This guide does not repeat a separate web address for it.{src('miami','agency')}</p>
+<ol>
+<li>Open the Online Passport Appointment System from the Miami agency page.</li>
+<li>Enter the travel information. The system tells you whether you qualify. You can make an appointment for up to 7 people in your household.</li>
+<li>Enter your email address. They email a code. Enter the code. Check the junk or spam folder if it is not in the inbox.</li>
+<li>Enter your mobile phone number. They text another code. Enter that code.</li>
+<li>Choose the date and time.</li>
+<li>They email a confirmation. The system holds the appointment for 15 minutes. If you do not confirm within 15 minutes, start over.</li>
+<li>To cancel or change an appointment you made online, use the link in the confirmation email.</li>
+</ol>
+<p>The pilot sentence says you may book online or by phone. The step list for people who have not yet applied only walks through the online system. The phone steps on the current page are for people who have already applied.{src('miami')}</p></div>
+<h2>If you already applied</h2>
+<div class="card"><p>The current Miami page says to call. If there is time to issue the passport before you travel, the Department notifies the office already working on the application. If there is not time, they make an appointment for you.{src('miami')}</p>
+<ol>
+<li>Call 877-487-2778. The current Miami page says Monday to Friday, 8:00 a.m. to 10:00 p.m. ET, and Saturday and Sunday, 10:00 a.m. to 3:00 p.m. ET. Spanish is offered ("Se habla español").{src('miami')}</li>
+<li>If you are deaf or hard of hearing, call 888-874-7793 (TDD/TTY).{src('miami')}</li>
+<li>If you qualify, they give you details they will check on the appointment day. If you are not the appointment holder, the agency will not see you.{src('miami')}</li>
+<li>To cancel or change this appointment, the current page says to call. They give the slot to someone else. You cannot transfer it to another person.{src('miami')}</li>
+</ol>
+<p>Have the 9-digit application locator number. The first 2 digits say which agency or center has the file. You can look up the number on the application status page.{src('miami','times_en')} <a href="{S['status']}" rel="noopener">Check application status</a>.</p>
+<p>The July 31, 2025 Miami page says Miami application numbers start with 51. The current page does not repeat that prefix. The same older page says the appointment phone line closes on federal holidays. The current phone steps do not say that. The older page also says that if you made the appointment by phone, you cancel by forwarding the confirmation email to NPIC@state.gov with the subject line "Cancel my Appointment." The current page says to call. Those cancel instructions conflict.{src('miami_old','miami')}</p></div>
+<h2>What to bring</h2>
+<div class="card"><p>The Miami page says the agency accepts all forms for first-time customers and for renewal customers. If you are not sure which form, it points you to the Department's passport fee and form calculator. Fill the form out online and print it. For Form DS-11, the adult application page says to print on one side of the paper only, and to sign only when the agent asks.{src('miami','adults_en')}</p>
+<p>You must bring:{src('miami')}</p>
+<ul>
+<li>A printed confirmation of the appointment.</li>
+<li>Printed proof of international travel. If you are flying, a flight receipt or an itinerary. If you are driving or taking a boat to Canada, Mexico, Bermuda, or the Caribbean, a hotel reservation, cruise or bus tickets, or international car insurance.</li>
+<li>The application, and every supporting document that form requires. That includes the original citizenship evidence and a photocopy, and the original photo ID and a photocopy.</li>
+<li>A passport photo. Size and background rules are on the <a href="/fees-and-documents/">fees and documents</a> page.</li>
+<li>The application fee and the expedite fee. At the agency, pay by credit card, by debit card (the Miami page says not an automated teller machine, or ATM, card), or by a contactless payment such as Apple Pay, Google Pay, or Samsung Pay.</li>
+</ul>
+<p>A cruise from South Florida to the Bahamas or the Caribbean is in the boat category above: the named documents are a cruise ticket, a hotel reservation, or international car insurance, and the page says to bring them printed. A flight uses the flight receipt or itinerary, not the hotel-only list.{src('miami')}</p>
+<p>The fees page adds card brands for an agency payment: Visa, Mastercard, American Express, and Discover for a credit card. For a debit card, or a prepaid card that is not linked to a line of credit or a bank account, it lists Visa or Mastercard. It says the agency will not accept any other form of payment. The Miami page does not name the brands, and it says "debit card (not ATM cards)" rather than the prepaid-card limit. Bring a card that satisfies both descriptions.{src('fees_en','fees','miami')}</p>
+<p>Which form, and the document list for a first passport or a renewal, is on the <a href="/fees-and-documents/">fees and documents</a> page. If the passport was lost or stolen, you cannot use Form DS-82. The mail-renewal rules require that the passport was never reported lost or stolen, and the adult application page puts a lost, stolen, or damaged passport on Form DS-11, in person.{src('renew','adults_en')}</p></div>
+<h2>Who must come</h2>
+<div class="card"><ul>
+<li>For a child under 16, the Miami page says both parents or guardians and the child must come to the appointment.{src('miami')}</li>
+<li>The child passport page allows one parent to apply with Form DS-3053 (Statement of Consent) when the other parent still has custody but cannot attend. The Miami appointment page does not mention that form. Bring both parents if you can. Read <a href="/child-under-16/">the child page</a> before you rely on a consent form at the agency.{src('under16','miami')}</li>
+<li>You may bring someone to help you apply, such as an attorney, an interpreter, or a family member.{src('miami')}</li>
+<li>You may bring your service animal.{src('miami')}</li>
+<li>You must be the appointment holder. The agency will not see someone else in your place, and you cannot transfer the appointment.{src('miami')}</li>
+</ul></div>
+<h2>The $60 expedite is a different service</h2>
+<p>Paying $60 at a post office, clerk, or library does not give you a Miami agency appointment. The prices below are the application fees on the fees page, plus the $60 expedite.{src('fees','fast')}</p>
+<div class="wrap" tabindex="0" aria-label="Acceptance facility expedite compared with a Miami agency appointment"><table>
+<tr><th scope="col">Question</th><th scope="col">$60 expedite at an acceptance facility</th><th scope="col">Miami Passport Agency appointment</th></tr>
+<tr><th scope="row">When the State Department points you here</th><td>Travel in less than 6 weeks, and not so soon that the fast page tells you to use an agency (less than 2 to 3 weeks, and within 14 calendar days on the national pages).</td><td>Miami page: travel within 21 calendar days, or a foreign visa needed within 28 calendar days. National pages: travel within 14 calendar days, or a visa within 28.</td></tr>
+<tr><th scope="row">Appointment</th><td>Ask that office. Many South Florida offices require their own appointment. It is not an agency appointment.</td><td>Required. The agency does not take walk-ins.</td></tr>
+<tr><th scope="row">Proof of travel</th><td>The acceptance-facility expedite steps do not ask for proof of travel.</td><td>Printed proof, in the categories above.</td></tr>
+<tr><th scope="row">Adult application fee (age 16 and older)</th><td>Passport book $130, passport card $30, or both $160.</td><td>Same application fee, paid at the agency with the expedite fee.</td></tr>
+<tr><th scope="row">Child under 16 application fee</th><td>Passport book $100, passport card $15, or both $115.</td><td>Same application fee, paid at the agency with the expedite fee.</td></tr>
+<tr><th scope="row">Extra $60</th><td>Yes. Add it to the payment to the U.S. Department of State.</td><td>Yes. The Miami page calls it the expedite fee. The fees page lists "expedited at agency" as $60 and still states the 14-day travel limit.</td></tr>
+<tr><th scope="row">$35 acceptance fee</th><td>Paid to the facility, on top of the State Department fees.</td><td>The Miami what-to-bring list does not mention it. See the conflict section.</td></tr>
+<tr><th scope="row">How fast</th><td>2 to 3 weeks after the Department has the application, then mailing (up to 2 weeks each way).</td><td>No published number of days. At the window, staff discuss options based on your travel date.</td></tr>
+</table></div>
+<p class="src">Sources for this table: {src('fees','fees_en','fast','times_en','miami','where')}</p>
+<h2>On the day of the appointment</h2>
+<div class="card"><ol>
+<li>Arrive 15 minutes early for security screening.{src('miami')}</li>
+<li>Do not bring weapons or sharp objects.{src('miami')}</li>
+<li>Do not bring food or drinks, except water in a sealable bottle.{src('miami')}</li>
+<li>Use the first floor of the Omni Building's northeast (NE) 15th Street entrance, then take the elevator to the fourth floor.{src('miami')}</li>
+<li>Check in at the information window and give your appointment confirmation number.{src('miami')}</li>
+<li>Wait in the lobby until they call your number. They might not call you at the exact appointment time.{src('miami')}</li>
+<li>Go to the window they assign. Staff review the application and supporting documents, then discuss how you will get the passport. They decide that from your travel date.{src('miami')}</li>
+</ol>
+<p>The July 31, 2025 Miami page says to print the Department's social story before you go. It describes the visit and may help a customer on the autism spectrum. The current day-of list does not repeat that line. The link, if it is still posted, is on the older page.{src('miami_old')}</p></div>
+<h2>Where the official pages disagree</h2>
+<div class="card note"><p>Checked 28 October 2026. These are disagreements between travel.state.gov pages. This site does not choose one. For a Miami booking, start with the current Miami page.</p>
+<ol>
+<li><strong>14 calendar days or 21.</strong> The current Miami page, including its pilot note, says 21 calendar days for urgent travel, or 28 calendar days if you need a foreign visa. The national appointment page, the processing-time page (last updated October 5, 2026), the "get your passport fast" page (last updated September 30, 2026), the "where to apply" page, the fees page's "expedited at agency" line, and the mail-renewal page still say 14 calendar days (28 for a visa, on the pages that mention a visa). The July 31, 2025 Miami page also still says 14 calendar days. The life-or-death page sends people traveling for their own medical care to the 14-day urgent rule. Two of those pages also use a longer phrase next to the 14-day rule: the fast page says urgent travel is "less than 2-3 weeks," and the mail-renewal page says to make an appointment if you travel in less than 3 weeks, then says the appointment must be within 14 calendar days.{src('miami','miami_old','agency','times_en','fast','where','fees','life','renew_en')}</li>
+<li><strong>Life-or-death phone hours.</strong> The current life-or-death page uses 877-487-2778 until 5:00 p.m. ET on weekdays, then 202-647-4000. The April 17, 2024 life-or-death page uses 877-487-2778 until 8:00 p.m. ET, then 202-647-4000, and it says not to use 202-647-4000 for urgent travel service.{src('life','life_old')}</li>
+<li><strong>How to cancel an appointment made by phone.</strong> The current Miami page says to call. The July 31, 2025 Miami page says to email NPIC@state.gov with the subject "Cancel my Appointment."{src('miami','miami_old')}</li>
+<li><strong>The $35 acceptance fee at the agency.</strong> For Form DS-11 at an acceptance facility, the fees page lists a $35 fee paid to the facility, on top of the application fee. The Miami what-to-bring list names the application fee and the expedite fee, and it does not name a $35 fee. The fee calculator on the fees page still includes a $35 execution-fee line. It is not clear from that page whether the line remains when the service is expedited at an agency. Ask for the total at the window before you pay.{src('fees','fees_en','miami')}</li>
+<li><strong>One parent for a child under 16.</strong> The Miami page says both parents or guardians and the child come to the appointment. The child passport page allows Form DS-3053 when one parent cannot attend. The agency page does not mention that exception.{src('miami','under16')}</li>
+</ol></div>
+<h2>Sources</h2>
+<ul>
+<li><a href="{S['miami']}" rel="noopener">Miami Passport Agency</a>. Current page: 21-day pilot, hours, online and phone booking, what to bring, who attends, and the Omni Center entrance.</li>
+<li><a href="{S['miami_old']}" rel="noopener">Apply at the Miami Passport Agency</a>. Older page, last updated July 31, 2025: 14-day rule, Sterling mailing address, application numbers starting with 51, phone holiday closure, email cancellation, and the social story.</li>
+<li><a href="{S['agency']}" rel="noopener">Make an Appointment at a Passport Agency</a>. National rule of 14 days, or 28 days for a visa, and the same online steps.</li>
+<li><a href="{S['life']}" rel="noopener">Get a Passport If You Have a Life-or-Death Emergency</a>. Current emergency rules and the 5:00 p.m. phone split.</li>
+<li><a href="{S['life_old']}" rel="noopener">Life-or-Death Emergencies</a>. Older page, last updated April 17, 2024: 8:00 p.m. phone split, and the warning not to use 202-647-4000 for urgent travel service.</li>
+<li><a href="{S['fast']}" rel="noopener">Get Your Passport Fast</a>. Last updated September 30, 2026. Routine, expedited, urgent, and life-or-death choices.</li>
+<li><a href="{S['times_en']}" rel="noopener">Get Your Processing Time</a>. Last updated October 5, 2026. Routine 4 to 6 weeks, expedited 2 to 3 weeks, urgent travel within 14 calendar days.</li>
+<li><a href="{S['where']}" rel="noopener">Where to Apply for a U.S. Passport</a>. Agencies versus acceptance facilities.</li>
+<li><a href="{S['fees']}" rel="noopener">Passport Fees</a>. Application fees, the $60 expedite, the $35 acceptance fee, the 14-day limit on expedited service at an agency, and agency card payment.</li>
+<li><a href="{S['fees_en']}" rel="noopener">Passport Fees</a> (the newer fees address). Card brands accepted at an agency, and the statement that no other payment is accepted.</li>
+<li><a href="{S['adults_en']}" rel="noopener">Apply for Your Adult Passport</a>. Print Form DS-11 on one side, sign when the agent asks, and apply in person if the passport was lost, stolen, or damaged.</li>
+<li><a href="{S['renew_en']}" rel="noopener">Renew Your Passport by Mail</a>. Form DS-82 is not available if the passport was reported lost or stolen. This page also says to book an appointment within 14 calendar days if you travel in less than 3 weeks.</li>
+<li><a href="{S['under16']}" rel="noopener">Apply for a Child's Passport Under 16</a>. Form DS-3053 when one parent cannot attend.</li>
+<li><a href="{S['status']}" rel="noopener">Passport application status</a>. Where the processing-time page sends you to look up a locator number.</li>
+</ul>
+<p>On this site: <a href="/fees-and-documents/">fees and documents</a>, <a href="/child-under-16/">a child under 16</a>, and <a href="/counties/miami-dade/">Miami-Dade acceptance facilities</a>.</p>'''
+page('urgent-travel/index.html',"Miami Passport Agency appointments for urgent travel",URGENT,"How to book the Miami Passport Agency for urgent travel or a life-or-death emergency, including proof of travel, fees, and how the $60 expedite differs.",checked="28 October 2026",crumb="Urgent travel",long_page=True)
 faq=[("Can I walk in at a post office?",f"USPS listings in the locator point to usps.com/scheduler for appointments and additional times{src('usps','pafl')}. Some USPS hours in the data are flagged walk-in. See the <a href=\"/walk-in-vs-appointment/\">walk-in page</a>."),
 ("Which South Florida offices say they take walk-ins?",f"Broward Clerk of Courts lists passport hours at its Central, North, South and West courthouses{src('broward')}, and the locator comments for its regional courthouses say appointments are not required{src('pafl')}. Palm Beach Clerk says walk-in customers are not accepted{src('pbc')}. Miami-Dade Public Library says its passport service is by appointment only{src('mdpls')}."),
 ("How much does a first adult passport book cost?",f"$130 to the U.S. Department of State plus $35 to the acceptance facility{src('fees')}."),
 ("Can I renew at an acceptance facility?",f"If you are eligible for DS-82, you renew by mail or online. Postal employees should not charge the $35 fee or review a DS-82{src('renew')}."),
-("I travel in less than two weeks. Where do I go?",f"Most passport agencies take an appointment once you are within 14 calendar days of international travel, or within 28 calendar days if you need a foreign visa. The Miami Passport Agency is in a pilot that allows an appointment within 21 calendar days of urgent travel, or within 28 calendar days if you need a foreign visa. Call 877-487-2778{src('miami','times')}."),
+("I travel in less than two weeks. Where do I go?",f"Most passport agencies take an appointment once you are within 14 calendar days of international travel, or within 28 calendar days if you need a foreign visa. The Miami Passport Agency is in a pilot that allows an appointment within 21 calendar days of urgent travel, or within 28 calendar days if you need a foreign visa. Call 877-487-2778. <a href=\"/urgent-travel/\">Miami agency appointments, proof of travel, and life-or-death rules</a>.{src('miami','times')}."),
 ("Do I need both parents for a child's passport?",f"For a child under 16, both parents or guardians must be present or give approval, for example with a notarized DS-3053. Sole custody uses different documents, and ages 16 and 17 follow another rule. <a href=\"/child-under-16/\">Child under 16</a>.{src('under16','teen')}"),
 ("Can I bring a digital birth certificate?",f"No. Physical evidence of citizenship only{src('adult')}."),
 ("Do facilities take photos?",f"Some do; the locator flags 'photos on site'{src('pafl')}. Palm Beach Clerk sells photos for $16 each, and that photo is free for veterans, active-duty service members, and reservists who show military identification or a discharge form{src('pbc')}. Miami-Dade libraries say photo service is not currently available{src('mdpls')}.")]
@@ -291,7 +436,7 @@ CHILD=f'''<h1>Passport for a child under 16 in South Florida</h1>
 <p>A child under 16 applies in person with Form DS-11 at a passport acceptance facility. Bring the child. You cannot renew a child's passport, and the passport is valid for 5 years. Both parents or guardians go with the child, or you bring the consent or custody documents below.{src('under16')}</p>
 <div class="card note"><strong>Ages 16 and 17 use different rules.</strong> They still apply in person on DS-11, but only one parent or guardian has to show they know about the application, the passport is valid for 10 years, and the fees are the adult fees. Those rules are at the end of this page.{src('teen')}</div>
 <h2>Where to apply in Miami-Dade, Broward and Palm Beach</h2>
-<p>Use an acceptance facility (post office, clerk of court, or library) if international travel is more than 3 weeks away, and ask whether that office needs an appointment. If the child is traveling internationally in less than 3 weeks, make an appointment at a passport agency once you are within 14 calendar days of travel.{src('under16')} The Miami Passport Agency is in a pilot that allows an appointment within 21 calendar days of urgent travel, or within 28 calendar days if you need a foreign visa.{src('miami')} Facilities: <a href="/counties/miami-dade/">Miami-Dade</a>, <a href="/counties/broward/">Broward</a>, <a href="/counties/palm-beach/">Palm Beach</a>.</p>
+<p>Use an acceptance facility (post office, clerk of court, or library) if international travel is more than 3 weeks away, and ask whether that office needs an appointment. If the child is traveling internationally in less than 3 weeks, make an appointment at a passport agency once you are within 14 calendar days of travel.{src('under16')} The Miami Passport Agency is in a pilot that allows an appointment within 21 calendar days of urgent travel, or within 28 calendar days if you need a foreign visa.{src('miami')} <a href="/urgent-travel/">Booking steps, proof of travel, and the life-or-death rule</a>. Facilities: <a href="/counties/miami-dade/">Miami-Dade</a>, <a href="/counties/broward/">Broward</a>, <a href="/counties/palm-beach/">Palm Beach</a>.</p>
 <div class="card"><strong>Miami-Dade Public Library</strong><p>North Dade Regional, West Kendall Regional and Naranja Branch take applications by appointment only. Book a separate appointment for each person, including each child. A family of five needs five appointments. These libraries do not take passport photos, so bring the photo. The library's execution fee is $35 per application, paid in cash, by cashier's check, or by money order payable to "Miami-Dade Public Library System." The State Department fee is a check or money order only.{src('mdpls')}</p>
 <p>On the library's own list, applicants age 15 or under who submit a naturalization certificate or a Certificate of Citizenship must also include a certified birth certificate.{src('mdpls')}</p></div>
 <div class="card"><strong>Broward Clerk of Courts</strong><p>The child must appear. The clerk's office says both parents must appear if both are listed on the birth certificate. If one cannot, bring Form DS-3053 and a copy of that parent's identification, front and back. If a parent is not listed on the legal birth certificate, the clerk's office says only the listed parents must appear or give consent in writing.{src('broward')}</p>
@@ -508,7 +653,7 @@ for g,items in GROUPS:
         f'<li data-keywords="{esc(site.aliases.get(p,""))}">{jump(p)}</li>' for p,_t in items)+'</ul></section>'
 find_body+='</div>'
 page('find/index.html',"Find every page in this South Florida passport guide",find_body,"Search or browse every page in this independent guide to South Florida passport acceptance facilities, walk-in hours, fees and documents.")
-HUBS=[('/','Home'),('/counties/miami-dade/','Miami-Dade County'),('/counties/broward/','Broward County'),('/counties/palm-beach/','Palm Beach County'),('/walk-in-vs-appointment/','Walk-in vs appointment'),('/fees-and-documents/','Fees and documents'),('/child-under-16/','Child under 16'),('/faq/','FAQ'),('/find/','All pages')]
+HUBS=[('/','Home'),('/counties/miami-dade/','Miami-Dade County'),('/counties/broward/','Broward County'),('/counties/palm-beach/','Palm Beach County'),('/walk-in-vs-appointment/','Walk-in vs appointment'),('/fees-and-documents/','Fees and documents'),('/urgent-travel/','Urgent travel'),('/child-under-16/','Child under 16'),('/faq/','FAQ'),('/find/','All pages')]
 page('404.html',"Page not found: South Florida passport acceptance guide",'<h1>Page not found</h1><p>That address is not on this site. Use the navigation above or one of these guides:</p><ul>'+''.join(f'<li><a href="{h}">{n}</a></li>' for h,n in HUBS)+'</ul>',"That address is not on this site. Browse passport acceptance facilities in Miami-Dade, Broward and Palm Beach, plus fees, documents and walk-in hours.",crumb="Page not found",error=True)
 write_assets()
 site.finish()
