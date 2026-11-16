@@ -144,19 +144,9 @@ article.content{min-width:0}
 .content p{max-width:66ch}
 .inshort{background:#EEF4F1;border-left:6px solid #1D4F3E;border-radius:12px;padding:var(--s-16) var(--s-24);margin:0 0 var(--s-24)}
 .inshort p{margin:0;max-width:66ch}
-.layout{display:flex;flex-direction:column;gap:var(--s-24);min-width:0;margin-top:var(--s-32)}
-.toc{order:-1}
-.rest{order:0;min-width:0}
+.layout{display:flex;flex-direction:column;min-width:0;margin-top:var(--s-32)}
+.rest{min-width:0}
 .rest>h2:first-child,.rest>h3:first-child{margin-top:0}
-@media(min-width:960px){
-.layout.has-toc{display:grid;grid-template-columns:minmax(0,1fr) 18rem;column-gap:var(--s-32);align-items:start}
-.layout.has-toc .rest{grid-column:1;grid-row:1;order:0}
-.layout.has-toc .toc{grid-column:2;grid-row:1;order:0;position:sticky;top:var(--scroll-pad);max-height:calc(100vh - var(--scroll-pad) - 16px);overflow:auto}
-}
-.toc{background:#fff;border:1px solid var(--line);border-radius:12px;padding:var(--s-12) var(--s-24) var(--s-16);margin:0}
-.toc summary{min-height:44px;display:flex;align-items:center;font-weight:700;cursor:pointer}
-.toc ul{list-style:none;margin:0;padding:0 0 var(--s-12)}
-.toc a{display:flex;align-items:center;min-height:44px;padding:var(--s-12) 0}
 .card,.filterbox{background:#fff;border:1px solid var(--line);border-radius:12px;padding:var(--s-24);margin:0 0 var(--s-16)}
 h2+.card,h3+.card,h2+.filterbox{margin-top:0}
 .card+.card{margin-top:var(--s-16)}
@@ -229,7 +219,7 @@ footer p{max-width:66ch}
 .leaflet-container{z-index:0;font-family:var(--font);font-size:1rem}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
 @media(forced-colors:active){
-.card,.inshort,.notice,.jump,.toc,.pn a,.steps a,.tasks a,.menu summary,.search-toggle,.filterbox{border:1px solid CanvasText}
+.card,.inshort,.notice,.jump,.pn a,.steps a,.tasks a,.menu summary,.search-toggle,.filterbox{border:1px solid CanvasText}
 .sitesearch button{background:ButtonFace;color:ButtonText}
 }
 </style><script defer src="/_vercel/insights/script.js"></script></head><body>
@@ -242,7 +232,7 @@ footer p{max-width:66ch}
 <span class="nav-fade nav-fade-left" aria-hidden="true"></span><span class="nav-fade nav-fade-right" aria-hidden="true"></span><span class="nav-hint" aria-hidden="true"></span>
 </div></header></div>
 <main id="content" tabindex="-1"><div class="notice" role="note"><div class="shell"><p>For general information only. This independent site is not affiliated with the U.S. Department of State or any government agency. <a href="/disclaimer/">Full disclaimer</a>.</p></div></div><div class="shell"><nav class="crumbs" aria-label="Breadcrumb"><ol><li><a href="/">Home</a></li><li><a href="/#what-to-bring">What to bring</a></li><li><span aria-current="page">Fees and documents</span></li></ol></nav><p class="meta"><span class="checked">Last checked: 26 October 2026</span></p><article class="content" aria-labelledby="page-title"><div class="head-block"><h1 id="page-title">U.S. passport fees, forms and documents</h1><div class="inshort"><p><strong>In short.</strong> All amounts as stated by travel.state.gov on 26 October 2026. This page covers which form to use, the fees, how to pay, the documents to bring, the photo rules and the processing times.</p></div><p>All amounts as stated by travel.state.gov on 26 October 2026.</p>
-</div><div class="layout has-toc"><nav class="toc" aria-label="On this page"><details class="toc-details" open><summary>On this page</summary><ul><li><a href="#which-form">Which form</a></li><li><a href="#fees-ds-11-in-person">Fees (DS-11, in person)</a></li><li><a href="#fees-ds-82-renewal-by-mail-or-online">Fees (DS-82 renewal by mail or online)</a></li><li><a href="#optional-fees">Optional fees</a></li><li><a href="#how-to-pay-at-an-acceptance-facility">How to pay at an acceptance facility</a></li><li><a href="#documents-to-bring-ds-11">Documents to bring (DS-11)</a></li><li><a href="#photo-rules-summary">Photo rules (summary)</a></li><li><a href="#processing-times-as-officially-stated">Processing times (as officially stated)</a></li></ul></details><script>if(window.matchMedia("(min-width:960px)").matches){var d=document.currentScript.previousElementSibling;if(d&&d.tagName==="DETAILS")d.open=true;}</script></nav><div class="rest"><h2 id="which-form">Which form</h2><div class="card"><ul><li><strong>DS-11 (in person)</strong>: first-time adults, children under 16, and adults whose passport was lost, stolen, damaged, issued over 15 years ago, or issued when under 16 <span class="src">[<a href="https://travel.state.gov/content/travel/en/passports/need-passport/apply-in-person.html" rel="noopener">source</a>, <a href="https://travel.state.gov/content/travel/en/passports/need-passport/under-16.html" rel="noopener">source</a>]</span>.</li>
+</div><div class="layout"><div class="rest"><h2 id="which-form">Which form</h2><div class="card"><ul><li><strong>DS-11 (in person)</strong>: first-time adults, children under 16, and adults whose passport was lost, stolen, damaged, issued over 15 years ago, or issued when under 16 <span class="src">[<a href="https://travel.state.gov/content/travel/en/passports/need-passport/apply-in-person.html" rel="noopener">source</a>, <a href="https://travel.state.gov/content/travel/en/passports/need-passport/under-16.html" rel="noopener">source</a>]</span>.</li>
 <li><strong>DS-82 (renew by mail)</strong>: you can submit your most recent passport, it was never reported lost or stolen, issued within the last 15 years, issued when you were 16 or older and valid for 10 years, in your current name (or you have a name change document), and not damaged beyond normal wear <span class="src">[<a href="https://travel.state.gov/content/travel/en/passports/have-passport/renew.html" rel="noopener">source</a>]</span>.</li>
 <li>Children's passports cannot be renewed; apply in person each time <span class="src">[<a href="https://travel.state.gov/content/travel/en/passports/need-passport/under-16.html" rel="noopener">source</a>]</span>. <a href="/child-under-16/">Child under 16 in South Florida</a> covers consent, custody proof and minor fees.</li></ul></div>
 <h2 id="fees-ds-11-in-person">Fees (DS-11, in person)</h2><div class="wrap" tabindex="0" aria-label="Fee table"><table><tr><th scope="col">Document</th><th scope="col">Adult 16+ application fee</th><th scope="col">Child under 16 application fee</th><th scope="col">Facility acceptance fee</th></tr>

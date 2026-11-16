@@ -1,4 +1,4 @@
-"""Page shell: topic menu, sticky header, search, breadcrumbs, on-this-page, read next."""
+"""Page shell: topic menu, sticky header, search, breadcrumbs, read next."""
 import os, html as H, shutil, re, json
 
 D = "26 October 2026"
@@ -273,8 +273,6 @@ DOCK_JS = r'''(function(){
   onScroll();
 })();'''
 
-TOC_BOOT = '<script>if(window.matchMedia("(min-width:960px)").matches){var d=document.currentScript.previousElementSibling;if(d&&d.tagName==="DETAILS")d.open=true;}</script>'
-
 MARK = ('<svg class="mark" viewBox="0 0 32 32" aria-hidden="true" focusable="false">'
         '<rect width="32" height="32" rx="6" fill="#F4F7FB"/>'
         '<rect x="8" y="5" width="16" height="22" rx="1.5" fill="#F4F7FB" stroke="#0C1B33" stroke-width="1.5"/>'
@@ -414,7 +412,6 @@ class Site:
             seen.add(n)
             return f'<h2 id="{n}">{m.group(1)}</h2>'
         body = re.sub(r'<h2>(.*?)</h2>', addid, body, flags=re.S)
-        h2s = re.findall(r'<h2 id="([^"]*)">(.*?)</h2>', body)
         nav_bits = []
         for g, items in self.groups:
             links = []
@@ -433,11 +430,6 @@ class Site:
         headline = H.unescape(re.sub(r'<[^>]+>', '', h1m.group(1))) if h1m else title
         checked_label, checked_iso = self.checked.get(path, (D, ISO))
         head, rest = _split_at_top_h2(body)
-        toc = ''
-        if len(h2s) >= 2:
-            opened = ' open' if len(h2s) <= 8 else ''
-            lis = ''.join(f'<li><a href="#{i}">{esc(H.unescape(re.sub("<[^>]+>", "", text)))}</a></li>' for i, text in h2s)
-            toc = f'<nav class="toc" aria-label="On this page"><details class="toc-details"{opened}><summary>On this page</summary><ul>{lis}</ul></details>{TOC_BOOT}</nav>'
         plain = self.titles.get(path) or crumb or headline
         if path == 'index.html':
             crumbs = '<nav class="crumbs" aria-label="Breadcrumb"><ol><li><span aria-current="page">Home</span></li></ol></nav>'
@@ -502,7 +494,6 @@ class Site:
         times = '' if kind == 'error' else f'<meta property="article:published_time" content="{checked_iso}"><meta property="article:modified_time" content="{checked_iso}">'
         og_type = 'website' if kind != 'article' else 'article'
         image = self.base + '/og.png'
-        layout_cls = 'layout has-toc' if toc else 'layout'
         brand_cur = ' aria-current="page"' if path == 'index.html' else ''
         h = f'''<!doctype html><html lang="en-US"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#0C1B33"><title>{esc(title)}</title><meta name="description" content="{esc(desc)}">{canonical}{robots}{verify}<meta property="og:type" content="{og_type}"><meta property="og:site_name" content="{esc(self.brand)}"><meta property="og:title" content="{esc(title)}"><meta property="og:description" content="{esc(desc)}">{og_url}<meta property="og:image" content="{esc(image)}"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta property="og:image:alt" content="{esc(self.brand)}"><meta property="og:locale" content="en_US">{times}<meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="{esc(title)}"><meta name="twitter:description" content="{esc(desc)}"><meta name="twitter:image" content="{esc(image)}"><link rel="icon" href="/favicon.svg" type="image/svg+xml"><link rel="apple-touch-icon" href="/apple-touch-icon.png">{ld}<style>{self.css}</style><script defer src="/_vercel/insights/script.js"></script></head><body>
 <a class="skip" href="#content">Skip to content</a>
@@ -513,7 +504,7 @@ class Site:
 <details class="menu"><summary>Topics</summary></details><nav id="site-nav" class="top" aria-label="Topics" tabindex="0">{nav}</nav>
 <span class="nav-fade nav-fade-left" aria-hidden="true"></span><span class="nav-fade nav-fade-right" aria-hidden="true"></span><span class="nav-hint" aria-hidden="true"></span>
 </div></header></div>
-<main id="content" tabindex="-1"><div class="notice" role="note"><div class="shell"><p>{self.notice}</p></div></div><div class="shell">{crumbs}{meta}<article class="content" aria-labelledby="page-title"><div class="head-block">{head}</div><div class="{layout_cls}">{toc}<div class="rest">{rest}{pn}{readnext}</div></div></article></div></main>
+<main id="content" tabindex="-1"><div class="notice" role="note"><div class="shell"><p>{self.notice}</p></div></div><div class="shell">{crumbs}{meta}<article class="content" aria-labelledby="page-title"><div class="head-block">{head}</div><div class="layout"><div class="rest">{rest}{pn}{readnext}</div></div></article></div></main>
 <footer><div class="shell"><nav class="footnav" aria-label="About this guide"><a href="/find/">All pages</a><a href="/disclaimer/">Disclaimer</a></nav>{self.footer}</div></footer>
 <script type="application/json" id="search-data">{self._search_json()}</script><script>{SEARCH_JS}</script><script>{DOCK_JS}</script></body></html>'''
         for bad in ('\u2014', '\u2013', '&mdash;', '&ndash;'):

@@ -144,19 +144,9 @@ article.content{min-width:0}
 .content p{max-width:66ch}
 .inshort{background:#EEF4F1;border-left:6px solid #1D4F3E;border-radius:12px;padding:var(--s-16) var(--s-24);margin:0 0 var(--s-24)}
 .inshort p{margin:0;max-width:66ch}
-.layout{display:flex;flex-direction:column;gap:var(--s-24);min-width:0;margin-top:var(--s-32)}
-.toc{order:-1}
-.rest{order:0;min-width:0}
+.layout{display:flex;flex-direction:column;min-width:0;margin-top:var(--s-32)}
+.rest{min-width:0}
 .rest>h2:first-child,.rest>h3:first-child{margin-top:0}
-@media(min-width:960px){
-.layout.has-toc{display:grid;grid-template-columns:minmax(0,1fr) 18rem;column-gap:var(--s-32);align-items:start}
-.layout.has-toc .rest{grid-column:1;grid-row:1;order:0}
-.layout.has-toc .toc{grid-column:2;grid-row:1;order:0;position:sticky;top:var(--scroll-pad);max-height:calc(100vh - var(--scroll-pad) - 16px);overflow:auto}
-}
-.toc{background:#fff;border:1px solid var(--line);border-radius:12px;padding:var(--s-12) var(--s-24) var(--s-16);margin:0}
-.toc summary{min-height:44px;display:flex;align-items:center;font-weight:700;cursor:pointer}
-.toc ul{list-style:none;margin:0;padding:0 0 var(--s-12)}
-.toc a{display:flex;align-items:center;min-height:44px;padding:var(--s-12) 0}
 .card,.filterbox{background:#fff;border:1px solid var(--line);border-radius:12px;padding:var(--s-24);margin:0 0 var(--s-16)}
 h2+.card,h3+.card,h2+.filterbox{margin-top:0}
 .card+.card{margin-top:var(--s-16)}
@@ -229,7 +219,7 @@ footer p{max-width:66ch}
 .leaflet-container{z-index:0;font-family:var(--font);font-size:1rem}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
 @media(forced-colors:active){
-.card,.inshort,.notice,.jump,.toc,.pn a,.steps a,.tasks a,.menu summary,.search-toggle,.filterbox{border:1px solid CanvasText}
+.card,.inshort,.notice,.jump,.pn a,.steps a,.tasks a,.menu summary,.search-toggle,.filterbox{border:1px solid CanvasText}
 .sitesearch button{background:ButtonFace;color:ButtonText}
 }
 </style><script defer src="/_vercel/insights/script.js"></script></head><body>
@@ -243,7 +233,7 @@ footer p{max-width:66ch}
 </div></header></div>
 <main id="content" tabindex="-1"><div class="notice" role="note"><div class="shell"><p>For general information only. This independent site is not affiliated with the U.S. Department of State or any government agency. <a href="/disclaimer/">Full disclaimer</a>.</p></div></div><div class="shell"><nav class="crumbs" aria-label="Breadcrumb"><ol><li><a href="/">Home</a></li><li><a href="/#using-this-guide">Using this guide</a></li><li><span aria-current="page">Disclaimer</span></li></ol></nav><p class="meta"><span class="checked">Last checked: 26 October 2026</span></p><article class="content" aria-labelledby="page-title"><div class="head-block"><h1 id="page-title">Disclaimer</h1><div class="inshort"><p><strong>In short.</strong> For general information only. This independent site is not affiliated with the U.S. Department of State or any government agency. Always confirm with the official source before you act.</p></div>
 <p>For general information only. This independent site is not affiliated with the U.S. Department of State or any government agency. Information can change and may contain errors; always confirm with the official source before you act. Nothing here is legal or professional advice, and we accept no liability for decisions made using it.</p>
-</div><div class="layout has-toc"><nav class="toc" aria-label="On this page"><details class="toc-details" open><summary>On this page</summary><ul><li><a href="#accuracy">Accuracy</a></li><li><a href="#no-warranty">No warranty</a></li><li><a href="#limitation-of-liability">Limitation of liability</a></li><li><a href="#external-links-are-not-endorsed">External links are not endorsed</a></li><li><a href="#not-affiliated">Not affiliated</a></li><li><a href="#check-official-sources">Check official sources</a></li><li><a href="#contact-and-corrections">Contact and corrections</a></li></ul></details><script>if(window.matchMedia("(min-width:960px)").matches){var d=document.currentScript.previousElementSibling;if(d&&d.tagName==="DETAILS")d.open=true;}</script></nav><div class="rest"><h2 id="accuracy">Accuracy</h2>
+</div><div class="layout"><div class="rest"><h2 id="accuracy">Accuracy</h2>
 <p>Hours, fees, forms and document rules on this site are taken from the official pages linked on each guide, as of the last-checked date on that page. Those sources can change after that date. This site can be incomplete or wrong, including a missed facility, a misread hours flag, or a lag behind an operator's own page. Where the sources disagree, the page says so.</p>
 <h2 id="no-warranty">No warranty</h2>
 <p>This site is provided as is and as available. There is no warranty of any kind, express or implied, including of accuracy, completeness, timeliness, fitness for a particular purpose, or non-infringement.</p>
