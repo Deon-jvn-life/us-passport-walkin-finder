@@ -144,19 +144,9 @@ article.content{min-width:0}
 .content p{max-width:66ch}
 .inshort{background:#EEF4F1;border-left:6px solid #1D4F3E;border-radius:12px;padding:var(--s-16) var(--s-24);margin:0 0 var(--s-24)}
 .inshort p{margin:0;max-width:66ch}
-.layout{display:flex;flex-direction:column;gap:var(--s-24);min-width:0;margin-top:var(--s-32)}
-.toc{order:-1}
-.rest{order:0;min-width:0}
+.layout{display:flex;flex-direction:column;min-width:0;margin-top:var(--s-32)}
+.rest{min-width:0}
 .rest>h2:first-child,.rest>h3:first-child{margin-top:0}
-@media(min-width:960px){
-.layout.has-toc{display:grid;grid-template-columns:minmax(0,1fr) 18rem;column-gap:var(--s-32);align-items:start}
-.layout.has-toc .rest{grid-column:1;grid-row:1;order:0}
-.layout.has-toc .toc{grid-column:2;grid-row:1;order:0;position:sticky;top:var(--scroll-pad);max-height:calc(100vh - var(--scroll-pad) - 16px);overflow:auto}
-}
-.toc{background:#fff;border:1px solid var(--line);border-radius:12px;padding:var(--s-12) var(--s-24) var(--s-16);margin:0}
-.toc summary{min-height:44px;display:flex;align-items:center;font-weight:700;cursor:pointer}
-.toc ul{list-style:none;margin:0;padding:0 0 var(--s-12)}
-.toc a{display:flex;align-items:center;min-height:44px;padding:var(--s-12) 0}
 .card,.filterbox{background:#fff;border:1px solid var(--line);border-radius:12px;padding:var(--s-24);margin:0 0 var(--s-16)}
 h2+.card,h3+.card,h2+.filterbox{margin-top:0}
 .card+.card{margin-top:var(--s-16)}
@@ -229,7 +219,7 @@ footer p{max-width:66ch}
 .leaflet-container{z-index:0;font-family:var(--font);font-size:1rem}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
 @media(forced-colors:active){
-.card,.inshort,.notice,.jump,.toc,.pn a,.steps a,.tasks a,.menu summary,.search-toggle,.filterbox{border:1px solid CanvasText}
+.card,.inshort,.notice,.jump,.pn a,.steps a,.tasks a,.menu summary,.search-toggle,.filterbox{border:1px solid CanvasText}
 .sitesearch button{background:ButtonFace;color:ButtonText}
 }
 </style><script defer src="/_vercel/insights/script.js"></script></head><body>
@@ -245,7 +235,7 @@ footer p{max-width:66ch}
 <p>The Miami Passport Agency is the U.S. Department of State office for urgent passport appointments in South Florida. It is not a post office, clerk, or library acceptance facility. You need an appointment. A routine application goes to an acceptance facility in <a href="/counties/miami-dade/">Miami-Dade</a>, <a href="/counties/broward/">Broward</a>, or <a href="/counties/palm-beach/">Palm Beach</a>. <span class="src">[<a href="https://travel.state.gov/en/passports/apply/help/where-to-apply.html" rel="noopener">source</a>, <a href="https://travel.state.gov/en/passports/apply/get-fast/make-appointment/miami.html" rel="noopener">source</a>]</span></p>
 <p>Agency rules on this page were checked on 28 October 2026. Facility hours on the rest of this site were checked on 26 October 2026.</p>
 <div class="card note"><strong>Official pages do not agree on the travel window.</strong><p>The Miami agency page lets you book for international travel within 21 calendar days, or within 28 calendar days if you need a foreign visa. The national appointment page, the processing-time page, the fees page, and the "where to apply" page still say 14 calendar days, or 28 if you need a foreign visa. The last section lists every conflict found on this check. When you book Miami, use the Miami page, and read the other page before you rely on a rule that conflicts. <span class="src">[<a href="https://travel.state.gov/en/passports/apply/get-fast/make-appointment/miami.html" rel="noopener">source</a>, <a href="https://travel.state.gov/en/passports/apply/get-fast/make-appointment.html" rel="noopener">source</a>, <a href="https://travel.state.gov/en/passports/apply/help/processing-time.html" rel="noopener">source</a>, <a href="https://travel.state.gov/content/travel/en/passports/how-apply/fees.html" rel="noopener">source</a>, <a href="https://travel.state.gov/en/passports/apply/help/where-to-apply.html" rel="noopener">source</a>]</span></p></div>
-</div><div class="layout has-toc"><nav class="toc" aria-label="On this page"><details class="toc-details"><summary>On this page</summary><ul><li><a href="#the-office">The office</a></li><li><a href="#which-time-limit-applies-to-you">Which time limit applies to you</a></li><li><a href="#life-or-death-emergency">Life-or-death emergency</a></li><li><a href="#book-online-if-you-have-not-applied">Book online if you have not applied</a></li><li><a href="#if-you-already-applied">If you already applied</a></li><li><a href="#what-to-bring">What to bring</a></li><li><a href="#who-must-come">Who must come</a></li><li><a href="#the-60-expedite-is-a-different-service">The $60 expedite is a different service</a></li><li><a href="#on-the-day-of-the-appointment">On the day of the appointment</a></li><li><a href="#where-the-official-pages-disagree">Where the official pages disagree</a></li><li><a href="#sources">Sources</a></li></ul></details><script>if(window.matchMedia("(min-width:960px)").matches){var d=document.currentScript.previousElementSibling;if(d&&d.tagName==="DETAILS")d.open=true;}</script></nav><div class="rest"><h2 id="the-office">The office</h2>
+</div><div class="layout"><div class="rest"><h2 id="the-office">The office</h2>
 <div class="card"><p>Omni Center, 1501 Biscayne Blvd, Suite 400, Miami, FL 33132. <a class="directions" href="https://www.google.com/maps/dir/?api=1&amp;destination=Omni%20Center%2C%201501%20Biscayne%20Blvd%2C%20Suite%20400%2C%20Miami%2C%20FL%2033132" target="_blank" rel="noopener">Get directions<span class="visually-hidden"> to the Miami Passport Agency, opens in a new tab</span></a></p>
 <p>Monday to Friday, 7:00 a.m. to 2:00 p.m. Closed Saturday, Sunday, and federal holidays. By appointment only. <span class="src">[<a href="https://travel.state.gov/en/passports/apply/get-fast/make-appointment/miami.html" rel="noopener">source</a>]</span></p>
 <p>Appointments are free. A request to pay for an appointment is a fraud warning on the State Department page. The Department says it is not affiliated with third-party booking services, it may not honor an appointment booked that way, and you should not book a duplicate appointment. <span class="src">[<a href="https://travel.state.gov/en/passports/apply/get-fast/make-appointment/miami.html" rel="noopener">source</a>, <a href="https://travel.state.gov/en/passports/apply/get-fast/make-appointment.html" rel="noopener">source</a>]</span></p>
