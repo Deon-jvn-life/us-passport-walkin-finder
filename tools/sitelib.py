@@ -141,7 +141,7 @@ DOCK_JS = r'''(function(){
   }
   function setSearchOpen(open){
     if(!search||!toggle) return;
-    if(open && !document.body.classList.contains("is-docked")) open=false;
+    if(open && !document.body.classList.contains("is-docked") && !narrow()) open=false;
     search.classList.toggle("is-open", open);
     toggle.setAttribute("aria-expanded", open?"true":"false");
     if(open){ if(menu) menu.removeAttribute("open"); closeGroups(); }
@@ -160,9 +160,20 @@ DOCK_JS = r'''(function(){
     var open=document.querySelectorAll(".grp[open]");
     for(var i=0;i<open.length;i++) open[i].removeAttribute("open");
   }
+  function narrow(){
+    return window.matchMedia("(max-width: 959px)").matches;
+  }
+  function syncChrome(){
+    var h=header.offsetHeight||0;
+    if(!h) return;
+    document.documentElement.style.setProperty("--header-h", h+"px");
+    document.documentElement.style.setProperty("--scroll-pad", (h+12)+"px");
+    if(narrow()) slot.style.height=h+"px";
+    else if(!docked) slot.style.height="";
+  }
   function updateHint(){
     if(!nav) return;
-    var more=docked && nav.scrollWidth>nav.clientWidth+8;
+    var more=(docked || narrow()) && nav.scrollWidth>nav.clientWidth+8;
     var atEnd=nav.scrollLeft+nav.clientWidth>=nav.scrollWidth-8;
     var atStart=nav.scrollLeft<=8;
     document.body.classList.toggle("nav-more-right", !!(more && !atEnd));
@@ -201,6 +212,12 @@ DOCK_JS = r'''(function(){
     measure();
   }
   function onScroll(){
+    if(narrow()){
+      if(docked) undock();
+      syncChrome();
+      updateHint();
+      return;
+    }
     var y=window.scrollY||document.documentElement.scrollTop||0;
     var line=fullH-compactPx();
     if(!fullH) measure();
@@ -244,7 +261,7 @@ DOCK_JS = r'''(function(){
   }
   document.addEventListener("focusin", function(e){
     var t=e.target;
-    if(!t||!docked) return;
+    if(!t||(!docked && !narrow())) return;
     if(nav && nav.contains(t) && nav.scrollWidth>nav.clientWidth+8 && t.closest){
       var grp=t.closest(".grp");
       if(grp){
@@ -257,7 +274,7 @@ DOCK_JS = r'''(function(){
       }
     }
     if(header.contains(t)||(t.classList&&t.classList.contains("skip"))) return;
-    var edge=compactPx()+12;
+    var edge=(header.offsetHeight||compactPx())+12;
     var r=t.getBoundingClientRect();
     if(r.bottom>edge && r.top>=edge) return;
     var y=(window.scrollY||0)+r.top-edge;
@@ -265,12 +282,23 @@ DOCK_JS = r'''(function(){
   });
   window.addEventListener("scroll", onScroll, {passive:true});
   window.addEventListener("resize", function(){
+    if(narrow()){
+      if(docked) undock();
+      syncChrome();
+      revealCurrent();
+      return;
+    }
     if(docked) undock();
     measure();
     onScroll();
   });
-  measure();
-  onScroll();
+  if(narrow()){
+    syncChrome();
+    revealCurrent();
+  } else {
+    measure();
+    onScroll();
+  }
 })();'''
 
 MARK = ('<svg class="mark" viewBox="0 0 32 32" aria-hidden="true" focusable="false">'
@@ -362,7 +390,7 @@ def check_header_contrast(css):
     return worst_text, worst_gold
 
 class Site:
-    def __init__(self, root, base, brand, groups, order, footer, css, notice, gsc=''):
+    def __init__(self, root, base, brand, groups, order, footer, css, gsc=''):
         self.out = os.path.join(root, 'site')
         self.base = base.rstrip('/')
         self.brand = brand
@@ -370,14 +398,13 @@ class Site:
         self.order = order
         self.footer = footer
         self.css = css
-        self.notice = notice
         self.gsc = gsc or ''
         self.pages = []
         self.indexable = []
         self.titles = {p: t for g, items in groups for p, t in items}
         self.titles['index.html'] = 'Home'
         self.summaries = {}
-        self.read_next = {}
+        self.next_steps = {}
         self.aliases = {}
         self.checked = {}
         self._search_cache = None
@@ -397,10 +424,14 @@ class Site:
 
     def page(self, path, title, desc, body, stage=None, kind='article', faqs=None, long_page=False, crumb=None):
         summary = self.summaries.get(path, '')
+        checked_label, checked_iso = self.checked.get(path, (D, ISO))
         if '<h1>' in body:
             body = body.replace('<h1>', '<h1 id="page-title">', 1)
+        under_h1 = f'<p class="checked">Last checked: {esc(checked_label)}</p>'
         if summary and long_page and kind == 'article' and '<h1' in body:
-            body = body.replace('</h1>', '</h1><div class="inshort"><p><strong>In short.</strong> ' + esc(summary) + '</p></div>', 1)
+            under_h1 += '<div class="inshort"><p><strong>In short.</strong> ' + esc(summary) + '</p></div>'
+        if '</h1>' in body:
+            body = body.replace('</h1>', '</h1>' + under_h1, 1)
         seen = set()
         def addid(m):
             base = slug(m.group(1)) or 'section'
@@ -428,7 +459,6 @@ class Site:
         url = None if kind == 'error' else canon_url(self.base, path)
         h1m = re.search(r'<h1[^>]*>(.*?)</h1>', body, re.S)
         headline = H.unescape(re.sub(r'<[^>]+>', '', h1m.group(1))) if h1m else title
-        checked_label, checked_iso = self.checked.get(path, (D, ISO))
         head, rest = _split_at_top_h2(body)
         plain = self.titles.get(path) or crumb or headline
         if path == 'index.html':
@@ -439,7 +469,6 @@ class Site:
                 items_html.append(f'<li><a href="/#{slug(stage)}">{esc(stage)}</a></li>')
             items_html.append(f'<li><span aria-current="page">{esc(plain)}</span></li>')
             crumbs = '<nav class="crumbs" aria-label="Breadcrumb"><ol>' + ''.join(items_html) + '</ol></nav>'
-        meta = f'<p class="meta"><span class="checked">Last checked: {esc(checked_label)}</span></p>'
         def step_link(target, kind_name):
             label = self.titles.get(target)
             if not label:
@@ -453,18 +482,12 @@ class Site:
             nxt = step_link(self.order[i + 1], 'next') if i + 1 < len(self.order) else ''
             if prev or nxt:
                 pn = '<nav class="pn" aria-label="Previous and next">' + prev + nxt + '</nav>'
-        rn_items = []
-        for dest in self.read_next.get(path) or []:
-            label = self.titles.get(dest) or self.titles.get(dest, '')
-            if dest == 'index.html':
-                label = 'Home'
-            label = self.titles.get(dest)
+        step_items = []
+        for dest, label, blurb in self.next_steps.get(path) or []:
             if not label:
                 continue
-            blurb = self.summaries.get(dest, '')
-            blurb_html = f'<span class="ls">{esc(blurb)}</span>' if blurb else ''
-            rn_items.append(f'<li><a class="jump" href="{href(dest)}"><span class="lt">{esc(label)}</span>{blurb_html}</a></li>')
-        readnext = '<aside class="readnext" aria-labelledby="read-next"><h2 id="read-next">Read next</h2><ul>' + ''.join(rn_items) + '</ul></aside>' if rn_items else ''
+            step_items.append(f'<li><a class="jump" href="{href(dest)}"><span class="lt">{esc(label)}</span><span class="ls">{esc(blurb)}</span></a></li>')
+        nextsteps = '<aside class="next-steps" aria-labelledby="next-steps-title"><h2 id="next-steps-title">Next steps</h2><ul>' + ''.join(step_items) + '</ul></aside>' if step_items else ''
         crumbs_ld = [{"@type": "ListItem", "position": 1, "name": "Home", "item": self.base + "/"}]
         if path != 'index.html':
             pos = 2
@@ -498,13 +521,14 @@ class Site:
         h = f'''<!doctype html><html lang="en-US"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#0C1B33"><title>{esc(title)}</title><meta name="description" content="{esc(desc)}">{canonical}{robots}{verify}<meta property="og:type" content="{og_type}"><meta property="og:site_name" content="{esc(self.brand)}"><meta property="og:title" content="{esc(title)}"><meta property="og:description" content="{esc(desc)}">{og_url}<meta property="og:image" content="{esc(image)}"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta property="og:image:alt" content="{esc(self.brand)}"><meta property="og:locale" content="en_US">{times}<meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="{esc(title)}"><meta name="twitter:description" content="{esc(desc)}"><meta name="twitter:image" content="{esc(image)}"><link rel="icon" href="/favicon.svg" type="image/svg+xml"><link rel="apple-touch-icon" href="/apple-touch-icon.png">{ld}<style>{self.css}</style><script defer src="/_vercel/insights/script.js"></script></head><body>
 <a class="skip" href="#content">Skip to content</a>
 <div id="head-slot"><header id="site-header"><div class="shell">
-<a class="brand" href="/"{brand_cur}>{MARK}<span class="name"><span class="name-main">{esc(self.brand)}</span><span class="name-compact">Passport places</span><span class="name-sub">Independent guide. Not a government website.</span></span></a>
+<a class="brand" href="/"{brand_cur}>{MARK}<span class="name"><span class="name-main">{esc(self.brand)}</span><span class="name-compact">Passport places</span></span></a>
+<p class="name-sub">Independent guide. Not a government website. <a href="/disclaimer/">Disclaimer</a>.</p>
 <button type="button" class="search-toggle" aria-expanded="false" aria-controls="site-search"><svg class="search-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="10.5" cy="10.5" r="6.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M15.5 15.5 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg><span class="search-toggle-text">Search</span></button>
 <div class="search-wrap" id="site-search"><form class="sitesearch" role="search" action="/find/" method="get"><label for="q">Search this guide</label><input id="q" name="q" type="search" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false"><button type="submit">Search</button></form><div id="search-results" class="search-results" hidden role="region" aria-live="polite" aria-label="Matching pages"></div></div>
 <details class="menu"><summary>Topics</summary></details><nav id="site-nav" class="top" aria-label="Topics" tabindex="0">{nav}</nav>
 <span class="nav-fade nav-fade-left" aria-hidden="true"></span><span class="nav-fade nav-fade-right" aria-hidden="true"></span><span class="nav-hint" aria-hidden="true"></span>
 </div></header></div>
-<main id="content" tabindex="-1"><div class="notice" role="note"><div class="shell"><p>{self.notice}</p></div></div><div class="shell">{crumbs}{meta}<article class="content" aria-labelledby="page-title"><div class="head-block">{head}</div><div class="layout"><div class="rest">{rest}{pn}{readnext}</div></div></article></div></main>
+<main id="content" tabindex="-1"><div class="shell">{crumbs}<article class="content" aria-labelledby="page-title"><div class="head-block">{head}</div><div class="layout"><div class="rest">{rest}{pn}{nextsteps}</div></div></article></div></main>
 <footer><div class="shell"><nav class="footnav" aria-label="About this guide"><a href="/find/">All pages</a><a href="/disclaimer/">Disclaimer</a></nav>{self.footer}</div></footer>
 <script type="application/json" id="search-data">{self._search_json()}</script><script>{SEARCH_JS}</script><script>{DOCK_JS}</script></body></html>'''
         for bad in ('\u2014', '\u2013', '&mdash;', '&ndash;'):
@@ -545,8 +569,16 @@ class Site:
                     raise SystemExit('Unexpected noindex on ' + path)
             elif 'content="noindex"' not in html:
                 raise SystemExit('404 should be noindex')
-            if 'Read next' not in html:
-                raise SystemExit('Missing Read next on ' + path)
+            if 'class="notice"' in html:
+                raise SystemExit('Separate disclaimer bar still on ' + path)
+            if 'On this page' in html:
+                raise SystemExit('On this page box returned on ' + path)
+            h1_at = html.find('id="page-title"')
+            checked_at = html.find('Last checked:')
+            if h1_at < 0 or checked_at < h1_at:
+                raise SystemExit('Last checked is not under the H1 on ' + path)
+            if 'id="next-steps-title"' not in html or 'Next steps' not in html:
+                raise SystemExit('Missing Next steps on ' + path)
         missing = _check_links(self.out, self.pages)
         if missing:
             raise SystemExit('Broken internal links:\n' + '\n'.join(missing))
